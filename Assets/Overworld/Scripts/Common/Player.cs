@@ -1,9 +1,26 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    private Movements move = new Movements();
+
+    //移動速度
+    [Range(1, 20)][SerializeField] private float moveSpeed = 10.0f;
+    //ジャンプ力
+    [Range(1, 20)][SerializeField] private float jumpStrength = 1.0f;
+    //ジャンプキーを長押ししていた時間
+    private float jumpTime = 7.0f;
+    //地面のタグ
     private string groundTag = "Ground";
+
     public bool isGround
+    {
+        get;
+        private set;
+    }
+    public bool isJump
     {
         get;
         private set;
@@ -18,26 +35,61 @@ public class Player : MonoBehaviour
     void Update()
     {
 
+        //ジャンプ
+        if (isGround && Input.GetKeyDown(KeyCode.Space) && !isJump)
+        {
+            Jump();
+        } else if (Input.GetKeyUp(KeyCode.Space) && isJump)
+        {
+            move.addForce(this.GetComponent<Rigidbody2D>(), new Vector2(0.0f, jumpStrength * -jumpTime * 0.1f));
+            jumpTime = 7.0f;
+        } else if (Input.GetKey(KeyCode.Space) && isJump)
+        {
+            if(jumpTime >= 0.0f) jumpTime -= 0.05f;
+        }
+
     }
 
+    private void FixedUpdate()
+    {
+        // 移動
+        float inputHorizontal = Input.GetAxis("Horizontal");
+        Move(inputHorizontal);
+    }
 
-    void onGroundEnter()
+    private void Move(float inputHorizontal)
+    {
+        Vector2 moveVector = Vector2.zero;
+        if (!isGround) moveVector = new Vector2(inputHorizontal * moveSpeed * 0.7f, this.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+        else moveVector = new Vector2(inputHorizontal * moveSpeed, this.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+        move.changeVelocity(this.GetComponent<Rigidbody2D>(), moveVector, 0.01f);
+    }
+    private void Jump()
+    {
+        Vector2 jumpVector = new Vector2(0.0f, jumpStrength);
+        move.addForce(this.GetComponent<Rigidbody2D>(), jumpVector);
+        isJump = true;
+    }
+
+    private void onGroundEnter()
     {
         isGround = true;
+        isJump = false;
     }
 
-    void onGroundEStay()
+    private void onGroundEStay()
     {
         isGround = true;
+        isJump = false;
     }
 
 
-    void onGroundExit()
+    private void onGroundExit()
     {
         isGround = false;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == groundTag)
         {
@@ -45,7 +97,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == groundTag)
         {
@@ -53,7 +105,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == groundTag)
         {
