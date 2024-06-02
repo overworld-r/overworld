@@ -1,3 +1,5 @@
+![overworld-logo-horizontal](https://github.com/crcrworks/overworld/assets/42961885/8cc54cda-613e-4f3e-8664-b0dbc42c5dfe)
+
 OVERWORLDは、山頂を目指す冒険ゲームです。  
 プレイヤーは道中で手に入る鉱石を集め、ショップで便利なアイテムと交換できます。  
 獲得したアイテムを巧みに組み合わせ、険しい道のりを乗り越えながら、頂上を目指していきましょう。
