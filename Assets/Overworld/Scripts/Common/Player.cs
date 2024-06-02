@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -6,13 +5,13 @@ public class Player : MonoBehaviour
 
     private Movements move = new Movements();
 
-    //ˆÚ“®‘¬“x
+    //ï¿½Ú“ï¿½ï¿½ï¿½ï¿½x
     [Range(1, 20)][SerializeField] private float moveSpeed = 10.0f;
-    //ƒWƒƒƒ“ƒv—Í
+    //ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½
     [Range(1, 20)][SerializeField] private float jumpStrength = 1.0f;
-    //ƒWƒƒƒ“ƒvƒL[‚ğ’·‰Ÿ‚µ‚µ‚Ä‚¢‚½ŠÔ
+    //ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Lï¿½[ï¿½ğ’·‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private float jumpTime = 7.0f;
-    //’n–Ê‚Ìƒ^ƒO
+    //ï¿½nï¿½Ê‚Ìƒ^ï¿½O
     private string groundTag = "Ground";
 
     public bool isGround
@@ -35,7 +34,7 @@ public class Player : MonoBehaviour
     void Update()
     {
 
-        //ƒWƒƒƒ“ƒv
+        //ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½v
         if (isGround && Input.GetKeyDown(KeyCode.Space) && !isJump)
         {
             Jump();
@@ -52,7 +51,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // ˆÚ“®
+        // ï¿½Ú“ï¿½
         float inputHorizontal = Input.GetAxis("Horizontal");
         Move(inputHorizontal);
     }
