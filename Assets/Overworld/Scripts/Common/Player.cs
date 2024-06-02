@@ -5,14 +5,16 @@ public class Player : MonoBehaviour
 
     private Movements move = new Movements();
 
-    //�ړ����x
+    //Movement Speed
     [Range(1, 20)][SerializeField] private float moveSpeed = 10.0f;
-    //�W�����v��
+    //Jump Strength
     [Range(1, 20)][SerializeField] private float jumpStrength = 1.0f;
-    //�W�����v�L�[�𒷉������Ă�������
-    private float jumpTime = 7.0f;
-    //�n�ʂ̃^�O
+    //Time spent holding down the space key.
+    private float jumpTime = 0.0f;
+    //Ground Tag
     private string groundTag = "Ground";
+    //Rigidbody2D
+    private Rigidbody2D rb;
 
     public bool isGround
     {
@@ -28,30 +30,30 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
 
-        //�W�����v
+        //Jump
         if (isGround && Input.GetKeyDown(KeyCode.Space) && !isJump)
         {
             Jump();
+            jumpTime = 0.0f;
         } else if (Input.GetKeyUp(KeyCode.Space) && isJump)
         {
-            move.addForce(this.GetComponent<Rigidbody2D>(), new Vector2(0.0f, jumpStrength * -jumpTime * 0.1f));
-            jumpTime = 7.0f;
+            move.addForce(rb, new Vector2(0.0f, jumpStrength * -(7.0f - jumpTime) * 0.1f));
         } else if (Input.GetKey(KeyCode.Space) && isJump)
         {
-            if(jumpTime >= 0.0f) jumpTime -= 0.05f;
+            if(jumpTime <= 7.0f) jumpTime += 0.05f;
         }
 
     }
 
     private void FixedUpdate()
     {
-        // �ړ�
+        //Move
         float inputHorizontal = Input.GetAxis("Horizontal");
         Move(inputHorizontal);
     }
@@ -59,14 +61,14 @@ public class Player : MonoBehaviour
     private void Move(float inputHorizontal)
     {
         Vector2 moveVector = Vector2.zero;
-        if (!isGround) moveVector = new Vector2(inputHorizontal * moveSpeed * 0.7f, this.gameObject.GetComponent<Rigidbody2D>().velocity.y);
-        else moveVector = new Vector2(inputHorizontal * moveSpeed, this.gameObject.GetComponent<Rigidbody2D>().velocity.y);
-        move.changeVelocity(this.GetComponent<Rigidbody2D>(), moveVector, 0.01f);
+        if (!isGround) moveVector = new Vector2(inputHorizontal * moveSpeed * 0.7f, rb.velocity.y);
+        else moveVector = new Vector2(inputHorizontal * moveSpeed, rb.velocity.y);
+        move.changeVelocity(rb, moveVector, 0.01f);
     }
     private void Jump()
     {
         Vector2 jumpVector = new Vector2(0.0f, jumpStrength);
-        move.addForce(this.GetComponent<Rigidbody2D>(), jumpVector);
+        move.addForce(rb, jumpVector);
         isJump = true;
     }
 
