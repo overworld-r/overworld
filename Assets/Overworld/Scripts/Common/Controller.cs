@@ -22,7 +22,7 @@ public interface IWalk
 public class Controller : MonoBehaviour, IJump, IWalk
 {
     public float jumpStrength { get; } = 10.0f; // Increased for better jumping effect
-    public float walkSpeed { get; } = 10.0f;
+    public float walkSpeed { get; } = 5.0f;
 
     public float jumpTimer { get; private set; } = 0.0f;
     public float inputHorizontal { get; private set; } = 0.0f;
@@ -62,7 +62,9 @@ public class Controller : MonoBehaviour, IJump, IWalk
         else if (isKeyStayDownWhileJumping)
         {
             if (jumpTimer <= 7.0f)
-                jumpTimer += 0.05f;
+            {
+                jumpTimer += Time.deltaTime * 20.0f;
+            }
         }
     }
 
@@ -107,6 +109,7 @@ public class Controller : MonoBehaviour, IJump, IWalk
         if (collision.gameObject.CompareTag(groundTag))
         {
             isGrounded = true;
+            isJump = false;
         }
     }
 
