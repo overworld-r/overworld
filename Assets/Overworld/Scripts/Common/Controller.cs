@@ -43,19 +43,23 @@ public class Controller : MonoBehaviour, IJump, IWalk
 
     void Update()
     {
-        if (isGrounded && Input.GetKeyDown(jumpKey) && !isJump)
+        bool isKeyDownOnGround = isGrounded && Input.GetKeyDown(jumpKey) && !isJump;
+        bool isKeyUpWhileJumping = Input.GetKeyUp(jumpKey) && isJump;
+        bool isKeyStayDownWhileJumping = Input.GetKey(jumpKey) && isJump;
+
+        if (isKeyDownOnGround)
         {
             Jump();
             jumpTimer = 0.0f;
         }
-        else if (Input.GetKeyUp(jumpKey) && isJump)
+        else if (isKeyUpWhileJumping)
         {
             rb.AddForce(
                 new Vector2(0.0f, jumpStrength * -(7.0f - jumpTimer) * 0.1f),
                 ForceMode2D.Impulse
             );
         }
-        else if (Input.GetKey(jumpKey) && isJump)
+        else if (isKeyStayDownWhileJumping)
         {
             if (jumpTimer <= 7.0f)
                 jumpTimer += 0.05f;
