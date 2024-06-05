@@ -74,29 +74,9 @@ public class Controller : MonoBehaviour, IJump, IWalk
 
     public void Jump()
     {
-        if (isGrounded && Input.GetKeyDown(jumpKey) && !isJump)
-        {
-            Vector2 jumpVector = new Vector2(0.0f, jumpStrength);
-            rb.AddForce(jumpVector, ForceMode2D.Impulse);
-            isJump = true;
-            jumpTimer = 0.0f;
-        }
-
-        if (Input.GetKeyUp(jumpKey) && isJump)
-        {
-            rb.AddForce(
-                new Vector2(0.0f, jumpStrength * -(7.0f - jumpTimer) * 0.1f),
-                ForceMode2D.Impulse
-            );
-        }
-
-        if (Input.GetKey(jumpKey) && isJump)
-        {
-            if (jumpTimer <= 7.0f)
-            {
-                jumpTimer += 0.05f;
-            }
-        }
+        Vector2 jumpVector = new Vector2(0.0f, jumpStrength);
+        rb.AddForce(jumpVector, ForceMode2D.Impulse);
+        isJump = true;
     }
 
     public void Move(float inputHorizontal)
