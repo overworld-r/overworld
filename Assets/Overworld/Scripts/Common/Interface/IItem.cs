@@ -43,12 +43,12 @@ public class IItem
 
         public virtual void Enable()
         {
-            Debug.Log($"{name} is enabled.");
+            //Process when enabled
         }
 
         public virtual void Disable()
         {
-            Debug.Log($"{name} is disabled.");
+            //Process when disabled
         }
     }
 }

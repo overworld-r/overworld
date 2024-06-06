@@ -1,6 +1,6 @@
 using UnityEngine;
 
-class IMovements
+public class IMovements
 {
     public interface IJump
     {

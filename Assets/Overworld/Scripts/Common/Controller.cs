@@ -1,27 +1,9 @@
 using UnityEngine;
-
-public interface IJump
-{
-    float jumpStrength { get; }
-    float jumpTimer { get; }
-    bool isJump { get; }
-    string groundTag { get; }
-
-    KeyCode jumpKey { get; }
-
-    void Jump();
-}
-
-public interface IWalk
-{
-    float walkSpeed { get; }
-    float inputHorizontal { get; }
-    void Move(float inputHorizontal);
-}
+using static IMovements;
 
 public class Controller : MonoBehaviour, IJump, IWalk
 {
-    public float jumpStrength { get; } = 10.0f; // Increased for better jumping effect
+    public float jumpStrength { get; } = 10.0f;
     public float walkSpeed { get; } = 5.0f;
 
     public float jumpTimer { get; private set; } = 0.0f;
