@@ -1,54 +1,82 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class IItem
+public abstract class Item
 {
-    private interface ItemCommon
-    {
-        string name { get; }
-        string description { get; }
-        int price { get; }
+    public abstract string name { get; }
+    public abstract string description { get; }
+    public abstract int price { get; }
 
-        void Built();
-        void Broken();
-        void Enable();
-        void Disable();
+    public enum ExistanceStatus
+    {
+        None,
+        Ghost,
+        Phisical,
     }
 
-    private interface ItemClickable { }
+    public ExistanceStatus existanceStatus;
+    private Dictionary<ExistanceStatus, ItemClickHandler> clickHandler;
 
-    private interface ItemBackpack
+    public Item()
     {
-        Vector2 backpackGridSize { get; }
-        Vector2 backpackGridPosition { get; }
+        existanceStatus = ExistanceStatus.Ghost;
+        clickHandler = new Dictionary<ExistanceStatus, ItemClickHandler>
+        {
+            { ExistanceStatus.None, new ItemNoneClickHandler() },
+            { ExistanceStatus.Ghost, new ItemGhostClickHandler() },
+            { ExistanceStatus.Phisical, new ItemPhisicsClickHandler() },
+        };
     }
 
-    public abstract class IItemBlock : ItemCommon, ItemBackpack
+    public void OnClicked()
     {
-        public abstract string name { get; }
-        public abstract string description { get; }
-        public abstract int price { get; }
+        clickHandler[existanceStatus].OnClicked();
+    }
 
-        public Vector2 backpackGridSize { get; }
-        public Vector2 backpackGridPosition { get; }
+    public virtual void OnBuilt()
+    {
+        OnEnable();
+    }
 
-        public void Built()
-        {
-            Enable();
-        }
+    public virtual void OnBroken()
+    {
+        OnDisable();
+    }
 
-        public virtual void Broken()
-        {
-            Disable();
-        }
+    public virtual void OnEnable() { }
 
-        public virtual void Enable()
-        {
-            //Process when enabled
-        }
+    public virtual void OnDisable() { }
+}
 
-        public virtual void Disable()
-        {
-            //Process when disabled
-        }
+public interface ItemClickHandler
+{
+    void OnClicked();
+}
+
+public class ItemGhostClickHandler : MonoBehaviour, ItemClickHandler
+{
+    public void OnClicked()
+    {
+        Destroy(this.gameObject);
+        var newGameObject = Instantiate(this.gameObject);
+        newGameObject.GetComponent<Item>().existanceStatus = Item.ExistanceStatus.Phisical;
+    }
+}
+
+public class ItemPhisicsClickHandler : MonoBehaviour, ItemClickHandler
+{
+    public void OnClicked()
+    {
+        Destroy(this.gameObject);
+        var newGameObject = Instantiate(this.gameObject);
+        newGameObject.GetComponent<Item>().existanceStatus = Item.ExistanceStatus.Ghost;
+    }
+}
+
+public class ItemNoneClickHandler : MonoBehaviour, ItemClickHandler
+{
+    public void OnClicked()
+    {
+        Destroy(this.gameObject);
     }
 }
