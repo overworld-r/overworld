@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ItemStatusHandler : MonoBehaviour
+public class ItemExistanceStatus : MonoBehaviour
 {
     public enum ExistanceStatus
     {
@@ -11,7 +11,7 @@ public class ItemStatusHandler : MonoBehaviour
 
     public ExistanceStatus existanceStatus;
 
-    public ItemStatusHandler()
+    public ItemExistanceStatus()
     {
         existanceStatus = ExistanceStatus.Ghost;
     }
@@ -35,7 +35,7 @@ public class ItemStatusHandler : MonoBehaviour
     {
         Destroy(this.gameObject);
         var newGameObject = Instantiate(this.gameObject);
-        newGameObject.GetComponent<ItemStatusHandler>().existanceStatus = ExistanceStatus.Ghost;
+        newGameObject.GetComponent<ItemExistanceStatus>().existanceStatus = ExistanceStatus.Ghost;
         newGameObject.AddComponent<Rigidbody2D>();
         newGameObject.GetComponent<Collider2D>().isTrigger = true;
         return newGameObject;
@@ -45,7 +45,8 @@ public class ItemStatusHandler : MonoBehaviour
     {
         Destroy(this.gameObject);
         var newGameObject = Instantiate(this.gameObject);
-        newGameObject.GetComponent<ItemStatusHandler>().existanceStatus = ExistanceStatus.Physical;
+        newGameObject.GetComponent<ItemExistanceStatus>().existanceStatus =
+            ExistanceStatus.Physical;
         newGameObject.GetComponent<Collider2D>().isTrigger = false;
         return newGameObject;
     }
