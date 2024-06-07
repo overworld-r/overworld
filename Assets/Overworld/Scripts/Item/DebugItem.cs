@@ -1,14 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DebugItem : Item
+public class DebugItem : MonoBehaviour, IItem
 {
-    public override string name => "DebugItem";
-    public override string description => "This is a debug item.";
-    public override int price => 100;
+    public string name => "DebugItem";
+    public string description => "This is a debug item.";
+    public int price => 100;
+    
+    public bool isStack => false;
 
-    public void Update()
+    void Start()
+    {
+        
+    }
+    void Update()
     {
         
     }
