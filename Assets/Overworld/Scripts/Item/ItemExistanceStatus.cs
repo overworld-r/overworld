@@ -16,43 +16,43 @@ public class ItemStatusHandler : MonoBehaviour
         existanceStatus = ExistanceStatus.Ghost;
     }
 
-    public void OnClicked()
+    public GameObject OnClicked()
     {
         switch (existanceStatus)
         {
             case ExistanceStatus.Physical:
-                OnClickedWhenItemStatusIsPhysical();
-                break;
+                return OnClickedWhenItemStatusIsPhysical();
             case ExistanceStatus.Ghost:
-                OnClickedWhenItemStatusIsGhost();
-                break;
+                return OnClickedWhenItemStatusIsGhost();
             case ExistanceStatus.None:
-                OnClickedWhenItemStatusIsNone();
-                break;
-            default:
-                break;
+                return OnClickedWhenItemStatusIsNone();
         }
+
+        return null;
     }
 
-    public void OnClickedWhenItemStatusIsPhysical()
+    public GameObject OnClickedWhenItemStatusIsPhysical()
     {
         Destroy(this.gameObject);
         var newGameObject = Instantiate(this.gameObject);
         newGameObject.GetComponent<ItemStatusHandler>().existanceStatus = ExistanceStatus.Ghost;
         newGameObject.AddComponent<Rigidbody2D>();
         newGameObject.GetComponent<Collider2D>().isTrigger = true;
+        return newGameObject;
     }
 
-    public void OnClickedWhenItemStatusIsGhost()
+    public GameObject OnClickedWhenItemStatusIsGhost()
     {
         Destroy(this.gameObject);
         var newGameObject = Instantiate(this.gameObject);
         newGameObject.GetComponent<ItemStatusHandler>().existanceStatus = ExistanceStatus.Physical;
         newGameObject.GetComponent<Collider2D>().isTrigger = false;
+        return newGameObject;
     }
 
-    public void OnClickedWhenItemStatusIsNone()
+    public GameObject OnClickedWhenItemStatusIsNone()
     {
         Destroy(this.gameObject);
+        return null;
     }
 }
