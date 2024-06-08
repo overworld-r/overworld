@@ -9,10 +9,9 @@ public class Controller : MonoBehaviour, IJump, IWalk
     public float jumpTimer { get; private set; } = 0.0f;
     public float inputHorizontal { get; private set; } = 0.0f;
 
-    public bool isGrounded { get; private set; } = false;
     public bool isJump { get; private set; } = false;
+    public bool isGrounded { get; private set; } = false;
 
-    public string groundTag { get; } = "Ground";
     public KeyCode jumpKey { get; } = KeyCode.Space;
 
     private Rigidbody2D rb;
@@ -66,6 +65,7 @@ public class Controller : MonoBehaviour, IJump, IWalk
     public void Move(float inputHorizontal)
     {
         Vector2 moveVector = Vector2.zero;
+
         if (!isGrounded)
         {
             moveVector = new Vector2(inputHorizontal * walkSpeed * 0.7f, rb.velocity.y);
@@ -77,29 +77,20 @@ public class Controller : MonoBehaviour, IJump, IWalk
         rb.velocity = Vector2.SmoothDamp(rb.velocity, moveVector, ref currentVelocity, 0.01f);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnGroundedEnter()
     {
-        if (collision.gameObject.CompareTag(groundTag))
-        {
-            isGrounded = true;
-            isJump = false;
-        }
+        isGrounded = true;
+        isJump = false;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    public void OnGroundedStay()
     {
-        if (collision.gameObject.CompareTag(groundTag))
-        {
-            isGrounded = true;
-            isJump = false;
-        }
+        isGrounded = true;
+        isJump = false;
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void OnGroundedExit()
     {
-        if (collision.gameObject.CompareTag(groundTag))
-        {
-            isGrounded = false;
-        }
+        isGrounded = false;
     }
 }

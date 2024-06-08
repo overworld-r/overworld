@@ -7,7 +7,7 @@ public class IMovements
         float jumpStrength { get; }
         float jumpTimer { get; }
         bool isJump { get; }
-        string groundTag { get; }
+        bool isGrounded { get; }
 
         KeyCode jumpKey { get; }
 
