@@ -102,7 +102,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -171,11 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18400f6313ec04f1690f54087d73fa92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minGroundNormalY: 0.65
-  gravityModifier: 2
-  velocity: {x: 0, y: 0}
-  maxSpeed: 7
-  jumpTakeOffSpeed: 5
+  maxSpeed: 15
+  jumpTakeOffSpeed: 20
   jumpState: 0
-  collider2d: {fileID: 0}
   controlEnabled: 1
