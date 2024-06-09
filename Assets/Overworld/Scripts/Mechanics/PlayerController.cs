@@ -1,5 +1,3 @@
-using Overworld.Core;
-using Overworld.Model;
 using Overworld.Player;
 using UnityEngine;
 using static Overworld.Core.Simulation;
@@ -8,81 +6,73 @@ namespace Overworld.Mechanics
 {
     public class PlayerController : KinematicObject
     {
-        /// <summary>
-        /// Max horizontal speed of the player.
-        /// </summary>
-        public float maxSpeed = 7;
-
-        /// <summary>
-        /// Initial jump velocity at the start of a jump.
-        /// </summary>
-        public float jumpTakeOffSpeed = 5;
+        public float maxSpeed = 15;
+        public float jumpTakeOffSpeed = 20;
 
         public JumpState jumpState = JumpState.Grounded;
-        private bool stopJump;
-
-        readonly OverworldModel model = Simulation.GetModel<OverworldModel>();
-
-        public Collider2D collider2d;
 
         public bool controlEnabled = true;
+        bool isJump = false;
 
-        bool jump;
-        Vector2 move;
-        SpriteRenderer spriteRenderer;
-        internal Animator animator;
+        public float inputHorizontal { get; private set; } = 0;
+        private Vector2 currentVelocity = Vector2.zero;
 
-        public Bounds Bounds => collider2d.bounds;
-
-        void Awake()
+        public enum JumpState
         {
-            collider2d = GetComponent<Collider2D>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            Grounded,
+            PrepareToJump,
+            Jumping,
+            InFlight,
+            Landed
         }
 
         protected override void Update()
         {
             if (controlEnabled)
             {
-                move.x = Input.GetAxis("Horizontal");
+                inputHorizontal = Input.GetAxis("Horizontal");
                 if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
                 {
                     jumpState = JumpState.PrepareToJump;
                 }
                 else if (Input.GetButtonUp("Jump"))
                 {
-                    stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
                 }
             }
             else
             {
-                move.x = 0;
+                inputHorizontal = 0;
             }
 
             UpdateJumpState();
             base.Update();
         }
 
+        protected override void FixedUpdate()
+        {
+            Move();
+        }
+
         void UpdateJumpState()
         {
-            jump = false;
+            isJump = false;
             switch (jumpState)
             {
                 case JumpState.PrepareToJump:
                     jumpState = JumpState.Jumping;
-                    jump = true;
-                    stopJump = false;
+                    isJump = true;
+                    Jump();
                     break;
                 case JumpState.Jumping:
-                    if (!IsGrounded)
+                    if (!isGrounded)
                     {
                         Schedule<PlayerJumped>().player = this;
                         jumpState = JumpState.InFlight;
                     }
                     break;
                 case JumpState.InFlight:
-                    if (IsGrounded)
+                    if (isGrounded)
                     {
                         Schedule<PlayerLanded>().player = this;
                         jumpState = JumpState.Landed;
@@ -94,44 +84,30 @@ namespace Overworld.Mechanics
             }
         }
 
-        protected override void ComputeVelocity()
+        void Move()
         {
-            if (jump && IsGrounded)
-            {
-                velocity.y = jumpTakeOffSpeed * model.jumpModifier;
-                jump = false;
-            }
-            else if (stopJump)
-            {
-                stopJump = false;
-                if (velocity.y > 0)
-                {
-                    velocity.y = velocity.y * model.jumpDeceleration;
-                }
-            }
+            Vector2 moveVector = Vector2.zero;
 
-            if (move.x > 0.01f)
+            if (!isGrounded)
             {
-                spriteRenderer.flipX = false;
+                moveVector = new Vector2(inputHorizontal * maxSpeed * 0.9f, body.velocity.y);
             }
-            else if (move.x < -0.01f)
+            else
             {
-                spriteRenderer.flipX = true;
+                moveVector = new Vector2(inputHorizontal * maxSpeed, body.velocity.y);
             }
-
-            // animator.SetBool("grounded", IsGrounded);
-            // animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
-
-            targetVelocity = move * maxSpeed;
+            body.velocity = Vector2.SmoothDamp(
+                body.velocity,
+                moveVector,
+                ref currentVelocity,
+                0.01f
+            );
         }
 
-        public enum JumpState
+        void Jump()
         {
-            Grounded,
-            PrepareToJump,
-            Jumping,
-            InFlight,
-            Landed
+            Vector2 jumpVector = new Vector2(0.0f, jumpTakeOffSpeed);
+            body.AddForce(jumpVector, ForceMode2D.Impulse);
         }
     }
 }
