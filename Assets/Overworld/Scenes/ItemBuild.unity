@@ -225,11 +225,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5398936861679194332, guid: 167b11c576631e347a0128142faba98c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.65
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 5398936861679194332, guid: 167b11c576631e347a0128142faba98c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.91
+      value: -0.12
       objectReference: {fileID: 0}
     - target: {fileID: 5398936861679194332, guid: 167b11c576631e347a0128142faba98c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -454,17 +454,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebugItem
       objectReference: {fileID: 0}
+    - target: {fileID: 2613624962563909807, guid: 817d49d3d8adfe349a0b2d709604493d, type: 3}
+      propertyPath: m_DrawMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2613624962563909807, guid: 817d49d3d8adfe349a0b2d709604493d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0ef45caed2cd95e4cb119a5d28dabdf4, type: 2}
     - target: {fileID: 3099373469839472703, guid: 817d49d3d8adfe349a0b2d709604493d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.66955566
+      value: 0.642
       objectReference: {fileID: 0}
     - target: {fileID: 3099373469839472703, guid: 817d49d3d8adfe349a0b2d709604493d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.11
       objectReference: {fileID: 0}
     - target: {fileID: 3099373469839472703, guid: 817d49d3d8adfe349a0b2d709604493d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.63
       objectReference: {fileID: 0}
     - target: {fileID: 3099373469839472703, guid: 817d49d3d8adfe349a0b2d709604493d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -505,7 +513,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 292092434}
   - {fileID: 1597961056}
+  - {fileID: 2033807993}
   - {fileID: 786899306}
   - {fileID: 810035469}
   - {fileID: 895982051}
-  - {fileID: 2033807993}

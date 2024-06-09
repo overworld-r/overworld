@@ -6,6 +6,8 @@ using UnityEngine;
 public class ItemExistanceStatus : MonoBehaviour
 {
     [SerializeField] private GameObject itemPrefab;
+    [SerializeField] private Shader TrunslucentShader;
+    [SerializeField] private Shader HighlightRedShader;
     
     public enum ExistanceStatus
     {
@@ -53,6 +55,7 @@ public class ItemExistanceStatus : MonoBehaviour
         newGameObject.GetComponent<Rigidbody2D>().gravityScale = 0.0f;
         newGameObject.GetComponent<Collider2D>().enabled = true;
         newGameObject.GetComponent<Collider2D>().isTrigger = true;
+        newGameObject.GetComponent<SpriteRenderer>().material.shader = TrunslucentShader;
         return newGameObject;
     }
 
@@ -68,6 +71,7 @@ public class ItemExistanceStatus : MonoBehaviour
             Destroy(newGameObject.GetComponent<Rigidbody2D>());
             newGameObject.GetComponent<Collider2D>().enabled = true;
             newGameObject.GetComponent<Collider2D>().isTrigger = false;
+            newGameObject.GetComponent<SpriteRenderer>().material.shader = Shader.Find("Sprites/Default");
             return newGameObject;
         }
         else
@@ -84,16 +88,28 @@ public class ItemExistanceStatus : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(existanceStatus == ExistanceStatus.Ghost && isStack == false)
+        {
+            GetComponent<SpriteRenderer>().material.shader = HighlightRedShader;
+        }
         isStack = true;
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        if(existanceStatus == ExistanceStatus.Ghost && isStack == false)
+        {
+            GetComponent<SpriteRenderer>().material.shader = HighlightRedShader;
+        }
         isStack = true;
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if(existanceStatus == ExistanceStatus.Ghost && isStack == true)
+        {
+            GetComponent<SpriteRenderer>().material.shader = TrunslucentShader;
+        }
         isStack = false;
     }
 }
