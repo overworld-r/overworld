@@ -31,9 +31,12 @@ namespace Overworld.Mechanics
         protected virtual void Update()
         {
             isGrounded = JudgeGrounded();
+            ComputeVelocity();
         }
 
         protected virtual void FixedUpdate() { }
+
+        protected virtual void ComputeVelocity() { }
 
         protected virtual bool JudgeGrounded()
         {

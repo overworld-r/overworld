@@ -6,13 +6,14 @@ namespace Overworld.Mechanics
 {
     public class PlayerController : KinematicObject
     {
-        public float maxSpeed = 15;
-        public float jumpTakeOffSpeed = 20;
+        public float maxSpeed = 8;
+        public float jumpTakeOffSpeed = 15;
 
         public JumpState jumpState = JumpState.Grounded;
 
         public bool controlEnabled = true;
         bool isJump = false;
+        bool stopJump = false;
 
         public float inputHorizontal { get; private set; } = 0;
         private Vector2 currentVelocity = Vector2.zero;
@@ -37,6 +38,7 @@ namespace Overworld.Mechanics
                 }
                 else if (Input.GetButtonUp("Jump"))
                 {
+                    stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
                 }
             }
@@ -108,6 +110,18 @@ namespace Overworld.Mechanics
         {
             Vector2 jumpVector = new Vector2(0.0f, jumpTakeOffSpeed);
             body.AddForce(jumpVector, ForceMode2D.Impulse);
+        }
+
+        protected override void ComputeVelocity()
+        {
+            if (stopJump)
+            {
+                stopJump = false;
+                if (body.velocity.y > 0)
+                {
+                    body.AddForce(Vector2.up * -body.velocity.y * 0.5f, ForceMode2D.Impulse);
+                }
+            }
         }
     }
 }
