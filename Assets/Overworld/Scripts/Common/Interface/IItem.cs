@@ -1,54 +1,20 @@
-using UnityEngine;
-
-public class IItem
+public interface IItem
 {
-    private interface ItemCommon
-    {
-        string name { get; }
-        string description { get; }
-        int price { get; }
+    public string name { get; }
+    public string description { get; }
+    public int price { get; }
 
-        void Built();
-        void Broken();
-        void Enable();
-        void Disable();
+    public void OnBuilt()
+    {
+        OnEnable();
     }
 
-    private interface ItemClickable { }
-
-    private interface ItemBackpack
+    public void OnBroken()
     {
-        Vector2 backpackGridSize { get; }
-        Vector2 backpackGridPosition { get; }
+        OnDisable();
     }
 
-    public abstract class IItemBlock : ItemCommon, ItemBackpack
-    {
-        public abstract string name { get; }
-        public abstract string description { get; }
-        public abstract int price { get; }
+    public void OnEnable() { }
 
-        public Vector2 backpackGridSize { get; }
-        public Vector2 backpackGridPosition { get; }
-
-        public void Built()
-        {
-            Enable();
-        }
-
-        public virtual void Broken()
-        {
-            Disable();
-        }
-
-        public virtual void Enable()
-        {
-            //Process when enabled
-        }
-
-        public virtual void Disable()
-        {
-            //Process when disabled
-        }
-    }
+    public void OnDisable() { }
 }
