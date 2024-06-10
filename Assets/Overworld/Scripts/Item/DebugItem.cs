@@ -1,22 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class DebugItem : MonoBehaviour, IItem
+namespace Overworld.Item
 {
-    public string name => "DebugItem";
-    public string description => "This is a debug item.";
-    public int price => 100;
-    
-    public bool isStack => false;
+    public class DebugItem : ItemBase
+    {
+        public override string itemName => "DebugItem";
+        public override string description => "This is a debug item.";
+        public override int price => 100;
 
-    void Start()
-    {
-        
-    }
-    void Update()
-    {
-        
+        protected override void Update() { }
+
+        protected override void FixedUpdate() { }
     }
 }
