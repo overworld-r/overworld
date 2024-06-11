@@ -1,6 +1,6 @@
-namespace Overworld.Item
+namespace Overworld.Model
 {
-    public abstract class ItemBase : ItemGeneration
+    public abstract class ItemPlaceable : ItemGeneration
     {
         public abstract string itemName { get; }
         public abstract string description { get; }

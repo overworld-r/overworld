@@ -1,3 +1,4 @@
+using Overworld.Model;
 using UnityEngine;
 
 namespace Overworld.Item

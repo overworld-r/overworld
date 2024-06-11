@@ -1,6 +1,8 @@
+using Overworld.Model;
+
 namespace Overworld.Item
 {
-    public class DebugItem : ItemBase
+    public class DebugItem : ItemPlaceable
     {
         public override string itemName => "DebugItem";
         public override string description => "This is a debug item.";

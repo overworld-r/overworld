@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Overworld.Item
+namespace Overworld.Model
 {
     public class ItemGeneration : MonoBehaviour
     {

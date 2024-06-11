@@ -12,7 +12,6 @@ namespace Overworld.Mechanics
         public JumpState jumpState = JumpState.Grounded;
 
         public bool controlEnabled = true;
-        bool isJump = false;
         bool stopJump = false;
 
         public float inputHorizontal { get; private set; } = 0;
@@ -58,12 +57,10 @@ namespace Overworld.Mechanics
 
         void UpdateJumpState()
         {
-            isJump = false;
             switch (jumpState)
             {
                 case JumpState.PrepareToJump:
                     jumpState = JumpState.Jumping;
-                    isJump = true;
                     Jump();
                     break;
                 case JumpState.Jumping:
