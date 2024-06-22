@@ -87,19 +87,19 @@ namespace Overworld.Model
             {
                 return;
             }
-
             GetComponent<SpriteRenderer>().material.shader = HighlightRedShader;
             canBuild = false;
         }
 
-        // private void OnTriggerStay2D(Collider2D other)
-        // {
-        //     if (existanceStatus == ExistanceStatus.Ghost)
-        //     {
-        //         GetComponent<SpriteRenderer>().material.shader = HighlightRedShader;
-        //     }
-        //     canBuild = false;
-        // }
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            if (existanceStatus != ExistanceStatus.Ghost)
+            {
+                return;
+            }
+            GetComponent<SpriteRenderer>().material.shader = HighlightRedShader;
+            canBuild = false;
+        }
 
         private void OnTriggerExit2D(Collider2D other)
         {
