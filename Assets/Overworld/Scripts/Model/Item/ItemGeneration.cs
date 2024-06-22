@@ -47,34 +47,37 @@ namespace Overworld.Model
                 return this.gameObject;
             }
 
-            Destroy(this.gameObject);
-            var newGameObject = Instantiate(this.gameObject);
+            var newItem = GenerateItem(ExistanceStatus.Physical);
 
-            ItemGeneration itemGeneration = newGameObject.GetComponent<ItemGeneration>();
-            itemGeneration.existanceStatus = ExistanceStatus.Physical;
+            Destroy(newItem.GetComponent<Rigidbody2D>());
+            var collider = newItem.GetComponent<Collider2D>();
+            collider.enabled = true;
+            collider.isTrigger = false;
+            newItem.GetComponent<SpriteRenderer>().material.shader = Shader.Find("Sprites/Default");
 
-            Destroy(newGameObject.GetComponent<Rigidbody2D>());
-            newGameObject.GetComponent<Collider2D>().enabled = true;
-            newGameObject.GetComponent<Collider2D>().isTrigger = false;
-            newGameObject.GetComponent<SpriteRenderer>().material.shader = Shader.Find(
-                "Sprites/Default"
-            );
-            return newGameObject;
+            return newItem;
         }
 
         public GameObject GenerateAsGhost()
         {
+            var newItem = GenerateItem(ExistanceStatus.Ghost);
+
+            newItem.AddComponent<Rigidbody2D>().gravityScale = 0.0f;
+            var collider = newItem.GetComponent<Collider2D>();
+            collider.enabled = true;
+            collider.isTrigger = true;
+            newItem.GetComponent<SpriteRenderer>().material.shader = TrunslucentShader;
+
+            return newItem;
+        }
+
+        private GameObject GenerateItem(ExistanceStatus status)
+        {
             Destroy(this.gameObject);
             var newGameObject = Instantiate(this.gameObject);
+            var itemGeneration = newGameObject.GetComponent<ItemGeneration>();
+            itemGeneration.existanceStatus = status;
 
-            ItemGeneration itemGeneration = newGameObject.GetComponent<ItemGeneration>();
-            itemGeneration.existanceStatus = ExistanceStatus.Ghost;
-
-            newGameObject.AddComponent<Rigidbody2D>();
-            newGameObject.GetComponent<Rigidbody2D>().gravityScale = 0.0f;
-            newGameObject.GetComponent<Collider2D>().enabled = true;
-            newGameObject.GetComponent<Collider2D>().isTrigger = true;
-            newGameObject.GetComponent<SpriteRenderer>().material.shader = TrunslucentShader;
             return newGameObject;
         }
 
