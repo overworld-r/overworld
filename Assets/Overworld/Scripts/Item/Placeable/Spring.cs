@@ -1,36 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
+using Overworld.Model;
 using UnityEngine;
 
-public class Spring : MonoBehaviour
+namespace Overworld.Item
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Spring : ItemPlaceable
     {
-        
-    }
+        public override string itemName => "Spring";
 
-    
-        public float bounceForce = 10f;  // 跳ねる力の大きさ
+        public override string description =>
+            "A spring that bounces the player up when they touch on top surface of it.";
 
-       void OnTriggerEnter2D(Collider2D collision)
-    {
-            // プレイヤーがバネに触れたとき
-            if (collision.gameObject.tag == "Player")
+        public override int price => 10;
+
+        public float bounceForce = 10f;
+
+        void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.tag != "Player")
             {
-                Rigidbody2D playerRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
-                if (playerRigidbody != null)
-                {
-                    // プレイヤーのy方向に力を加える
-                    playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, bounceForce);
-                }
+                return;
+            }
+
+            Rigidbody2D playerRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (playerRigidbody != null)
+            {
+                playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, bounceForce);
             }
         }
-    
-
-    // Update is called once per frame
-    void Update()
-    {
-       
     }
 }

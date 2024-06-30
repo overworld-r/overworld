@@ -5,19 +5,17 @@ namespace Overworld.Item
 {
     public class ItemPointer : MonoBehaviour
     {
-        public GameObject clickedItem;
         public GameObject grippingItem;
 
         public void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                clickedItem = null;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit2D hitSprite = Physics2D.Raycast(ray.origin, ray.direction);
                 if (hitSprite)
                 {
-                    clickedItem = hitSprite.transform.gameObject;
+                    GameObject clickedItem = hitSprite.transform.gameObject;
                     ItemGeneration clickedItemGeneration =
                         clickedItem.GetComponent<ItemGeneration>();
 
@@ -40,11 +38,7 @@ namespace Overworld.Item
                 Vector3 worldPos = Camera.main.ScreenToWorldPoint(
                     new Vector3(screenPosition.x, screenPosition.y, 10.0f)
                 );
-                grippingItem.transform.position = new Vector3(
-                    Mathf.Round(worldPos.x),
-                    Mathf.Round(worldPos.y),
-                    worldPos.z
-                );
+                grippingItem.transform.position = new Vector3(worldPos.x, worldPos.y, worldPos.z);
                 // Processing of rotation of the item being held
                 if (Input.GetAxis("Mouse ScrollWheel") > 0)
                 {

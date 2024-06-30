@@ -11,7 +11,7 @@ namespace Overworld.Model
             Physical,
         }
 
-        public bool canBuild { get; private set; }
+        public bool canBuild { get; private set; } = true;
 
         public ExistanceStatus existanceStatus;
 
@@ -83,28 +83,31 @@ namespace Overworld.Model
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (existanceStatus == ExistanceStatus.Ghost && canBuild == true)
+            if (existanceStatus != ExistanceStatus.Ghost || !canBuild)
             {
-                GetComponent<SpriteRenderer>().material.shader = HighlightRedShader;
+                return;
             }
+            GetComponent<SpriteRenderer>().material.shader = HighlightRedShader;
             canBuild = false;
         }
 
         private void OnTriggerStay2D(Collider2D other)
         {
-            if (existanceStatus == ExistanceStatus.Ghost && canBuild == true)
+            if (existanceStatus != ExistanceStatus.Ghost || !canBuild)
             {
-                GetComponent<SpriteRenderer>().material.shader = HighlightRedShader;
+                return;
             }
+            GetComponent<SpriteRenderer>().material.shader = HighlightRedShader;
             canBuild = false;
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (existanceStatus == ExistanceStatus.Ghost && canBuild == false)
+            if (existanceStatus != ExistanceStatus.Ghost || canBuild)
             {
-                GetComponent<SpriteRenderer>().material.shader = TrunslucentShader;
+                return;
             }
+            GetComponent<SpriteRenderer>().material.shader = TrunslucentShader;
             canBuild = true;
         }
     }
