@@ -16,13 +16,15 @@ namespace Overworld.Item
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.tag == "Player")
+            if (collision.gameObject.tag != "Player")
             {
-                Rigidbody2D playerRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
-                if (playerRigidbody != null)
-                {
-                    playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, bounceForce);
-                }
+                return;
+            }
+
+            Rigidbody2D playerRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (playerRigidbody != null)
+            {
+                playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, bounceForce);
             }
         }
     }
