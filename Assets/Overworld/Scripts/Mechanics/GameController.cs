@@ -1,13 +1,13 @@
 using Overworld.Core;
 using UnityEngine;
 
-namespace Overworld.Mechanics
+namespace Overworld.Model
 {
     class GameController : MonoBehaviour
     {
         public static GameController Instance { get; private set; }
 
-        void OnEnable()
+        public void OnEnable()
         {
             Instance = this;
         }
