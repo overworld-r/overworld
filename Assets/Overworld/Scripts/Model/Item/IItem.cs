@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Overworld.Model
 {
+    [RequireComponent(typeof(Collider2D))]
     public abstract class IItem : MonoBehaviour
     {
         public enum ItemLocationStatus
