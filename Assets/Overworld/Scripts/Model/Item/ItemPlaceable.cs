@@ -14,7 +14,7 @@ namespace Overworld.Model
         {
             TrunslucentShader = new Material(Shader.Find("unlit/Translucent"));
             HighlightRedShader = new Material(Shader.Find("Unlit/HighlightRed"));
-            TryGetComponent<SpriteRenderer>(out spriteRenderer);
+            spriteRenderer = GetComponent<SpriteRenderer>();
             itemLocationStatus = ItemLocationStatus.World;
         }
 
@@ -53,16 +53,18 @@ namespace Overworld.Model
             newObject.transform.position = this.gameObject.transform.position;
             newObject.transform.rotation = this.gameObject.transform.rotation;
 
+            if (newObject.TryGetComponent<IItem>(out var item))
             {
-                newObject.TryGetComponent<IItem>(out var item);
                 item.isHolding = isHolding;
             }
+
+            if (newObject.TryGetComponent<Collider2D>(out var collider))
             {
-                newObject.TryGetComponent<Collider2D>(out var collider);
                 collider.isTrigger = isHolding;
             }
+
+            if (newObject.TryGetComponent<SpriteRenderer>(out var renderer))
             {
-                newObject.TryGetComponent<SpriteRenderer>(out var renderer);
                 renderer.material = isHolding
                     ? TrunslucentShader
                     : new Material(Shader.Find("Sprites/Default"));

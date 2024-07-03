@@ -40,8 +40,10 @@ namespace Overworld.Item
 
             var itemPrefab = ItemPrefabs.Find(prefab => prefab.name == clickedItem.name);
 
-            clickedItem.TryGetComponent<IItem>(out var clickedItemComponent);
-            grippingItem = clickedItemComponent.OnClick(itemPrefab);
+            if (clickedItem.TryGetComponent<IItem>(out var clickedItemComponent))
+            {
+                grippingItem = clickedItemComponent.OnClick(itemPrefab);
+            }
         }
 
         private void HandleGrippingItem()
@@ -51,10 +53,12 @@ namespace Overworld.Item
                 return;
             }
 
-            grippingItem.TryGetComponent<IItem>(out var itemComponent);
-            if (!itemComponent.isHolding)
+            if (grippingItem.TryGetComponent<IItem>(out var itemComponent))
             {
-                return;
+                if (!itemComponent.isHolding)
+                {
+                    return;
+                }
             }
 
             Vector3 screenPosition = Input.mousePosition;
