@@ -63,6 +63,11 @@ namespace Overworld.Model
                 collider.isTrigger = isHolding;
             }
 
+            if (isHolding && !newObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
+            {
+                newObject.AddComponent<Rigidbody2D>();
+            }
+
             if (newObject.TryGetComponent<SpriteRenderer>(out var renderer))
             {
                 renderer.material = isHolding
