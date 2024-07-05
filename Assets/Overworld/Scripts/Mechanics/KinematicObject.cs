@@ -5,6 +5,16 @@ namespace Overworld.Mechanics
     public class KinematicObject : MonoBehaviour
     {
         public bool isGrounded { get; private set; }
+
+        public enum WallSlideState
+        {
+            Left,
+            Right,
+            None
+        }
+
+        public WallSlideState wallSlideState = WallSlideState.None;
+
         protected Rigidbody2D body;
         protected ContactFilter2D contactFilter;
 
@@ -31,6 +41,7 @@ namespace Overworld.Mechanics
         protected virtual void Update()
         {
             isGrounded = JudgeGrounded();
+            wallSlideState = JudgeWallSliding();
             ComputeVelocity();
         }
 
@@ -43,6 +54,25 @@ namespace Overworld.Mechanics
             int count = body.Cast(Vector2.down, contactFilter, new RaycastHit2D[1], 0.1f);
 
             return count > 0;
+        }
+
+        protected virtual WallSlideState JudgeWallSliding()
+        {
+            int countRight = body.Cast(Vector2.right, contactFilter, new RaycastHit2D[1], 0.2f);
+            int countLeft = body.Cast(Vector2.left, contactFilter, new RaycastHit2D[1], 0.2f);
+
+            if (countRight > 0)
+            {
+                return WallSlideState.Right;
+            }
+            else if (countLeft > 0)
+            {
+                return WallSlideState.Left;
+            }
+            else
+            {
+                return WallSlideState.None;
+            }
         }
     }
 }

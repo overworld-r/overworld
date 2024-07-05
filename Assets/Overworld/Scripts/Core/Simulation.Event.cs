@@ -27,9 +27,7 @@ namespace Overworld.Core
             internal virtual void ExecuteEvent()
             {
                 if (Precondition())
-                {
                     Execute();
-                }
             }
 
             /// <summary>
