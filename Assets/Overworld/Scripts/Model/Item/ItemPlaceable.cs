@@ -38,6 +38,8 @@ namespace Overworld.Model
                 default:
                     return this.gameObject;
             }
+
+            
         }
 
         GameObject TogglePlaceInBag(GameObject itemPrefab)
