@@ -22,7 +22,7 @@ namespace Overworld.Model
 
         protected virtual void FixedUpdate() { }
 
-        public override GameObject OnClick(GameObject itemPrefab)
+        public override GameObject OnClick(GameObject itemPrefab, Transform parent)
         {
             if (!itemPrefab || !canBuild)
             {
@@ -32,23 +32,55 @@ namespace Overworld.Model
             switch (itemLocationStatus)
             {
                 case ItemLocationStatus.World:
-                    return TogglePlaceInWorld(itemPrefab);
+                    return TogglePlaceInWorld(itemPrefab, parent);
                 case ItemLocationStatus.Bag:
-                    return TogglePlaceInBag(itemPrefab);
+                    return TogglePlaceInBag(itemPrefab, parent);
                 default:
                     return this.gameObject;
             }
         }
 
-        GameObject TogglePlaceInBag(GameObject itemPrefab)
+        public override GameObject ChangeLocationStatus(
+            GameObject itemPrefab,
+            Transform parent,
+            ItemLocationStatus status
+        )
         {
-            return this.gameObject;
+            var newObject = Instantiate(itemPrefab, parent);
+            newObject.name = this.gameObject.name;
+            newObject.transform.position = this.gameObject.transform.position;
+            newObject.transform.rotation = this.gameObject.transform.rotation;
+
+            if (newObject.TryGetComponent<IItem>(out var item))
+            {
+                item.isHolding = isHolding;
+                item.itemLocationStatus = status;
+            }
+
+            Destroy(this.gameObject);
+            return newObject;
         }
 
-        GameObject TogglePlaceInWorld(GameObject itemPrefab)
+        GameObject TogglePlaceInBag(GameObject itemPrefab, Transform parent)
+        {
+            var newObject = Instantiate(itemPrefab, parent);
+            newObject.name = this.gameObject.name;
+            newObject.transform.position = this.gameObject.transform.position;
+            newObject.transform.rotation = this.gameObject.transform.rotation;
+
+            if (newObject.TryGetComponent<IItem>(out var item))
+            {
+                item.isHolding = isHolding;
+            }
+
+            Destroy(this.gameObject);
+            return newObject;
+        }
+
+        GameObject TogglePlaceInWorld(GameObject itemPrefab, Transform parent)
         {
             isHolding = !isHolding;
-            var newObject = Instantiate(itemPrefab);
+            var newObject = Instantiate(itemPrefab, parent);
             newObject.name = this.gameObject.name;
             newObject.transform.position = this.gameObject.transform.position;
             newObject.transform.rotation = this.gameObject.transform.rotation;

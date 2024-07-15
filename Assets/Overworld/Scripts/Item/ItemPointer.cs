@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Backpack;
 using Overworld.Model;
 using UnityEngine;
 
@@ -7,7 +8,9 @@ namespace Overworld.Item
     public class ItemPointer : MonoBehaviour
     {
         public List<GameObject> ItemPrefabs = new List<GameObject>();
+        public GameObject backpack;
         public GameObject grippingItem;
+        public IItem grippingItemComponent;
 
         private const float ScreenToWorldPointZ = 10.0f;
         private const float RotationAngle = 90f;
@@ -42,32 +45,47 @@ namespace Overworld.Item
 
             if (clickedItem.TryGetComponent<IItem>(out var clickedItemComponent))
             {
-                grippingItem = clickedItemComponent.OnClick(itemPrefab);
+                grippingItem = clickedItemComponent.OnClick(itemPrefab, this.transform);
+
+                if (grippingItem.TryGetComponent<IItem>(out var itemComponent))
+                {
+                    grippingItemComponent = itemComponent;
+                }
             }
         }
 
         private void HandleGrippingItem()
         {
-            if (!grippingItem)
+            if (!grippingItem || !grippingItemComponent)
             {
                 return;
             }
 
-            if (grippingItem.TryGetComponent<IItem>(out var itemComponent))
+            if (!grippingItemComponent.isHolding)
             {
-                if (!itemComponent.isHolding)
-                {
-                    return;
-                }
+                return;
             }
 
-            Vector3 screenPosition = Input.mousePosition;
+            Vector3 screenPos = Input.mousePosition;
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(
-                new Vector3(screenPosition.x, screenPosition.y, ScreenToWorldPointZ)
+                new Vector3(screenPos.x, screenPos.y, ScreenToWorldPointZ)
             );
-            grippingItem.transform.position = new Vector3(worldPos.x, worldPos.y, worldPos.z);
 
-            // Processing of rotation of the item being held
+            if (grippingItemComponent.itemLocationStatus == IItem.ItemLocationStatus.Bag)
+            {
+                grippingItem.transform.localPosition = new Vector3(
+                    screenPos.x,
+                    screenPos.y,
+                    screenPos.z
+                );
+            }
+            else
+            {
+                grippingItem.transform.position = new Vector3(worldPos.x, worldPos.y, worldPos.z);
+            }
+
+            BackpackProcess(screenPos);
+
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
                 grippingItem.transform.Rotate(0, 0, RotationAngle);
@@ -75,6 +93,41 @@ namespace Overworld.Item
             else if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
                 grippingItem.transform.Rotate(0, 0, -RotationAngle);
+            }
+        }
+
+        void BackpackProcess(Vector3 mousePosition)
+        {
+            if (!backpack.TryGetComponent<Backpack.Backpack>(out var backpackComponent))
+                return;
+
+            if (backpackComponent.open == false)
+                return;
+
+            if (grippingItemComponent.itemLocationStatus == IItem.ItemLocationStatus.Bag)
+            {
+                if (mousePosition.y < 390)
+                    return;
+
+                var itemPrefab = ItemPrefabs.Find(prefab => prefab.name == grippingItem.name);
+                grippingItem = grippingItemComponent.ChangeLocationStatus(
+                    itemPrefab,
+                    this.transform,
+                    IItem.ItemLocationStatus.World
+                );
+            }
+            else
+            {
+                if (mousePosition.y >= 390)
+                    return;
+
+                var itemPrefab = ItemPrefabs.Find(prefab => prefab.name == grippingItem.name);
+                var canvas = backpack.transform.Find("Canvas");
+                grippingItem = grippingItemComponent.ChangeLocationStatus(
+                    itemPrefab,
+                    canvas.transform,
+                    IItem.ItemLocationStatus.Bag
+                );
             }
         }
     }
