@@ -19,6 +19,11 @@ namespace Overworld.Model
 
         public ItemLocationStatus itemLocationStatus;
 
-        public abstract GameObject OnClick(GameObject itemPrefab);
+        public abstract GameObject OnClick(GameObject itemPrefab, Transform parent);
+        public abstract GameObject ChangeLocationStatus(
+            GameObject itemPrefab,
+            Transform parent,
+            ItemLocationStatus status
+        );
     }
 }
