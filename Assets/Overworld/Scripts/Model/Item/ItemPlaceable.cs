@@ -22,7 +22,7 @@ namespace Overworld.Model
 
         protected virtual void FixedUpdate() { }
 
-        public override GameObject OnClick(GameObject itemPrefab, Transform parent)
+        public override GameObject OnClick(GameObject itemPrefab)
         {
             if (!itemPrefab || !canBuild)
             {
@@ -32,55 +32,44 @@ namespace Overworld.Model
             switch (itemLocationStatus)
             {
                 case ItemLocationStatus.World:
-                    return TogglePlaceInWorld(itemPrefab, parent);
+                    return ToggleHoldingStatusInWorld(itemPrefab);
                 case ItemLocationStatus.Bag:
-                    return TogglePlaceInBag(itemPrefab, parent);
+                    return ToggleHoldingStatusInBag();
                 default:
                     return this.gameObject;
             }
         }
 
-        public override GameObject ChangeLocationStatus(
-            GameObject itemPrefab,
+        public override void ChangeLocationStatus(
+            GameObject item,
             Transform parent,
             ItemLocationStatus status
         )
         {
-            var newObject = Instantiate(itemPrefab, parent);
-            newObject.name = this.gameObject.name;
-            newObject.transform.position = this.gameObject.transform.position;
-            newObject.transform.rotation = this.gameObject.transform.rotation;
+            item.transform.parent = parent.transform;
 
-            if (newObject.TryGetComponent<IItem>(out var item))
+            if (item.TryGetComponent<SpriteRenderer>(out var itemRenderer))
             {
-                item.isHolding = isHolding;
-                item.itemLocationStatus = status;
+                itemRenderer.sortingOrder = 100;
             }
 
-            Destroy(this.gameObject);
-            return newObject;
+            if (item.TryGetComponent<IItem>(out var itemComponent))
+            {
+                itemComponent.itemLocationStatus = status;
+            }
         }
 
-        GameObject TogglePlaceInBag(GameObject itemPrefab, Transform parent)
+        GameObject ToggleHoldingStatusInBag()
         {
-            var newObject = Instantiate(itemPrefab, parent);
-            newObject.name = this.gameObject.name;
-            newObject.transform.position = this.gameObject.transform.position;
-            newObject.transform.rotation = this.gameObject.transform.rotation;
-
-            if (newObject.TryGetComponent<IItem>(out var item))
-            {
-                item.isHolding = isHolding;
-            }
-
-            Destroy(this.gameObject);
-            return newObject;
+            this.isHolding = !this.isHolding;
+            Destroy(GetComponent<Rigidbody2D>());
+            return this.gameObject;
         }
 
-        GameObject TogglePlaceInWorld(GameObject itemPrefab, Transform parent)
+        GameObject ToggleHoldingStatusInWorld(GameObject itemPrefab)
         {
             isHolding = !isHolding;
-            var newObject = Instantiate(itemPrefab, parent);
+            var newObject = Instantiate(itemPrefab, this.transform.parent);
             newObject.name = this.gameObject.name;
             newObject.transform.position = this.gameObject.transform.position;
             newObject.transform.rotation = this.gameObject.transform.rotation;
@@ -113,6 +102,11 @@ namespace Overworld.Model
 
         public void OnTriggerEnter2D(Collider2D other)
         {
+            if (this.itemLocationStatus != ItemLocationStatus.World)
+            {
+                return;
+            }
+
             if (!this.isHolding || !canBuild)
             {
                 return;
@@ -123,6 +117,10 @@ namespace Overworld.Model
 
         public void OnTriggerStay2D(Collider2D other)
         {
+            if (this.itemLocationStatus != ItemLocationStatus.World)
+            {
+                return;
+            }
             OnTriggerEnter2D(other);
         }
 

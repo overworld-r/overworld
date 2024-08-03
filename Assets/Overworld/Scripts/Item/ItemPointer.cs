@@ -41,12 +41,10 @@ namespace Overworld.Item
                 return;
             }
 
-            var itemPrefab = ItemPrefabs.Find(prefab => prefab.name == clickedItem.name);
-
             if (clickedItem.TryGetComponent<IItem>(out var clickedItemComponent))
             {
-                grippingItem = clickedItemComponent.OnClick(itemPrefab, this.transform);
-
+                var itemPrefab = ItemPrefabs.Find(prefab => prefab.name == clickedItem.name);
+                grippingItem = clickedItemComponent.OnClick(itemPrefab);
                 if (grippingItem.TryGetComponent<IItem>(out var itemComponent))
                 {
                     grippingItemComponent = itemComponent;
@@ -73,15 +71,21 @@ namespace Overworld.Item
 
             if (grippingItemComponent.itemLocationStatus == IItem.ItemLocationStatus.Bag)
             {
-                grippingItem.transform.localPosition = new Vector3(
-                    screenPos.x,
-                    screenPos.y,
-                    screenPos.z
+                RectTransform canvasRectTransform = backpack
+                    .transform.Find("Canvas")
+                    .GetComponent<RectTransform>();
+                Vector2 localPoint;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvasRectTransform,
+                    screenPos,
+                    Camera.main,
+                    out localPoint
                 );
+                grippingItem.transform.localPosition = localPoint;
             }
             else
             {
-                grippingItem.transform.position = new Vector3(worldPos.x, worldPos.y, worldPos.z);
+                grippingItem.transform.position = worldPos;
             }
 
             BackpackProcess(screenPos);
@@ -106,25 +110,23 @@ namespace Overworld.Item
 
             if (grippingItemComponent.itemLocationStatus == IItem.ItemLocationStatus.Bag)
             {
-                if (mousePosition.y < 390)
+                if (mousePosition.y < Screen.height - Screen.height / 3)
                     return;
 
-                var itemPrefab = ItemPrefabs.Find(prefab => prefab.name == grippingItem.name);
-                grippingItem = grippingItemComponent.ChangeLocationStatus(
-                    itemPrefab,
+                grippingItemComponent.ChangeLocationStatus(
+                    grippingItem,
                     this.transform,
                     IItem.ItemLocationStatus.World
                 );
             }
             else
             {
-                if (mousePosition.y >= 390)
+                if (mousePosition.y >= Screen.height - Screen.height / 3)
                     return;
 
-                var itemPrefab = ItemPrefabs.Find(prefab => prefab.name == grippingItem.name);
                 var canvas = backpack.transform.Find("Canvas");
-                grippingItem = grippingItemComponent.ChangeLocationStatus(
-                    itemPrefab,
+                grippingItemComponent.ChangeLocationStatus(
+                    grippingItem,
                     canvas.transform,
                     IItem.ItemLocationStatus.Bag
                 );
