@@ -1,9 +1,8 @@
-using Overworld.Model;
 using UnityEngine;
 
 namespace Overworld.Item
 {
-    public class Spring : ItemPlaceable
+    public class Spring : ItemBase
     {
         public override string itemName => "Spring";
 
@@ -11,6 +10,8 @@ namespace Overworld.Item
             "A spring that bounces the player up when they touch on top surface of it.";
 
         public override int price => 10;
+
+        public bool CanBuild { get; set; } = true;
 
         public float bounceForce = 10f;
 

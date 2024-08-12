@@ -23,19 +23,12 @@ namespace Backpack
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                open = !open;
                 if (!canvas || !virtualCamera)
                     return;
 
+                open = !open;
                 canvas.SetActive(open);
-                if (open)
-                {
-                    orbitalTransposer.m_ScreenY = 0.2f;
-                }
-                else
-                {
-                    orbitalTransposer.m_ScreenY = 0.5f;
-                }
+                orbitalTransposer.m_ScreenY = open ? 0.4f : 0.5f;
             }
         }
     }
