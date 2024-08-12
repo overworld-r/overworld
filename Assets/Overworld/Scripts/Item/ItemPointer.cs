@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Backpack;
-using Overworld.Model;
 using UnityEngine;
 
 namespace Overworld.Item
@@ -10,10 +8,12 @@ namespace Overworld.Item
         public List<GameObject> ItemPrefabs = new List<GameObject>();
         public GameObject backpack;
         public GameObject grippingItem;
-        public IItem grippingItemComponent;
+        public ItemBase grippingItemComponent;
+        public Camera UICamera;
 
         private const float ScreenToWorldPointZ = 10.0f;
         private const float RotationAngle = 90f;
+        ItemBase.LocationStatus locationStatus = ItemBase.LocationStatus.World;
 
         public void Update()
         {
@@ -28,7 +28,11 @@ namespace Overworld.Item
                 return;
             }
 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray =
+                locationStatus == ItemBase.LocationStatus.World
+                    ? Camera.main.ScreenPointToRay(Input.mousePosition)
+                    : UICamera.ScreenPointToRay(Input.mousePosition);
+
             RaycastHit2D hitSprite = Physics2D.Raycast(ray.origin, ray.direction);
             if (!hitSprite)
             {
@@ -41,11 +45,11 @@ namespace Overworld.Item
                 return;
             }
 
-            if (clickedItem.TryGetComponent<IItem>(out var clickedItemComponent))
+            if (clickedItem.TryGetComponent<ItemBase>(out var clickedItemComponent))
             {
                 var itemPrefab = ItemPrefabs.Find(prefab => prefab.name == clickedItem.name);
                 grippingItem = clickedItemComponent.OnClick(itemPrefab);
-                if (grippingItem.TryGetComponent<IItem>(out var itemComponent))
+                if (grippingItem.TryGetComponent<ItemBase>(out var itemComponent))
                 {
                     grippingItemComponent = itemComponent;
                 }
@@ -64,31 +68,20 @@ namespace Overworld.Item
                 return;
             }
 
-            Vector3 screenPos = Input.mousePosition;
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(
-                new Vector3(screenPos.x, screenPos.y, ScreenToWorldPointZ)
-            );
-
-            if (grippingItemComponent.itemLocationStatus == IItem.ItemLocationStatus.Bag)
+            if (grippingItemComponent.locationStatus == ItemBase.LocationStatus.Bag)
             {
-                RectTransform canvasRectTransform = backpack
-                    .transform.Find("Canvas")
-                    .GetComponent<RectTransform>();
-                Vector2 localPoint;
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    canvasRectTransform,
-                    screenPos,
-                    Camera.main,
-                    out localPoint
+                grippingItem.transform.position = UICamera.ScreenToWorldPoint(
+                    new Vector3(Input.mousePosition.x, Input.mousePosition.y, ScreenToWorldPointZ)
                 );
-                grippingItem.transform.localPosition = localPoint;
             }
             else
             {
-                grippingItem.transform.position = worldPos;
+                grippingItem.transform.position = Camera.main.ScreenToWorldPoint(
+                    new Vector3(Input.mousePosition.x, Input.mousePosition.y, ScreenToWorldPointZ)
+                );
             }
 
-            BackpackProcess(screenPos);
+            HandleBackpack();
 
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
@@ -100,7 +93,7 @@ namespace Overworld.Item
             }
         }
 
-        void BackpackProcess(Vector3 mousePosition)
+        void HandleBackpack()
         {
             if (!backpack.TryGetComponent<Backpack.Backpack>(out var backpackComponent))
                 return;
@@ -108,27 +101,30 @@ namespace Overworld.Item
             if (backpackComponent.open == false)
                 return;
 
-            if (grippingItemComponent.itemLocationStatus == IItem.ItemLocationStatus.Bag)
+            if (grippingItemComponent.locationStatus == ItemBase.LocationStatus.Bag)
             {
-                if (mousePosition.y < Screen.height - Screen.height / 3)
+                if (Input.mousePosition.y < Screen.height - Screen.height / 2)
                     return;
+                locationStatus = ItemBase.LocationStatus.World;
 
                 grippingItemComponent.ChangeLocationStatus(
                     grippingItem,
                     this.transform,
-                    IItem.ItemLocationStatus.World
+                    ItemBase.LocationStatus.World
                 );
             }
             else
             {
-                if (mousePosition.y >= Screen.height - Screen.height / 3)
+                if (Input.mousePosition.y >= Screen.height - Screen.height / 2)
                     return;
+
+                locationStatus = ItemBase.LocationStatus.Bag;
 
                 var canvas = backpack.transform.Find("Canvas");
                 grippingItemComponent.ChangeLocationStatus(
                     grippingItem,
                     canvas.transform,
-                    IItem.ItemLocationStatus.Bag
+                    ItemBase.LocationStatus.Bag
                 );
             }
         }
