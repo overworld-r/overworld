@@ -52,7 +52,6 @@ namespace Overworld.Item
 
         public GameObject OnClick(GameObject itemPrefab)
         {
-            Debug.Log("a");
             if (TryGetComponent<Baggable>(out var baggable))
             {
                 baggable.OnClick();
