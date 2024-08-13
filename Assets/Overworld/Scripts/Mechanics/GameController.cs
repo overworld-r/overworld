@@ -7,6 +7,8 @@ namespace Overworld.Model
     {
         public static GameController Instance { get; private set; }
 
+        public OverworldModel model = Simulation.GetModel<OverworldModel>();
+
         public void OnEnable()
         {
             Instance = this;
