@@ -13,12 +13,23 @@ namespace Overworld.Item
 
         private const float ScreenToWorldPointZ = 10.0f;
         private const float RotationAngle = 90f;
-        ItemBase.LocationStatus locationStatus = ItemBase.LocationStatus.World;
+        public ItemBase.LocationStatus cursorLocationStatus = ItemBase.LocationStatus.World;
+
+        float LocationLine = Screen.height - Screen.height / 2;
 
         public void Update()
         {
             HandleMouseClick();
-            HandleGrippingItem();
+            HandleCursorLocationStatus();
+
+            if (!grippingItem || !grippingItemComponent || !grippingItemComponent.isHolding)
+            {
+                return;
+            }
+
+            ControlGrippingItemPosition();
+            ControlGrippingItemRotation();
+            HandleGrippingItemLocationStatus();
         }
 
         private void HandleMouseClick()
@@ -29,7 +40,7 @@ namespace Overworld.Item
             }
 
             Ray ray =
-                locationStatus == ItemBase.LocationStatus.World
+                cursorLocationStatus == ItemBase.LocationStatus.World
                     ? Camera.main.ScreenPointToRay(Input.mousePosition)
                     : UICamera.ScreenPointToRay(Input.mousePosition);
 
@@ -56,18 +67,8 @@ namespace Overworld.Item
             }
         }
 
-        private void HandleGrippingItem()
+        private void ControlGrippingItemPosition()
         {
-            if (!grippingItem || !grippingItemComponent)
-            {
-                return;
-            }
-
-            if (!grippingItemComponent.isHolding)
-            {
-                return;
-            }
-
             if (grippingItemComponent.locationStatus == ItemBase.LocationStatus.Bag)
             {
                 grippingItem.transform.position = UICamera.ScreenToWorldPoint(
@@ -80,9 +81,10 @@ namespace Overworld.Item
                     new Vector3(Input.mousePosition.x, Input.mousePosition.y, ScreenToWorldPointZ)
                 );
             }
+        }
 
-            HandleBackpack();
-
+        private void ControlGrippingItemRotation()
+        {
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
                 grippingItem.transform.Rotate(0, 0, RotationAngle);
@@ -93,19 +95,36 @@ namespace Overworld.Item
             }
         }
 
-        void HandleBackpack()
+        void HandleCursorLocationStatus()
         {
-            if (!backpack.TryGetComponent<Backpack.Backpack>(out var backpackComponent))
-                return;
+            if (cursorLocationStatus == ItemBase.LocationStatus.Bag)
+            {
+                if (Input.mousePosition.y < LocationLine)
+                    return;
 
-            if (backpackComponent.open == false)
+                cursorLocationStatus = ItemBase.LocationStatus.World;
+            }
+            else
+            {
+                if (backpack.GetComponent<Backpack.Backpack>().open == false)
+                    return;
+
+                if (Input.mousePosition.y >= LocationLine)
+                    return;
+
+                cursorLocationStatus = ItemBase.LocationStatus.Bag;
+            }
+        }
+
+        void HandleGrippingItemLocationStatus()
+        {
+            if (backpack.GetComponent<Backpack.Backpack>().open == false)
                 return;
 
             if (grippingItemComponent.locationStatus == ItemBase.LocationStatus.Bag)
             {
-                if (Input.mousePosition.y < Screen.height - Screen.height / 2)
+                if (Input.mousePosition.y < LocationLine)
                     return;
-                locationStatus = ItemBase.LocationStatus.World;
 
                 grippingItemComponent.ChangeLocationStatus(
                     grippingItem,
@@ -115,10 +134,8 @@ namespace Overworld.Item
             }
             else
             {
-                if (Input.mousePosition.y >= Screen.height - Screen.height / 2)
+                if (Input.mousePosition.y >= LocationLine)
                     return;
-
-                locationStatus = ItemBase.LocationStatus.Bag;
 
                 var canvas = backpack.transform.Find("Canvas");
                 grippingItemComponent.ChangeLocationStatus(
