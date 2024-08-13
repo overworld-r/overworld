@@ -182,6 +182,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1440008284740551144, guid: 817d49d3d8adfe349a0b2d709604493d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1136765650}
+    - targetCorrespondingSourceObject: {fileID: 1440008284740551144, guid: 817d49d3d8adfe349a0b2d709604493d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1136765656}
   m_SourcePrefab: {fileID: 100100000, guid: 817d49d3d8adfe349a0b2d709604493d, type: 3}
 --- !u!4 &33171435 stripped
 Transform:
@@ -642,6 +645,7 @@ MonoBehaviour:
   grippingItem: {fileID: 0}
   grippingItemComponent: {fileID: 0}
   UICamera: {fileID: 0}
+  locationStatus: 1
 --- !u!1 &842135473
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,6 +982,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1136765644}
   m_CullTransparentMesh: 1
+--- !u!114 &1136765656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136765644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d0c1a01c4aa4dd7a1a54d77a7eda21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1227357690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1689,6 +1705,7 @@ MonoBehaviour:
   grippingItem: {fileID: 0}
   grippingItemComponent: {fileID: 0}
   UICamera: {fileID: 842135475}
+  locationStatus: 1
 --- !u!1 &1956936883
 GameObject:
   m_ObjectHideFlags: 0
@@ -2213,7 +2230,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2039925739368370409, guid: 93ada35d5dda3d248976e32f566aea40, type: 3}
       propertyPath: m_LocalScale.x
-      value: 40.245037
+      value: 119.54386
       objectReference: {fileID: 0}
     - target: {fileID: 2039925739368370409, guid: 93ada35d5dda3d248976e32f566aea40, type: 3}
       propertyPath: m_LocalScale.y
