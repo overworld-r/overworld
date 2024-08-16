@@ -23,7 +23,6 @@ namespace Backpack
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-
                 if (!canvas || !virtualCamera)
                     return;
 

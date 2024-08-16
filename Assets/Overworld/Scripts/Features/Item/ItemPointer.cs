@@ -58,6 +58,7 @@ namespace Overworld.Item
             }
 
             GameObject clickedItem = hitSprite.transform.gameObject;
+
             if (!clickedItem.CompareTag("Item"))
             {
                 return;
@@ -68,7 +69,9 @@ namespace Overworld.Item
                 var itemPrefab = overworldModel.ItemPrefabs.Find(prefab =>
                     prefab.name == clickedItem.name
                 );
+
                 grippingItem = clickedItemComponent.OnClick(itemPrefab);
+
                 if (grippingItem.TryGetComponent<ItemBase>(out var itemComponent))
                 {
                     grippingItemComponent = itemComponent;
@@ -109,6 +112,7 @@ namespace Overworld.Item
             if (BackpackComponent.open == false)
             {
                 cursorLocationStatus = ItemBase.LocationStatus.World;
+
                 return;
             }
 
@@ -155,6 +159,7 @@ namespace Overworld.Item
                     return;
 
                 var canvas = Backpack.transform.Find("Canvas");
+
                 grippingItemComponent.ChangeLocationStatus(
                     grippingItem,
                     canvas.transform,
