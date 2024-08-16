@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model:
     UICamera: {fileID: 2697519445913222484, guid: d7a8beccfc46b4936a8dfc2d18e362f8, type: 3}
-    Backpack: {fileID: 7659665501344987628, guid: 25997152289a24f3ab5a72beb532f641, type: 3}
+    Backpack: {fileID: 8259771655298778936, guid: 25997152289a24f3ab5a72beb532f641, type: 3}
     ItemPrefabs:
     - {fileID: 1440008284740551144, guid: 817d49d3d8adfe349a0b2d709604493d, type: 3}
     - {fileID: 7714863522075635529, guid: f283fed959f684d9abe79eb47902f92f, type: 3}
