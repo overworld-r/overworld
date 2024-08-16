@@ -1516,9 +1516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98dbca656dff34be8afd709a78f4b0c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grippingItem: {fileID: 0}
-  grippingItemComponent: {fileID: 0}
-  cursorLocationStatus: 1
 --- !u!1 &1956936883
 GameObject:
   m_ObjectHideFlags: 0

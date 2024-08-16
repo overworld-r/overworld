@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Overworld/Prefabs/Backpack.meta
-guid: 147c2fcdd4e79405387d8d2873904c33
+<<<<<<<< HEAD:Assets/Overworld/Scripts/Features.meta
+guid: c8ceb600a504f4684a390c6853c8406a
 ========
-guid: 5fcd4eb6c897a4651bf4e1ce902f7d41
->>>>>>>> OWD-33-backpack:Assets/Overworld/Scripts/Features/Backpack.meta
+guid: 147c2fcdd4e79405387d8d2873904c33
+>>>>>>>> OWD-33-backpack:Assets/Overworld/Prefabs/Backpack.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Overworld/Scripts/Features/Player.meta
 guid: 7d73c205e2b604f2fa8dff93eb5ae720
-========
-guid: 147c2fcdd4e79405387d8d2873904c33
->>>>>>>> OWD-33-backpack:Assets/Overworld/Prefabs/Backpack.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
