@@ -53,9 +53,9 @@ namespace Overworld.Item
 
             if (newObject.TryGetComponent<SpriteRenderer>(out var renderer))
             {
-                renderer.material = itemBase.isHolding
-                    ? TrunslucentShader
-                    : new Material(Shader.Find("Sprites/Default"));
+                // renderer.material = itemBase.isHolding
+                //     ? TrunslucentShader
+                //     : new Material(Shader.Find("Sprites/Default"));
             }
 
             Destroy(this.gameObject);
@@ -73,7 +73,7 @@ namespace Overworld.Item
             {
                 return;
             }
-            spriteRenderer.material = HighlightRedShader;
+            // spriteRenderer.material = HighlightRedShader;
             canBuild = false;
         }
 
@@ -96,7 +96,7 @@ namespace Overworld.Item
             {
                 return;
             }
-            spriteRenderer.material = TrunslucentShader;
+            // spriteRenderer.material = TrunslucentShader;
             canBuild = true;
         }
     }
