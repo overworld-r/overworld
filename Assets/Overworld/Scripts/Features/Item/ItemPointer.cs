@@ -120,6 +120,7 @@ namespace Overworld.Item
 
         void HandleGrippingItemLocationStatus()
         {
+
             if (overworldModel.Backpack.GetComponent<Backpack.Backpack>().open == false)
                 return;
 
