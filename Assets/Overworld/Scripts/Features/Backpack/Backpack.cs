@@ -1,9 +1,9 @@
 using Cinemachine;
 using UnityEngine;
 
-namespace Backpack
+namespace Overworld.Backpack
 {
-    class Backpack : MonoBehaviour
+    public class Backpack : MonoBehaviour
     {
         public bool open = false;
 

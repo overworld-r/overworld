@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Overworld.Core;
 using Overworld.Model;
 using UnityEngine;
@@ -8,16 +7,24 @@ namespace Overworld.Item
     public class ItemPointer : MonoBehaviour
     {
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
-        public GameObject grippingItem;
-        public ItemBase grippingItemComponent;
+        GameObject grippingItem;
+        ItemBase grippingItemComponent;
 
         private const float ScreenToWorldPointZ = 10.0f;
         private const float RotationAngle = 90f;
-        public ItemBase.LocationStatus cursorLocationStatus = ItemBase.LocationStatus.World;
+        ItemBase.LocationStatus cursorLocationStatus = ItemBase.LocationStatus.World;
+        GameObject Backpack;
+        Backpack.Backpack BackpackComponent;
 
         float LocationLine = Screen.height - Screen.height / 2;
 
-        public void Update()
+        void Start()
+        {
+            Backpack = overworldModel.Backpack;
+            BackpackComponent = Backpack.GetComponent<Backpack.Backpack>();
+        }
+
+        void Update()
         {
             HandleMouseClick();
             HandleCursorLocationStatus();
@@ -32,7 +39,7 @@ namespace Overworld.Item
             HandleGrippingItemLocationStatus();
         }
 
-        private void HandleMouseClick()
+        void HandleMouseClick()
         {
             if (!Input.GetMouseButtonDown(0))
             {
@@ -69,7 +76,7 @@ namespace Overworld.Item
             }
         }
 
-        private void ControlGrippingItemPosition()
+        void ControlGrippingItemPosition()
         {
             if (grippingItemComponent.locationStatus == ItemBase.LocationStatus.Bag)
             {
@@ -85,7 +92,7 @@ namespace Overworld.Item
             }
         }
 
-        private void ControlGrippingItemRotation()
+        void ControlGrippingItemRotation()
         {
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
@@ -99,6 +106,12 @@ namespace Overworld.Item
 
         void HandleCursorLocationStatus()
         {
+            if (BackpackComponent.open == false)
+            {
+                cursorLocationStatus = ItemBase.LocationStatus.World;
+                return;
+            }
+
             if (cursorLocationStatus == ItemBase.LocationStatus.Bag)
             {
                 if (Input.mousePosition.y < LocationLine)
@@ -108,7 +121,7 @@ namespace Overworld.Item
             }
             else
             {
-                if (overworldModel.Backpack.GetComponent<Backpack.Backpack>().open == false)
+                if (BackpackComponent.open == false)
                     return;
 
                 if (Input.mousePosition.y >= LocationLine)
@@ -120,9 +133,10 @@ namespace Overworld.Item
 
         void HandleGrippingItemLocationStatus()
         {
-
-            if (overworldModel.Backpack.GetComponent<Backpack.Backpack>().open == false)
+            if (BackpackComponent.open == false)
+            {
                 return;
+            }
 
             if (grippingItemComponent.locationStatus == ItemBase.LocationStatus.Bag)
             {
@@ -140,7 +154,7 @@ namespace Overworld.Item
                 if (Input.mousePosition.y >= LocationLine)
                     return;
 
-                var canvas = overworldModel.Backpack.transform.Find("Canvas");
+                var canvas = Backpack.transform.Find("Canvas");
                 grippingItemComponent.ChangeLocationStatus(
                     grippingItem,
                     canvas.transform,
