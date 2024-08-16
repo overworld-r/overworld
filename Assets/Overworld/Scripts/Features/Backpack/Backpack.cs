@@ -23,10 +23,12 @@ namespace Backpack
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
+
                 if (!canvas || !virtualCamera)
                     return;
 
                 open = !open;
+
                 canvas.SetActive(open);
                 orbitalTransposer.m_ScreenY = open ? 0.4f : 0.5f;
             }

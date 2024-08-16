@@ -16,8 +16,6 @@ namespace Overworld.Item
             itemBase = GetComponent<ItemBase>();
         }
 
-        Vector3 offset = new Vector3(-26.35f, -190.25f, 10.05f);
-
         public void OnClick()
         {
             if (itemBase.locationStatus != ItemBase.LocationStatus.Bag)
@@ -27,12 +25,11 @@ namespace Overworld.Item
 
             if (itemBase.isHolding)
             {
-                Vector3 offset = new Vector3(-26.35f, -190.25f, 10.05f);
+                var offset = new Vector3(-26.35f, -190.25f, 10.05f);
 
                 var cursorPosition = overworldModel.UICamera.ScreenToWorldPoint(
                     new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10.0f)
                 );
-                Debug.Log(cursorPosition);
 
                 float gridSize = 0.05f * 19f;
                 float offsetX = 0.05f;
