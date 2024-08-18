@@ -5,7 +5,7 @@ namespace Overworld.Model
 {
     class GameController : MonoBehaviour
     {
-        public static GameController Instance { get; private set; }
+        public static GameController? Instance { get; private set; }
 
         public OverworldModel model = Simulation.GetModel<OverworldModel>();
 

@@ -1,12 +1,14 @@
+using UnityEngine;
+
 namespace Overworld.Item
 {
-    public class DebugItem : ItemBase
+    public class DebugItem : MonoBehaviour, IItemMetadata
     {
-        public bool CanBuild { get; set; } = true;
+        public bool CanBuild { get; private set; } = true;
 
-        public override string itemName => "DebugItem";
-        public override string description => "This is a debug item.";
-        public override int price => 100;
+        string IItemMetadata.itemName { get; set; } = "DebugItem";
+        string IItemMetadata.description { get; set; } = "this is a debug item.";
+        int IItemMetadata.price { get; set; } = 100;
 
         protected void Update() { }
 

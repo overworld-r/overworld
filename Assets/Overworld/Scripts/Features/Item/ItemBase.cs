@@ -1,25 +1,21 @@
+using Overworld.Model;
 using UnityEngine;
 
 namespace Overworld.Item
 {
-    public abstract class ItemBase : MonoBehaviour
+    public class ItemBase : MonoBehaviour
     {
-        public virtual string itemName { get; set; }
-        public virtual string description { get; set; }
-        public virtual int price { get; set; }
         public bool isHolding = false;
 
-        public enum LocationStatus
-        {
-            Bag,
-            World,
-        }
+        public OverworldModel.LocationStatus locationStatus = OverworldModel.LocationStatus.World;
 
-        public LocationStatus locationStatus = LocationStatus.World;
-
-        public void ChangeLocationStatus(GameObject item, Transform parent, LocationStatus status)
+        public void ChangeLocationStatus(
+            GameObject item,
+            Transform parent,
+            OverworldModel.LocationStatus status
+        )
         {
-            item.transform.parent = parent.transform;
+            item.transform.SetParent(parent, false);
 
             if (item.TryGetComponent<Collider2D>(out var itemCollider))
             {
@@ -43,26 +39,11 @@ namespace Overworld.Item
 
             if (
                 item.TryGetComponent<Placeable>(out var itemPlaceable)
-                && status == LocationStatus.World
+                && status == OverworldModel.LocationStatus.World
             )
             {
                 itemPlaceable.canBuild = true;
             }
-        }
-
-        public GameObject OnClick(GameObject itemPrefab)
-        {
-            if (TryGetComponent<Baggable>(out var baggable))
-            {
-                baggable.OnClick();
-            }
-
-            if (TryGetComponent<Placeable>(out var placeable))
-            {
-                return placeable.OnClick(itemPrefab);
-            }
-
-            return this.gameObject;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Overworld.Player
     /// <typeparam name="PlayerJumped"></typeparam>
     public class PlayerJumped : Simulation.Event<PlayerJumped>
     {
-        public PlayerController player;
+        public PlayerController? player;
 
         public override void Execute()
         {

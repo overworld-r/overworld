@@ -1,22 +1,28 @@
 using Cinemachine;
+using Overworld.Core;
+using Overworld.Model;
 using UnityEngine;
 
-namespace Backpack
+namespace Overworld.Backpack
 {
     class Backpack : MonoBehaviour
     {
         public bool open = false;
 
-        GameObject canvas;
-        public CinemachineVirtualCamera virtualCamera;
-        CinemachineFramingTransposer orbitalTransposer;
+        GameObject? canvas;
+        public CinemachineVirtualCamera? virtualCamera;
+        CinemachineFramingTransposer? orbitalTransposer;
+
+        OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
         public void Start()
         {
-            canvas = transform.Find("Canvas").gameObject;
+            canvas = overworldModel.Inventory;
             orbitalTransposer =
-                virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-            orbitalTransposer.m_ScreenX = 0.5f;
+                virtualCamera?.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+            if (orbitalTransposer != null)
+                orbitalTransposer.m_ScreenX = 0.5f;
         }
 
         public void Update()
@@ -28,8 +34,10 @@ namespace Backpack
 
                 open = !open;
 
-                canvas.SetActive(open);
-                orbitalTransposer.m_ScreenY = open ? 0.4f : 0.5f;
+                canvas?.SetActive(open);
+
+                if (orbitalTransposer != null)
+                    orbitalTransposer.m_ScreenY = open ? 0.4f : 0.5f;
             }
         }
     }
