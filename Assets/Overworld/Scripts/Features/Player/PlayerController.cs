@@ -1,8 +1,8 @@
-using Overworld.Player;
+using Overworld.Mechanics;
 using UnityEngine;
 using static Overworld.Core.Simulation;
 
-namespace Overworld.Mechanics
+namespace Overworld.Player
 {
     public class PlayerController : KinematicObject
     {
@@ -27,7 +27,7 @@ namespace Overworld.Mechanics
             Jumping,
             InFlight,
             Landed,
-            WallSliding
+            WallSliding,
         }
 
         protected override void Update()

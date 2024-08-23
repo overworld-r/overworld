@@ -17,7 +17,8 @@ namespace Overworld.Backpack
 
         public void Start()
         {
-            canvas = overworldModel.Inventory;
+            var canvasName = overworldModel.CanvasObjectName;
+            canvas = overworldModel.Backpack?.transform.Find(canvasName).gameObject;
             orbitalTransposer =
                 virtualCamera?.GetCinemachineComponent<CinemachineFramingTransposer>();
 
@@ -34,7 +35,7 @@ namespace Overworld.Backpack
 
                 open = !open;
 
-                canvas?.SetActive(open);
+                canvas?.gameObject.SetActive(open);
 
                 if (orbitalTransposer != null)
                     orbitalTransposer.m_ScreenY = open ? 0.4f : 0.5f;

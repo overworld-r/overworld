@@ -9,18 +9,20 @@ namespace Overworld.Item.Functions
         [SerializeField]
         private Transform? bagParent;
 
+        [SerializeField]
+        private Backpack.Backpack? backpackComponent;
+
         private float locationLine = Screen.height - Screen.height / 2;
 
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
-        private Backpack.Backpack? backpackComponent;
 
         void Reset()
         {
-            bagParent = overworldModel.Inventory?.transform;
-        }
+            if (overworldModel.Backpack == null)
+                return;
 
-        void Start()
-        {
+            var canvasName = overworldModel.CanvasObjectName;
+            bagParent = overworldModel.Backpack?.transform.Find(canvasName).transform;
             backpackComponent = overworldModel.Backpack?.GetComponent<Backpack.Backpack>();
         }
 

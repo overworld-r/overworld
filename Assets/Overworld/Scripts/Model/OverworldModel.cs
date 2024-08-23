@@ -8,14 +8,14 @@ namespace Overworld.Model
     {
         public Camera? UICamera;
         public GameObject? Backpack;
-        public GameObject? Inventory;
+        public string CanvasObjectName = "Canvas";
         public LocationStatus cursorLocationStatus = LocationStatus.World;
         public List<GameObject> ItemPrefabs = new List<GameObject>();
 
         public enum LocationStatus
         {
             World,
-            Bag
+            Bag,
         }
     }
 }

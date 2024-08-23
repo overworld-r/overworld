@@ -1,4 +1,3 @@
-using System;
 using Overworld.Core;
 using Overworld.Item.Model;
 using Overworld.Model;
@@ -12,7 +11,7 @@ namespace Overworld.Item.Functions
     [RequireComponent(typeof(CursorLocationManager))]
     [RequireComponent(typeof(ItemClickHandler))]
     [RequireComponent(typeof(ItemRotator))]
-    public class ItemManager : MonoBehaviour
+    public class ItemPointer : MonoBehaviour
     {
         [SerializeField]
         private ItemClickHandler? itemClickHandler;
@@ -45,7 +44,7 @@ namespace Overworld.Item.Functions
         private void Start()
         {
             if (itemClickHandler == null)
-                throw new Exception("itemClickHandler is not set");
+                return;
 
             itemClickHandler.OnItemClicked += HandleItemClick;
         }

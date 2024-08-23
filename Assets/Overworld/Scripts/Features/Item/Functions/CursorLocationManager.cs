@@ -6,13 +6,18 @@ namespace Overworld.Item.Functions
 {
     public class CursorLocationManager : MonoBehaviour
     {
-        private float locationLine = Screen.height - Screen.height / 2;
-
-        OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+        [SerializeField]
         private Backpack.Backpack? backpackComponent;
 
-        void Start()
+        OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+
+        private float locationLine = Screen.height - Screen.height / 2;
+
+        void Reset()
         {
+            if (overworldModel.Backpack == null)
+                return;
+
             backpackComponent = overworldModel.Backpack?.GetComponent<Backpack.Backpack>();
         }
 
