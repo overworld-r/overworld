@@ -1,11 +1,11 @@
 using Overworld.Core;
 using UnityEngine;
 
-namespace Overworld.Model
+namespace Overworld.Models
 {
     class GameController : MonoBehaviour
     {
-        public static GameController Instance { get; private set; }
+        public static GameController? Instance { get; private set; }
 
         public OverworldModel model = Simulation.GetModel<OverworldModel>();
 

@@ -1,8 +1,8 @@
-using Overworld.Player;
+using Overworld.Mechanics;
 using UnityEngine;
 using static Overworld.Core.Simulation;
 
-namespace Overworld.Mechanics
+namespace Overworld.Features.Player
 {
     public class PlayerController : KinematicObject
     {
@@ -27,7 +27,7 @@ namespace Overworld.Mechanics
             Jumping,
             InFlight,
             Landed,
-            WallSliding
+            WallSliding,
         }
 
         protected override void Update()
@@ -118,6 +118,9 @@ namespace Overworld.Mechanics
 
         void Move()
         {
+            if (body == null)
+                return;
+
             Vector2 moveVector = Vector2.zero;
 
             if (!isGrounded)
@@ -146,6 +149,9 @@ namespace Overworld.Mechanics
 
         void WallSlide()
         {
+            if (body == null)
+                return;
+
             if (body.velocity.y > 0.0f)
             {
                 return;
@@ -155,12 +161,18 @@ namespace Overworld.Mechanics
 
         void Jump()
         {
+            if (body == null)
+                return;
+
             Vector2 jumpVector = new Vector2(0.0f, jumpTakeOffSpeed);
             body.AddForce(jumpVector, ForceMode2D.Impulse);
         }
 
         void WallJump()
         {
+            if (body == null)
+                return;
+
             Vector2 wallJumpVector = Vector2.zero;
             if (wallSlideState == WallSlideState.Right)
             {
@@ -180,6 +192,9 @@ namespace Overworld.Mechanics
 
         protected override void ComputeVelocity()
         {
+            if (body == null)
+                return;
+
             if (stopJump)
             {
                 stopJump = false;

@@ -10,16 +10,19 @@ namespace Overworld.Mechanics
         {
             Left,
             Right,
-            None
+            None,
         }
 
         public WallSlideState wallSlideState = WallSlideState.None;
 
-        protected Rigidbody2D body;
+        protected Rigidbody2D? body;
         protected ContactFilter2D contactFilter;
 
         public void Teleport(Vector3 position)
         {
+            if (body == null)
+                return;
+
             body.position = position;
             body.velocity *= 0;
         }
@@ -51,6 +54,9 @@ namespace Overworld.Mechanics
 
         protected virtual bool JudgeGrounded()
         {
+            if (body == null)
+                return false;
+
             int count = body.Cast(Vector2.down, contactFilter, new RaycastHit2D[1], 0.1f);
 
             return count > 0;
@@ -58,6 +64,9 @@ namespace Overworld.Mechanics
 
         protected virtual WallSlideState JudgeWallSliding()
         {
+            if (body == null)
+                return WallSlideState.None;
+
             int countRight = body.Cast(Vector2.right, contactFilter, new RaycastHit2D[1], 0.2f);
             int countLeft = body.Cast(Vector2.left, contactFilter, new RaycastHit2D[1], 0.2f);
 

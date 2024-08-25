@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#nullable disable
+
 namespace Overworld.Core
 {
     /// <summary>
