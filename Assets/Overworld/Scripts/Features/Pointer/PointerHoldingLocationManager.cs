@@ -1,10 +1,11 @@
 using Overworld.Core;
-using Overworld.Model;
+using Overworld.Features.Item.Models;
+using Overworld.Models;
 using UnityEngine;
 
-namespace Overworld.Item.Functions
+namespace Overworld.Features.Pointer
 {
-    public class ItemLocationManager : MonoBehaviour
+    public class PointerHoldingLocationManager : MonoBehaviour
     {
         [SerializeField]
         private Transform? bagParent;

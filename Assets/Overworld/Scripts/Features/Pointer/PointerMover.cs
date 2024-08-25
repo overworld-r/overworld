@@ -1,18 +1,30 @@
 using Overworld.Core;
-using Overworld.Model;
-using Overworld.Types;
+using Overworld.Models;
 using UnityEngine;
 
-namespace Overworld.Item.Functions
+namespace Overworld.Features.Pointer
 {
-    public class ItemMover : MonoBehaviour
+    [RequireComponent(typeof(PlayerPointer))]
+    public class PointerMover : MonoBehaviour
     {
-        private IOption<GameObject> heldItem = new None<GameObject>();
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+
+        [SerializeField]
+        private PlayerPointer? playerPointer;
+
+        void Reset()
+        {
+            playerPointer = GetComponent<PlayerPointer>();
+        }
 
         void Update()
         {
-            heldItem.Match(
+            if (playerPointer == null)
+            {
+                throw new System.Exception("PlayerPointer is null");
+            }
+
+            playerPointer.holdingItem.Match(
                 none: () =>
                 {
                     return;
@@ -24,7 +36,7 @@ namespace Overworld.Item.Functions
 
                     item.transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
 
-                    if (overworldModel.cursorLocationStatus == OverworldModel.LocationStatus.World)
+                    if (playerPointer?.locationStatus == OverworldModel.LocationStatus.World)
                     {
                         item.transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
                     }
@@ -37,11 +49,6 @@ namespace Overworld.Item.Functions
                     }
                 }
             );
-        }
-
-        public void SetHeldItem(IOption<GameObject> item)
-        {
-            heldItem = item;
         }
     }
 }

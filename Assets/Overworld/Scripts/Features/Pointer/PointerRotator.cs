@@ -1,18 +1,29 @@
-using Overworld.Types;
 using UnityEngine;
 
-namespace Overworld.Item.Functions
+namespace Overworld.Features.Pointer
 {
-    public class ItemRotator : MonoBehaviour
+    [RequireComponent(typeof(PlayerPointer))]
+    public class PointerRotator : MonoBehaviour
     {
-        private IOption<GameObject> heldItem = new None<GameObject>();
-
         [SerializeField]
         private float rotationSpeed = 90f;
 
+        [SerializeField]
+        private PlayerPointer? playerPointer;
+
+        void Reset()
+        {
+            playerPointer = GetComponent<PlayerPointer>();
+        }
+
         void Update()
         {
-            heldItem.Match(
+            if (playerPointer == null)
+            {
+                throw new System.Exception("PlayerPointer is null");
+            }
+
+            playerPointer.holdingItem.Match(
                 none: () =>
                 {
                     return;
@@ -26,11 +37,6 @@ namespace Overworld.Item.Functions
                     }
                 }
             );
-        }
-
-        public void SetHeldItem(IOption<GameObject> item)
-        {
-            heldItem = item;
         }
     }
 }

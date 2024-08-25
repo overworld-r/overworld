@@ -1,43 +1,51 @@
-using Overworld.Item.Model;
-using Overworld.Model;
+using Overworld.Core;
+using Overworld.Models;
 using Overworld.Types;
 using UnityEngine;
 
-namespace Overworld.Item
+namespace Overworld.Features.Pointer
 {
-    [RequireComponent(typeof(ItemBase))]
+    [RequireComponent(typeof(Item.Models.ItemBase))]
     public class Placeable : MonoBehaviour, IClickable
     {
+        OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+
         public bool canBuild = true;
         private Material? TrunslucentShader;
         private Material? HighlightRedShader;
         private SpriteRenderer? spriteRenderer;
+        private PlayerPointer? playerPointer;
 
-        ItemBase? itemBase;
+        Item.Models.ItemBase? itemBase;
 
         public void Awake()
         {
-            itemBase = GetComponent<ItemBase>();
+            itemBase = GetComponent<Item.Models.ItemBase>();
             TrunslucentShader = new Material(Shader.Find("unlit/Translucent"));
             HighlightRedShader = new Material(Shader.Find("Unlit/HighlightRed"));
             spriteRenderer = GetComponent<SpriteRenderer>();
+            playerPointer = overworldModel.Pointer?.GetComponent<PlayerPointer>();
         }
 
-        IOption<GameObject> IClickable.OnClick(GameObject itemPrefab)
+        void IClickable.OnClick(GameObject itemPrefab)
         {
             if (itemBase?.locationStatus != OverworldModel.LocationStatus.World || !canBuild)
             {
-                return new Some<GameObject>(this.gameObject);
+                return;
+            }
+
+            if (playerPointer == null)
+            {
+                throw new System.Exception("PlayerPointer is null");
             }
 
             itemBase.isHolding = !itemBase.isHolding;
-
             var newObject = Instantiate(itemPrefab, this.transform.parent);
             newObject.name = this.gameObject.name;
             newObject.transform.position = this.gameObject.transform.position;
             newObject.transform.rotation = this.gameObject.transform.rotation;
 
-            if (newObject.TryGetComponent<ItemBase>(out var item))
+            if (newObject.TryGetComponent<Item.Models.ItemBase>(out var item))
             {
                 item.isHolding = itemBase.isHolding;
                 item.locationStatus = itemBase.locationStatus;
@@ -62,7 +70,14 @@ namespace Overworld.Item
 
             Destroy(this.gameObject);
 
-            return itemBase.isHolding ? new Some<GameObject>(newObject) : new None<GameObject>();
+            if (itemBase.isHolding)
+            {
+                playerPointer.holdingItem = new Some<GameObject>(newObject);
+            }
+            else
+            {
+                playerPointer.holdingItem = new None<GameObject>();
+            }
         }
 
         public void OnTriggerEnter2D(Collider2D other)

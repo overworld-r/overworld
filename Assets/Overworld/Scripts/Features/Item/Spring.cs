@@ -1,13 +1,13 @@
 using UnityEngine;
 
-namespace Overworld.Item
+namespace Overworld.Features.Item
 {
-    public class Spring : MonoBehaviour, IItemMetadata
+    public class Spring : MonoBehaviour, Models.IItemMetadata
     {
-        string IItemMetadata.itemName { get; set; } = "Spring";
-        string IItemMetadata.description { get; set; } =
+        string Models.IItemMetadata.itemName { get; set; } = "Spring";
+        string Models.IItemMetadata.description { get; set; } =
             "A spring that bounce the player up when the touch on top surface";
-        int IItemMetadata.price { get; set; } = 10;
+        int Models.IItemMetadata.price { get; set; } = 10;
 
         public float bounceForce = 10f;
 

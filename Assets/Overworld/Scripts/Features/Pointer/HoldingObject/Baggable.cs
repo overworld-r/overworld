@@ -1,13 +1,12 @@
 using Overworld.Core;
-using Overworld.Item.Model;
-using Overworld.Model;
-using Overworld.Types;
+using Overworld.Features.Item.Models;
+using Overworld.Models;
 using UnityEngine;
 
-namespace Overworld.Item
+namespace Overworld.Features.Pointer
 {
     [RequireComponent(typeof(ItemBase))]
-    public class Baggable : MonoBehaviour, IClickable
+    public class Baggable : MonoBehaviour, Models.IClickable
     {
         public bool canPut { get; private set; } = true;
 
@@ -21,14 +20,14 @@ namespace Overworld.Item
             itemBase = GetComponent<ItemBase>();
         }
 
-        IOption<GameObject> IClickable.OnClick(GameObject prefab)
+        void IClickable.OnClick(GameObject prefab)
         {
             if (
                 itemBase?.locationStatus != OverworldModel.LocationStatus.Bag
                 || overworldModel.UICamera == null
             )
             {
-                return new Some<GameObject>(this.gameObject);
+                return;
             }
 
             if (itemBase.isHolding)
@@ -72,7 +71,7 @@ namespace Overworld.Item
 
                 itemBase.isHolding = false;
 
-                return new None<GameObject>();
+                return;
             }
             else
             {
@@ -80,7 +79,7 @@ namespace Overworld.Item
             }
 
             Destroy(GetComponent<Rigidbody2D>());
-            return new Some<GameObject>(this.gameObject);
+            return;
         }
 
         // public void OnTriggerEnter2D(Collider2D other)

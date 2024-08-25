@@ -1,7 +1,8 @@
-using Overworld.Model;
+using Overworld.Features.Pointer;
+using Overworld.Models;
 using UnityEngine;
 
-namespace Overworld.Item
+namespace Overworld.Features.Item.Models
 {
     public class ItemBase : MonoBehaviour
     {

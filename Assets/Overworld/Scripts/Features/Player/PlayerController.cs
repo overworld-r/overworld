@@ -2,7 +2,7 @@ using Overworld.Mechanics;
 using UnityEngine;
 using static Overworld.Core.Simulation;
 
-namespace Overworld.Player
+namespace Overworld.Features.Player
 {
     public class PlayerController : KinematicObject
     {

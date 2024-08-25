@@ -1,6 +1,6 @@
 using Cinemachine;
 using Overworld.Core;
-using Overworld.Model;
+using Overworld.Models;
 using UnityEngine;
 
 namespace Overworld.Backpack

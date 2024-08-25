@@ -1,21 +1,34 @@
+using System;
 using Overworld.Core;
-using Overworld.Model;
-using Overworld.Types;
+using Overworld.Models;
 using UnityEngine;
 
-namespace Overworld.Item.Functions
+namespace Overworld.Features.Pointer
 {
-    public class ItemClickHandler : MonoBehaviour
+    [RequireComponent(typeof(PlayerPointer))]
+    public class PointerClickHandler : MonoBehaviour
     {
         public event System.Action<GameObject>? OnItemClicked;
-        private IOption<GameObject> heldItem = new None<GameObject>();
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+
+        [SerializeField]
+        public PlayerPointer? itemPointer;
+
+        void Reset()
+        {
+            itemPointer = GetComponent<PlayerPointer>();
+        }
 
         void Update()
         {
+            if (itemPointer == null)
+            {
+                throw new Exception("itemPointer is null");
+            }
+
             if (Input.GetMouseButtonDown(0))
             {
-                heldItem.Match(
+                itemPointer.holdingItem.Match(
                     some: item =>
                     {
                         OnItemClicked?.Invoke(item);
@@ -25,7 +38,7 @@ namespace Overworld.Item.Functions
                         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                         if (
-                            overworldModel.cursorLocationStatus == OverworldModel.LocationStatus.Bag
+                            itemPointer?.locationStatus == OverworldModel.LocationStatus.Bag
                             && overworldModel.UICamera != null
                         )
                         {
@@ -41,11 +54,6 @@ namespace Overworld.Item.Functions
                     }
                 );
             }
-        }
-
-        public void SetHeldItem(IOption<GameObject> item)
-        {
-            heldItem = item;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Overworld.Mechanics
         {
             Left,
             Right,
-            None
+            None,
         }
 
         public WallSlideState wallSlideState = WallSlideState.None;

@@ -1,8 +1,8 @@
 using System.Collections;
 using NUnit.Framework;
 using Overworld.Core;
-using Overworld.Item.Functions;
-using Overworld.Model;
+using Overworld.Features.Pointer;
+using Overworld.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -13,7 +13,7 @@ namespace Overworld.Tests
     {
         private GameObject? itemPointer;
         private GameObject? gameObject;
-        private ItemPointer? itemPointerComponent;
+        private PlayerPointer? itemPointerComponent;
         bool sceneLoading = true;
 
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
@@ -25,7 +25,7 @@ namespace Overworld.Tests
             SceneManager.LoadSceneAsync("PlayerPlayfield").completed += _ =>
             {
                 sceneLoading = false;
-                var itemPointer = GameObject.Find("ItemManager");
+                var itemPointer = GameObject.Find("Pointer");
                 Debug.Log("Scene Load Complete");
             };
         }
@@ -51,33 +51,33 @@ namespace Overworld.Tests
         }
 
         [UnityTest]
-        public IEnumerator ItemPointerに必要なコンポーネントがアタッチされている()
+        public IEnumerator Pointerに必要なコンポーネントがアタッチされている()
         {
-            var itemPointer = GameObject.Find("ItemManager");
-            Assert.IsNotNull(itemPointer, "ItemManagerがシーンに存在しません");
+            var itemPointer = GameObject.Find("Pointer");
+            Assert.IsNotNull(itemPointer, "Pointerがシーンに存在しません");
 
             Assert.IsNotNull(
-                itemPointer?.GetComponent<ItemClickHandler>(),
+                itemPointer?.GetComponent<PointerClickHandler>(),
                 "ItemManagerにItemClickHandlerがアタッチされていません"
             );
             Assert.IsNotNull(
-                itemPointer?.GetComponent<ItemMover>(),
+                itemPointer?.GetComponent<PointerMover>(),
                 "ItemManagerにItemMoverがアタッチされていません"
             );
 
             Assert.IsNotNull(
-                itemPointer?.GetComponent<ItemRotator>(),
+                itemPointer?.GetComponent<PointerRotator>(),
                 "ItemManagerにItemMoverがアタッチされていません"
             );
 
             Assert.IsNotNull(
-                itemPointer?.GetComponent<ItemLocationManager>(),
+                itemPointer?.GetComponent<PointerHoldingLocationManager>(),
                 "ItemManagerにItemLocationManagerがアタッチされていません"
             );
 
             Assert.IsNotNull(
-                itemPointer?.GetComponent<CursorLocationManager>(),
-                "ItemManagerにCursorLocationManagerがアタッチされていません"
+                itemPointer?.GetComponent<PointerLocationManager>(),
+                "ItemManagerにPointerLocationManagerがアタッチされていません"
             );
             yield return null;
         }
@@ -86,7 +86,7 @@ namespace Overworld.Tests
         public IEnumerator ItemManagerのResetが機能している()
         {
             gameObject = new GameObject();
-            itemPointerComponent = gameObject.AddComponent<ItemPointer>();
+            itemPointerComponent = gameObject.AddComponent<PlayerPointer>();
             Assert.IsNotNull(itemPointerComponent, "ItemManagerがnullです。");
 
             yield return null;
@@ -96,19 +96,20 @@ namespace Overworld.Tests
             yield return null;
 
             Assert.IsNotNull(
-                itemPointerComponent?.GetComponent<ItemClickHandler>(),
+                itemPointerComponent?.GetComponent<PointerClickHandler>(),
                 "ItemClickHandler should not be null"
             );
             Assert.IsNotNull(
-                itemPointerComponent?.GetComponent<ItemMover>(),
+                itemPointerComponent?.GetComponent<PointerMover>(),
                 "ItemMover should not be null"
             );
             Assert.IsNotNull(
-                itemPointerComponent?.GetComponent<ItemRotator>(),
+                itemPointerComponent?.GetComponent<PointerRotator>(),
                 "ItemRotator should not be null"
             );
 
-            var itemLocationManager = itemPointerComponent?.GetComponent<ItemLocationManager>();
+            var itemLocationManager =
+                itemPointerComponent?.GetComponent<PointerHoldingLocationManager>();
             itemLocationManager?.SendMessage("Reset");
 
             yield return null;
@@ -116,7 +117,7 @@ namespace Overworld.Tests
             Assert.IsNotNull(itemLocationManager, "ItemLocationManager should not be null");
 
             Assert.IsNotNull(
-                itemPointerComponent?.GetComponent<CursorLocationManager>(),
+                itemPointerComponent?.GetComponent<PointerLocationManager>(),
                 "CursorLocationManager should not be null"
             );
         }

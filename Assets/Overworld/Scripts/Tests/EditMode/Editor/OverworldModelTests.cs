@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using Overworld.Core;
-using Overworld.Model;
+using Overworld.Features.Pointer;
+using Overworld.Models;
 
 public class OverworldModelTests
 {
@@ -20,6 +21,10 @@ public class OverworldModelTests
             overworldModel.Backpack?.gameObject.scene.IsValid(),
             "UICamera should not be set as prefab, please set instance in the scene"
         );
-        Assert.AreEqual(overworldModel.cursorLocationStatus, OverworldModel.LocationStatus.World);
+
+        var pointer = overworldModel.Pointer?.GetComponent<PlayerPointer>();
+        Assert.NotNull(pointer, "pointer is null");
+
+        Assert.AreEqual(pointer?.locationStatus, OverworldModel.LocationStatus.World);
     }
 }

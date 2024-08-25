@@ -1,4 +1,4 @@
-namespace Overworld.Features.Item.Model
+namespace Overworld.Features.Item.Models
 {
     public interface IItemMetadata
     {

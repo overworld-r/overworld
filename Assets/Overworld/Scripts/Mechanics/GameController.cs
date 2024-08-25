@@ -1,7 +1,7 @@
 using Overworld.Core;
 using UnityEngine;
 
-namespace Overworld.Model
+namespace Overworld.Models
 {
     class GameController : MonoBehaviour
     {

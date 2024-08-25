@@ -1,10 +1,10 @@
-using Overworld.Model;
+using Overworld.Features.Item.Models;
+using Overworld.Models;
 using UnityEngine;
 
-namespace Overworld.Item
+namespace Overworld.Features.Pointer
 {
-    [RequireComponent(typeof(ItemBase))]
-    class Breakable : MonoBehaviour
+    class Breakable : MonoBehaviour, Models.IClickable
     {
         ItemBase? itemBase;
 
@@ -13,7 +13,7 @@ namespace Overworld.Item
             itemBase = GetComponent<ItemBase>();
         }
 
-        public void OnClick()
+        void Models.IClickable.OnClick(GameObject itemPrefab)
         {
             if (
                 itemBase?.locationStatus != OverworldModel.LocationStatus.World
@@ -24,6 +24,7 @@ namespace Overworld.Item
             }
 
             Destroy(this.gameObject);
+            return;
         }
 
         void OnBreak() { }
