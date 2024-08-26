@@ -1,5 +1,4 @@
 using Overworld.Mechanics;
-using Overworld.Player;
 using Overworld.Types;
 using UnityEngine;
 using static Overworld.Core.Simulation;

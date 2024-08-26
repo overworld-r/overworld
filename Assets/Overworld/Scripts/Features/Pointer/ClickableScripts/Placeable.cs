@@ -64,16 +64,16 @@ namespace Overworld.Features.Pointer
 
             Destroy(this.gameObject);
 
-            PlayerPointer _playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
-
-            if (playerPointer.holdingItem.IsEmpty)
-            {
-                _playerPointer.holdingItem = new Some<GameObject>(newObject);
-            }
-            else
-            {
-                _playerPointer.holdingItem = new None<GameObject>();
-            }
+            playerPointer.holdingItem.Match(
+                some: (_) =>
+                {
+                    playerPointer.holdingItem = new None<GameObject>();
+                },
+                none: () =>
+                {
+                    playerPointer.holdingItem = new Some<GameObject>(newObject);
+                }
+            );
         }
 
         public void OnTriggerEnter2D(Collider2D other)

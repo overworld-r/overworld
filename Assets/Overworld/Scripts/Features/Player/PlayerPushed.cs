@@ -1,4 +1,5 @@
 using Overworld.Core;
+using Overworld.Types;
 
 namespace Overworld.Features.Player
 {
@@ -8,11 +9,11 @@ namespace Overworld.Features.Player
     /// <typeparam name="PlayerPushed"></typeparam>
     public class PlayerPushed : Simulation.Event<PlayerPushed>
     {
-        public PlayerController player;
+        public PlayerController? player;
 
         public override void Execute()
         {
-            player.isPushing = false;
+            player.Unwrap().isPushing = false;
         }
     }
 }
