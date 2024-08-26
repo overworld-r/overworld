@@ -14,19 +14,19 @@ namespace Overworld.Features.Pointer
     public class PlayerPointer : MonoBehaviour
     {
         [SerializeField]
-        private PointerClickHandler? itemClickHandler;
+        private PointerClickHandler itemClickHandler = default!;
 
         [SerializeField]
-        private PointerMover? itemMover;
+        private PointerMover itemMover = default!;
 
         [SerializeField]
-        private PointerRotator? itemRotator;
+        private PointerRotator itemRotator = default!;
 
         [SerializeField]
-        private PointerHoldingLocationManager? pointerHoldingLocationManager;
+        private PointerHoldingLocationManager pointerHoldingLocationManager = default!;
 
         [SerializeField]
-        private PointerLocationManager? PointerLocationManager;
+        private PointerLocationManager PointerLocationManager = default!;
 
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
@@ -45,16 +45,16 @@ namespace Overworld.Features.Pointer
 
         private void Start()
         {
-            itemClickHandler.Unwrap().OnItemClicked += HandleItemClick;
+            itemClickHandler.OnItemClicked += HandleItemClick;
         }
 
         private void Update()
         {
-            PointerLocationManager?.UpdatePointerLocation();
+            PointerLocationManager.UpdatePointerLocation();
             if (!holdingItem.IsEmpty)
             {
                 var itemBase = holdingItem.Value.GetComponent<ItemBase>();
-                pointerHoldingLocationManager?.UpdateItemLocation(itemBase);
+                pointerHoldingLocationManager.UpdateItemLocation(itemBase);
             }
         }
 

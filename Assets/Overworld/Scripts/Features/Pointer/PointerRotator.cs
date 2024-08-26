@@ -1,4 +1,3 @@
-using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
@@ -10,7 +9,7 @@ namespace Overworld.Features.Pointer
         private float rotationSpeed = 90f;
 
         [SerializeField]
-        private PlayerPointer? playerPointer;
+        private PlayerPointer playerPointer = default!;
 
         void Reset()
         {
@@ -19,22 +18,20 @@ namespace Overworld.Features.Pointer
 
         void Update()
         {
-            playerPointer
-                .Unwrap()
-                .holdingItem.Match(
-                    none: () =>
+            playerPointer.holdingItem.Match(
+                none: () =>
+                {
+                    return;
+                },
+                some: item =>
+                {
+                    float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
+                    if (scrollWheel != 0)
                     {
-                        return;
-                    },
-                    some: item =>
-                    {
-                        float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
-                        if (scrollWheel != 0)
-                        {
-                            item.transform.Rotate(0, 0, scrollWheel * rotationSpeed);
-                        }
+                        item.transform.Rotate(0, 0, scrollWheel * rotationSpeed);
                     }
-                );
+                }
+            );
         }
     }
 }

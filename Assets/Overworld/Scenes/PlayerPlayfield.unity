@@ -1000,6 +1000,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93ada35d5dda3d248976e32f566aea40, type: 3}
+--- !u!1 &1242853555 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8259771655298778936, guid: 25997152289a24f3ab5a72beb532f641, type: 3}
+  m_PrefabInstance: {fileID: 9066344153546971948}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1335908634 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5399802193628790986, guid: f283fed959f684d9abe79eb47902f92f, type: 3}
@@ -1850,8 +1855,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model:
-    UICamera: {fileID: 2697519445913222484, guid: d7a8beccfc46b4936a8dfc2d18e362f8, type: 3}
-    Backpack: {fileID: 8259771655298778936, guid: 25997152289a24f3ab5a72beb532f641, type: 3}
+    UICamera: {fileID: 842135475}
+    Backpack: {fileID: 1242853555}
     CanvasObjectName: Canvas
     Pointer: {fileID: 389145474}
     ItemPrefabs:

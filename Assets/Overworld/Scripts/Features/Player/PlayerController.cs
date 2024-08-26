@@ -117,6 +117,8 @@ namespace Overworld.Features.Player
             }
         }
 
+        void Criming() { }
+
         void Move()
         {
             Vector2 moveVector = Vector2.zero;

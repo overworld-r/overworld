@@ -11,12 +11,11 @@ namespace Overworld.Features.Pointer
     {
         public bool canPut { get; private set; } = true;
 
-        [SerializeField]
         private ItemBase? itemBase;
 
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
-        void Reset()
+        void Awake()
         {
             itemBase = GetComponent<ItemBase>();
         }
@@ -24,7 +23,6 @@ namespace Overworld.Features.Pointer
         void IClickable.OnClick(GameObject prefab)
         {
             ItemBase _itemBase = itemBase.Unwrap();
-
             if (_itemBase.locationStatus != OverworldModel.LocationStatus.Bag)
             {
                 return;
@@ -34,11 +32,9 @@ namespace Overworld.Features.Pointer
             {
                 var offset = new Vector3(-26.35f, -190.25f, 10.05f);
 
-                var cursorPosition = overworldModel
-                    .UICamera.Unwrap()
-                    .ScreenToWorldPoint(
-                        new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10.0f)
-                    );
+                var cursorPosition = overworldModel.UICamera.ScreenToWorldPoint(
+                    new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10.0f)
+                );
 
                 float gridSize = 0.05f * 19f;
 

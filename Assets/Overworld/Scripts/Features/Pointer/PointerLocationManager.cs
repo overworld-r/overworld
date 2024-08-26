@@ -1,6 +1,5 @@
 using Overworld.Core;
 using Overworld.Models;
-using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
@@ -11,10 +10,10 @@ namespace Overworld.Features.Pointer
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
         [SerializeField]
-        private Backpack.Backpack? backpackComponent;
+        private Backpack.Backpack backpackComponent = default!;
 
         [SerializeField]
-        PlayerPointer? playerPointer;
+        PlayerPointer playerPointer = default!;
 
         private float locationLine = Screen.height - Screen.height / 2;
 
@@ -23,15 +22,15 @@ namespace Overworld.Features.Pointer
             if (overworldModel.Backpack == null)
                 return;
 
-            backpackComponent = overworldModel.Backpack?.GetComponent<Backpack.Backpack>();
+            backpackComponent = overworldModel.Backpack.GetComponent<Backpack.Backpack>();
             playerPointer = GetComponent<PlayerPointer>();
         }
 
         public void UpdatePointerLocation()
         {
-            PlayerPointer _playerPointer = playerPointer.Unwrap();
+            PlayerPointer _playerPointer = playerPointer;
 
-            if (backpackComponent.Unwrap().open == false)
+            if (backpackComponent.open == false)
             {
                 _playerPointer.locationStatus = OverworldModel.LocationStatus.World;
                 return;

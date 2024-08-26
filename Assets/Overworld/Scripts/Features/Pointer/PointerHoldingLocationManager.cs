@@ -1,7 +1,6 @@
 using Overworld.Core;
 using Overworld.Features.Item.Models;
 using Overworld.Models;
-using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
@@ -9,10 +8,10 @@ namespace Overworld.Features.Pointer
     public class PointerHoldingLocationManager : MonoBehaviour
     {
         [SerializeField]
-        private Transform? bagParent;
+        private Transform bagParent = default!;
 
         [SerializeField]
-        private Backpack.Backpack? backpackComponent;
+        private Backpack.Backpack backpackComponent = default!;
 
         private float locationLine = Screen.height - Screen.height / 2;
 
@@ -21,13 +20,13 @@ namespace Overworld.Features.Pointer
         void Reset()
         {
             var canvasName = overworldModel.CanvasObjectName;
-            bagParent = overworldModel.Backpack?.transform.Find(canvasName).transform;
-            backpackComponent = overworldModel.Backpack?.GetComponent<Backpack.Backpack>();
+            bagParent = overworldModel.Backpack.transform.Find(canvasName).transform;
+            backpackComponent = overworldModel.Backpack.GetComponent<Backpack.Backpack>();
         }
 
         public void UpdateItemLocation(ItemBase item)
         {
-            if (backpackComponent.Unwrap().open == false)
+            if (backpackComponent.open == false)
             {
                 return;
             }

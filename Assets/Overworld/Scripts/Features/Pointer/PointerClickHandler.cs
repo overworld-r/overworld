@@ -12,7 +12,7 @@ namespace Overworld.Features.Pointer
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
         [SerializeField]
-        public PlayerPointer? itemPointer;
+        public PlayerPointer itemPointer = default!;
 
         void Reset()
         {
@@ -23,36 +23,28 @@ namespace Overworld.Features.Pointer
         {
             if (Input.GetMouseButtonDown(0))
             {
-                itemPointer
-                    .Unwrap()
-                    .holdingItem.Match(
-                        some: item =>
+                itemPointer.holdingItem.Match(
+                    some: item =>
+                    {
+                        OnItemClicked.Unwrap().Invoke(item);
+                    },
+                    none: () =>
+                    {
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                        if (itemPointer.locationStatus == OverworldModel.LocationStatus.Bag)
                         {
-                            OnItemClicked?.Invoke(item);
-                        },
-                        none: () =>
-                        {
-                            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                            if (
-                                itemPointer?.locationStatus == OverworldModel.LocationStatus.Bag
-                                && overworldModel.UICamera != null
-                            )
-                            {
-                                ray = overworldModel.UICamera.ScreenPointToRay(Input.mousePosition);
-                            }
-
-                            RaycastHit2D hitSprite = Physics2D.Raycast(ray.origin, ray.direction);
-
-                            if (
-                                hitSprite != false
-                                && hitSprite.transform.gameObject.CompareTag("Item")
-                            )
-                            {
-                                OnItemClicked?.Invoke(hitSprite.transform.gameObject);
-                            }
+                            ray = overworldModel.UICamera.ScreenPointToRay(Input.mousePosition);
                         }
-                    );
+
+                        RaycastHit2D hitSprite = Physics2D.Raycast(ray.origin, ray.direction);
+
+                        if (hitSprite != false && hitSprite.transform.gameObject.CompareTag("Item"))
+                        {
+                            OnItemClicked.Unwrap().Invoke(hitSprite.transform.gameObject);
+                        }
+                    }
+                );
             }
         }
     }
