@@ -1,27 +1,22 @@
 using Overworld.Core;
-using Overworld.Features.Item.Models;
 using Overworld.Models;
-using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
 {
+    [RequireComponent(typeof(BoxCollider2D))]
     class Breakable : MonoBehaviour, Models.IClickable
     {
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
-        private ItemBase? itemBase;
         private PlayerPointer playerPointer = default!;
 
         void Awake()
         {
-            itemBase = GetComponent<ItemBase>();
             playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
         }
 
         void Models.IClickable.OnClick(GameObject itemPrefab)
         {
-            ItemBase _itemBase = itemBase.Unwrap();
-
             if (
                 playerPointer.locationStatus.value != LocationStatus.Location.World
                 || !playerPointer.holdingItem.IsEmpty

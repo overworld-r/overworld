@@ -1,23 +1,20 @@
 using Overworld.Core;
-using Overworld.Features.Item.Models;
 using Overworld.Models;
 using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
 {
-    [RequireComponent(typeof(ItemBase))]
+    [RequireComponent(typeof(BoxCollider2D))]
     public class Baggable : MonoBehaviour, Models.IClickable
     {
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
-        private ItemBase itemBase = default!;
         private PlayerPointer playerPointer = default!;
 
         public bool canPut { get; private set; } = true;
 
         void Awake()
         {
-            itemBase = GetComponent<ItemBase>();
             playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
         }
 

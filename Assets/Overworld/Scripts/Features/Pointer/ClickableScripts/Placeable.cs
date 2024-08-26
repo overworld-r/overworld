@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Overworld.Features.Pointer
 {
-    [RequireComponent(typeof(Item.Models.ItemBase))]
+    [RequireComponent(typeof(BoxCollider2D))]
     public class Placeable : MonoBehaviour, IClickable
     {
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
@@ -15,13 +15,11 @@ namespace Overworld.Features.Pointer
         private SpriteRenderer? spriteRenderer;
 
         private PlayerPointer playerPointer = default!;
-        private Item.Models.ItemBase? itemBase;
 
         public bool canBuild = true;
 
         public void Awake()
         {
-            itemBase = GetComponent<Item.Models.ItemBase>();
             TrunslucentShader = new Material(Shader.Find("unlit/Translucent"));
             HighlightRedShader = new Material(Shader.Find("Unlit/HighlightRed"));
             spriteRenderer = GetComponent<SpriteRenderer>();
@@ -30,8 +28,6 @@ namespace Overworld.Features.Pointer
 
         void IClickable.OnClick(GameObject itemPrefab)
         {
-            Item.Models.ItemBase _itemBase = itemBase.Unwrap();
-
             if (playerPointer.locationStatus.value != LocationStatus.Location.World || !canBuild)
             {
                 return;
@@ -78,7 +74,10 @@ namespace Overworld.Features.Pointer
 
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (playerPointer.locationStatus.value != LocationStatus.Location.World)
+            if (
+                playerPointer.locationStatus.value != LocationStatus.Location.World
+                || playerPointer.holdingItem != new Some<GameObject>(this.gameObject)
+            )
             {
                 return;
             }
@@ -93,12 +92,10 @@ namespace Overworld.Features.Pointer
 
         public void OnTriggerStay2D(Collider2D other)
         {
-            if (itemBase == null)
-            {
-                throw new System.Exception("itemBase is null");
-            }
-
-            if (playerPointer.locationStatus.value != LocationStatus.Location.World)
+            if (
+                playerPointer.locationStatus.value != LocationStatus.Location.World
+                || playerPointer.holdingItem != new Some<GameObject>(this.gameObject)
+            )
             {
                 return;
             }
@@ -107,12 +104,10 @@ namespace Overworld.Features.Pointer
 
         public void OnTriggerExit2D(Collider2D other)
         {
-            if (itemBase == null)
-            {
-                throw new System.Exception("itemBase is null");
-            }
-
-            if (playerPointer.locationStatus.value != LocationStatus.Location.World)
+            if (
+                playerPointer.locationStatus.value != LocationStatus.Location.World
+                || playerPointer.holdingItem != new Some<GameObject>(this.gameObject)
+            )
             {
                 return;
             }
