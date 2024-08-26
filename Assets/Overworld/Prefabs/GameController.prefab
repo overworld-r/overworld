@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1462787564555388059}
-  - component: {fileID: 1868784994171796147}
+  - component: {fileID: 3879506678844294486}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1868784994171796147
+--- !u!114 &3879506678844294486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,12 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model:
-    UICamera: {fileID: 2697519445913222484, guid: d7a8beccfc46b4936a8dfc2d18e362f8, type: 3}
-    Backpack: {fileID: 8259771655298778936, guid: 25997152289a24f3ab5a72beb532f641, type: 3}
-    Inventory: {fileID: 0}
-    cursorLocationStatus: 0
+    UICamera: {fileID: 0}
+    Backpack: {fileID: 0}
+    CanvasObjectName: Canvas
+    Pointer: {fileID: 0}
     ItemPrefabs:
     - {fileID: 1440008284740551144, guid: 817d49d3d8adfe349a0b2d709604493d, type: 3}
     - {fileID: 7714863522075635529, guid: f283fed959f684d9abe79eb47902f92f, type: 3}
-    - {fileID: 8520513962429085101, guid: 6914f36a3cdeaf44babdca93bf813d68, type: 3}
+    - {fileID: 0}
     - {fileID: 1200049245648127713, guid: 1ea16e4df676e477e8a7f88568455287, type: 3}
