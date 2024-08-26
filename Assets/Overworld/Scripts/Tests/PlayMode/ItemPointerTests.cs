@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Overworld.Core;
 using Overworld.Features.Pointer;
 using Overworld.Models;
+using Overworld.Types;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -13,7 +14,6 @@ namespace Overworld.Tests
     {
         private GameObject? itemPointer;
         private GameObject? gameObject;
-        private PlayerPointer? itemPointerComponent;
         bool sceneLoading = true;
 
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
@@ -53,30 +53,30 @@ namespace Overworld.Tests
         [UnityTest]
         public IEnumerator Pointerに必要なコンポーネントがアタッチされている()
         {
-            var itemPointer = GameObject.Find("Pointer");
+            GameObject _playerPointer = GameObject.Find("Pointer").Unwrap();
             Assert.IsNotNull(itemPointer, "Pointerがシーンに存在しません");
 
             Assert.IsNotNull(
-                itemPointer?.GetComponent<PointerClickHandler>(),
+                _playerPointer.GetComponent<PointerClickHandler>(),
                 "ItemManagerにItemClickHandlerがアタッチされていません"
             );
             Assert.IsNotNull(
-                itemPointer?.GetComponent<PointerMover>(),
+                _playerPointer.GetComponent<PointerMover>(),
                 "ItemManagerにItemMoverがアタッチされていません"
             );
 
             Assert.IsNotNull(
-                itemPointer?.GetComponent<PointerRotator>(),
+                _playerPointer.GetComponent<PointerRotator>(),
                 "ItemManagerにItemMoverがアタッチされていません"
             );
 
             Assert.IsNotNull(
-                itemPointer?.GetComponent<PointerHoldingLocationManager>(),
+                _playerPointer.GetComponent<PointerHoldingLocationManager>(),
                 "ItemManagerにItemLocationManagerがアタッチされていません"
             );
 
             Assert.IsNotNull(
-                itemPointer?.GetComponent<PointerLocationManager>(),
+                _playerPointer.GetComponent<PointerLocationManager>(),
                 "ItemManagerにPointerLocationManagerがアタッチされていません"
             );
             yield return null;
@@ -86,38 +86,40 @@ namespace Overworld.Tests
         public IEnumerator ItemManagerのResetが機能している()
         {
             gameObject = new GameObject();
-            itemPointerComponent = gameObject.AddComponent<PlayerPointer>();
-            Assert.IsNotNull(itemPointerComponent, "ItemManagerがnullです。");
+            PlayerPointer _playerPointerComponent = gameObject
+                .AddComponent<PlayerPointer>()
+                .Unwrap();
+            Assert.IsNotNull(_playerPointerComponent, "ItemManagerがnullです。");
 
             yield return null;
 
-            itemPointerComponent?.SendMessage("Reset");
+            _playerPointerComponent.SendMessage("Reset");
 
             yield return null;
 
             Assert.IsNotNull(
-                itemPointerComponent?.GetComponent<PointerClickHandler>(),
+                _playerPointerComponent.GetComponent<PointerClickHandler>(),
                 "ItemClickHandler should not be null"
             );
             Assert.IsNotNull(
-                itemPointerComponent?.GetComponent<PointerMover>(),
+                _playerPointerComponent.GetComponent<PointerMover>(),
                 "ItemMover should not be null"
             );
             Assert.IsNotNull(
-                itemPointerComponent?.GetComponent<PointerRotator>(),
+                _playerPointerComponent.GetComponent<PointerRotator>(),
                 "ItemRotator should not be null"
             );
 
             var itemLocationManager =
-                itemPointerComponent?.GetComponent<PointerHoldingLocationManager>();
-            itemLocationManager?.SendMessage("Reset");
+                _playerPointerComponent.GetComponent<PointerHoldingLocationManager>();
+            itemLocationManager.SendMessage("Reset");
 
             yield return null;
 
             Assert.IsNotNull(itemLocationManager, "ItemLocationManager should not be null");
 
             Assert.IsNotNull(
-                itemPointerComponent?.GetComponent<PointerLocationManager>(),
+                _playerPointerComponent.GetComponent<PointerLocationManager>(),
                 "CursorLocationManager should not be null"
             );
         }

@@ -1,3 +1,4 @@
+using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Mechanics
@@ -20,11 +21,10 @@ namespace Overworld.Mechanics
 
         public void Teleport(Vector3 position)
         {
-            if (body == null)
-                return;
+            Rigidbody2D _body = body.Unwrap();
 
-            body.position = position;
-            body.velocity *= 0;
+            _body.position = position;
+            _body.velocity *= 0;
         }
 
         protected virtual void OnEnable()
@@ -54,21 +54,16 @@ namespace Overworld.Mechanics
 
         protected virtual bool JudgeGrounded()
         {
-            if (body == null)
-                return false;
-
-            int count = body.Cast(Vector2.down, contactFilter, new RaycastHit2D[1], 0.1f);
+            int count = body.Unwrap().Cast(Vector2.down, contactFilter, new RaycastHit2D[1], 0.1f);
 
             return count > 0;
         }
 
         protected virtual WallSlideState JudgeWallSliding()
         {
-            if (body == null)
-                return WallSlideState.None;
-
-            int countRight = body.Cast(Vector2.right, contactFilter, new RaycastHit2D[1], 0.2f);
-            int countLeft = body.Cast(Vector2.left, contactFilter, new RaycastHit2D[1], 0.2f);
+            Rigidbody2D _body = body.Unwrap();
+            int countRight = _body.Cast(Vector2.right, contactFilter, new RaycastHit2D[1], 0.2f);
+            int countLeft = _body.Cast(Vector2.left, contactFilter, new RaycastHit2D[1], 0.2f);
 
             if (countRight > 0)
             {

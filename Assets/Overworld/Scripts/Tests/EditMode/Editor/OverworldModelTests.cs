@@ -2,6 +2,8 @@ using NUnit.Framework;
 using Overworld.Core;
 using Overworld.Features.Pointer;
 using Overworld.Models;
+using Overworld.Types;
+using UnityEngine;
 
 public class OverworldModelTests
 {
@@ -10,21 +12,23 @@ public class OverworldModelTests
     [Test]
     public void OverworldModel_RequiredComponentsAreNotNull()
     {
+        GameObject _backpack = overworldModel.Backpack.Unwrap();
+
         Assert.NotNull(overworldModel.Backpack, "Backpack is null");
         Assert.IsTrue(
-            overworldModel.Backpack?.gameObject.scene.IsValid(),
+            _backpack.gameObject.scene.IsValid(),
             "Backpack should not be set as prefab, please set instance in the scene"
         );
 
         Assert.NotNull(overworldModel.UICamera, "UICamera is null");
         Assert.IsTrue(
-            overworldModel.Backpack?.gameObject.scene.IsValid(),
+            _backpack.gameObject.scene.IsValid(),
             "UICamera should not be set as prefab, please set instance in the scene"
         );
 
-        var pointer = overworldModel.Pointer?.GetComponent<PlayerPointer>();
-        Assert.NotNull(pointer, "pointer is null");
+        PlayerPointer _pointer = _backpack.GetComponent<PlayerPointer>().Unwrap();
+        Assert.NotNull(_pointer, "pointer is null");
 
-        Assert.AreEqual(pointer?.locationStatus, OverworldModel.LocationStatus.World);
+        Assert.AreEqual(_pointer?.locationStatus, OverworldModel.LocationStatus.World);
     }
 }

@@ -62,10 +62,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _BumpScale: 1
-    - _CrackDetailedness: 1.96
-    - _CrackProgress: 0.849
+    - _CrackDetailedness: 3.14
+    - _CrackProgress: 0
     - _CrackWallWidth: 0.05
-    - _CrackWidth: 0.0347
+    - _CrackWidth: 0.0525
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0

@@ -1,5 +1,6 @@
 using Overworld.Core;
 using Overworld.Models;
+using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
@@ -19,36 +20,32 @@ namespace Overworld.Features.Pointer
 
         void Update()
         {
-            if (playerPointer == null)
-            {
-                throw new System.Exception("PlayerPointer is null");
-            }
-
-            playerPointer.holdingItem.Match(
-                none: () =>
-                {
-                    return;
-                },
-                some: item =>
-                {
-                    Vector3 mousePosition = Input.mousePosition;
-                    mousePosition.z = 10f;
-
-                    item.transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
-
-                    if (playerPointer?.locationStatus == OverworldModel.LocationStatus.World)
+            playerPointer
+                .Unwrap()
+                .holdingItem.Match(
+                    none: () =>
                     {
+                        return;
+                    },
+                    some: item =>
+                    {
+                        Vector3 mousePosition = Input.mousePosition;
+                        mousePosition.z = 10f;
+
                         item.transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
+
+                        if (playerPointer?.locationStatus == OverworldModel.LocationStatus.World)
+                        {
+                            item.transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
+                        }
+                        else
+                        {
+                            if (overworldModel.UICamera != null)
+                                item.transform.position =
+                                    overworldModel.UICamera.ScreenToWorldPoint(mousePosition);
+                        }
                     }
-                    else
-                    {
-                        if (overworldModel.UICamera != null)
-                            item.transform.position = overworldModel.UICamera.ScreenToWorldPoint(
-                                mousePosition
-                            );
-                    }
-                }
-            );
+                );
         }
     }
 }

@@ -45,10 +45,7 @@ namespace Overworld.Features.Pointer
 
         private void Start()
         {
-            if (itemClickHandler == null)
-                return;
-
-            itemClickHandler.OnItemClicked += HandleItemClick;
+            itemClickHandler.Unwrap().OnItemClicked += HandleItemClick;
         }
 
         private void Update()

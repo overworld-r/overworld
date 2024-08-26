@@ -1,3 +1,4 @@
+using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Item
@@ -18,11 +19,8 @@ namespace Overworld.Features.Item
                 return;
             }
 
-            Rigidbody2D playerRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
-            if (playerRigidbody != null)
-            {
-                playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, bounceForce);
-            }
+            Rigidbody2D playerRigidbody = collision.gameObject.GetComponent<Rigidbody2D>().Unwrap();
+            playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, bounceForce);
         }
     }
 }

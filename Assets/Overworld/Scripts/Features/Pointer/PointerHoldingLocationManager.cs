@@ -1,6 +1,7 @@
 using Overworld.Core;
 using Overworld.Features.Item.Models;
 using Overworld.Models;
+using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
@@ -19,9 +20,6 @@ namespace Overworld.Features.Pointer
 
         void Reset()
         {
-            if (overworldModel.Backpack == null)
-                return;
-
             var canvasName = overworldModel.CanvasObjectName;
             bagParent = overworldModel.Backpack?.transform.Find(canvasName).transform;
             backpackComponent = overworldModel.Backpack?.GetComponent<Backpack.Backpack>();
@@ -29,7 +27,7 @@ namespace Overworld.Features.Pointer
 
         public void UpdateItemLocation(ItemBase item)
         {
-            if (backpackComponent?.open == false)
+            if (backpackComponent.Unwrap().open == false)
             {
                 return;
             }

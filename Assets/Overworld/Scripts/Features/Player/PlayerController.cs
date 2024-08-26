@@ -1,4 +1,5 @@
 using Overworld.Mechanics;
+using Overworld.Types;
 using UnityEngine;
 using static Overworld.Core.Simulation;
 
@@ -118,24 +119,21 @@ namespace Overworld.Features.Player
 
         void Move()
         {
-            if (body == null)
-                return;
-
             Vector2 moveVector = Vector2.zero;
-
+            Rigidbody2D _body = body.Unwrap();
             if (!isGrounded)
             {
-                moveVector = new Vector2(inputHorizontal * maxSpeed * 0.3f, body.velocity.y);
+                moveVector = new Vector2(inputHorizontal * maxSpeed * 0.3f, _body.velocity.y);
             }
             else
             {
-                moveVector = new Vector2(inputHorizontal * maxSpeed, body.velocity.y);
+                moveVector = new Vector2(inputHorizontal * maxSpeed, _body.velocity.y);
             }
 
             if (isGrounded)
             {
-                body.velocity = Vector2.SmoothDamp(
-                    body.velocity,
+                _body.velocity = Vector2.SmoothDamp(
+                    _body.velocity,
                     moveVector,
                     ref currentVelocity,
                     0.01f
@@ -143,48 +141,42 @@ namespace Overworld.Features.Player
             }
             else
             {
-                body.velocity = moveVector + new Vector2(body.velocity.x * 0.7f, 0);
+                _body.velocity = moveVector + new Vector2(_body.velocity.x * 0.7f, 0);
             }
         }
 
         void WallSlide()
         {
-            if (body == null)
-                return;
-
-            if (body.velocity.y > 0.0f)
+            Rigidbody2D _body = body.Unwrap();
+            if (_body.velocity.y > 0.0f)
             {
                 return;
             }
-            body.AddForce(new Vector2(0, 0.6f), ForceMode2D.Impulse);
+            _body.AddForce(new Vector2(0, 0.6f), ForceMode2D.Impulse);
         }
 
         void Jump()
         {
-            if (body == null)
-                return;
-
             Vector2 jumpVector = new Vector2(0.0f, jumpTakeOffSpeed);
-            body.AddForce(jumpVector, ForceMode2D.Impulse);
+            Rigidbody2D _body = body.Unwrap();
+            _body.AddForce(jumpVector, ForceMode2D.Impulse);
         }
 
         void WallJump()
         {
-            if (body == null)
-                return;
-
             Vector2 wallJumpVector = Vector2.zero;
+            Rigidbody2D _body = body.Unwrap();
             if (wallSlideState == WallSlideState.Right)
             {
                 wallJumpVector = new Vector2(-wallJumpTakeOffSpeed * 0.7f, wallJumpTakeOffSpeed);
-                body.velocity = wallJumpVector;
+                _body.velocity = wallJumpVector;
             }
             else if (wallSlideState == WallSlideState.Left)
             {
                 wallJumpVector = new Vector2(wallJumpTakeOffSpeed * 0.7f, wallJumpTakeOffSpeed);
-                body.velocity = wallJumpVector;
+                _body.velocity = wallJumpVector;
             }
-            body.velocity = wallJumpVector;
+            _body.velocity = wallJumpVector;
 
             isWallJumping = true;
             Schedule<PlayerStopWallJump>(0.2f).player = this;
@@ -192,15 +184,14 @@ namespace Overworld.Features.Player
 
         protected override void ComputeVelocity()
         {
-            if (body == null)
-                return;
+            Rigidbody2D _body = body.Unwrap();
 
             if (stopJump)
             {
                 stopJump = false;
-                if (body.velocity.y > 0)
+                if (_body.velocity.y > 0)
                 {
-                    body.AddForce(Vector2.up * -body.velocity.y * 0.5f, ForceMode2D.Impulse);
+                    _body.AddForce(Vector2.up * -_body.velocity.y * 0.5f, ForceMode2D.Impulse);
                 }
             }
         }

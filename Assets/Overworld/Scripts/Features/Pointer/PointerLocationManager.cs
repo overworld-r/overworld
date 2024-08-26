@@ -1,5 +1,6 @@
 using Overworld.Core;
 using Overworld.Models;
+using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
@@ -28,29 +29,26 @@ namespace Overworld.Features.Pointer
 
         public void UpdatePointerLocation()
         {
-            if (playerPointer == null)
-            {
-                throw new System.Exception("PlayerPointer is null");
-            }
+            PlayerPointer _playerPointer = playerPointer.Unwrap();
 
-            if (backpackComponent?.open == false)
+            if (backpackComponent.Unwrap().open == false)
             {
-                playerPointer.locationStatus = OverworldModel.LocationStatus.World;
+                _playerPointer.locationStatus = OverworldModel.LocationStatus.World;
                 return;
             }
 
-            if (playerPointer.locationStatus == OverworldModel.LocationStatus.Bag)
+            if (_playerPointer.locationStatus == OverworldModel.LocationStatus.Bag)
             {
                 if (Input.mousePosition.y >= locationLine)
                 {
-                    playerPointer.locationStatus = OverworldModel.LocationStatus.World;
+                    _playerPointer.locationStatus = OverworldModel.LocationStatus.World;
                 }
             }
             else
             {
                 if (Input.mousePosition.y < locationLine)
                 {
-                    playerPointer.locationStatus = OverworldModel.LocationStatus.Bag;
+                    _playerPointer.locationStatus = OverworldModel.LocationStatus.Bag;
                 }
             }
         }

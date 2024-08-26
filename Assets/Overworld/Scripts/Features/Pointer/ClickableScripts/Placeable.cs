@@ -29,17 +29,14 @@ namespace Overworld.Features.Pointer
 
         void IClickable.OnClick(GameObject itemPrefab)
         {
-            if (itemBase?.locationStatus != OverworldModel.LocationStatus.World || !canBuild)
+            Item.Models.ItemBase _itemBase = itemBase.Unwrap();
+
+            if (_itemBase.locationStatus != OverworldModel.LocationStatus.World || !canBuild)
             {
                 return;
             }
 
-            if (playerPointer == null)
-            {
-                throw new System.Exception("PlayerPointer is null");
-            }
-
-            itemBase.isHolding = !itemBase.isHolding;
+            _itemBase.isHolding = !_itemBase.isHolding;
             var newObject = Instantiate(itemPrefab, this.transform.parent);
             newObject.name = this.gameObject.name;
             newObject.transform.position = this.gameObject.transform.position;
@@ -47,16 +44,16 @@ namespace Overworld.Features.Pointer
 
             if (newObject.TryGetComponent<Item.Models.ItemBase>(out var item))
             {
-                item.isHolding = itemBase.isHolding;
-                item.locationStatus = itemBase.locationStatus;
+                item.isHolding = _itemBase.isHolding;
+                item.locationStatus = _itemBase.locationStatus;
             }
 
             if (newObject.TryGetComponent<Collider2D>(out var collider))
             {
-                collider.isTrigger = itemBase.isHolding;
+                collider.isTrigger = _itemBase.isHolding;
             }
 
-            if (itemBase.isHolding && !newObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
+            if (_itemBase.isHolding && !newObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {
                 newObject.AddComponent<Rigidbody2D>();
             }
@@ -70,19 +67,24 @@ namespace Overworld.Features.Pointer
 
             Destroy(this.gameObject);
 
-            if (itemBase.isHolding)
+            if (_itemBase.isHolding)
             {
-                playerPointer.holdingItem = new Some<GameObject>(newObject);
+                playerPointer.Unwrap().holdingItem = new Some<GameObject>(newObject);
             }
             else
             {
-                playerPointer.holdingItem = new None<GameObject>();
+                playerPointer.Unwrap().holdingItem = new None<GameObject>();
             }
         }
 
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (itemBase?.locationStatus != OverworldModel.LocationStatus.World)
+            if (itemBase == null)
+            {
+                throw new System.Exception("itemBase is null");
+            }
+
+            if (itemBase.locationStatus != OverworldModel.LocationStatus.World)
             {
                 return;
             }
@@ -97,6 +99,11 @@ namespace Overworld.Features.Pointer
 
         public void OnTriggerStay2D(Collider2D other)
         {
+            if (itemBase == null)
+            {
+                throw new System.Exception("itemBase is null");
+            }
+
             if (itemBase?.locationStatus != OverworldModel.LocationStatus.World)
             {
                 return;
@@ -106,7 +113,12 @@ namespace Overworld.Features.Pointer
 
         public void OnTriggerExit2D(Collider2D other)
         {
-            if (itemBase?.locationStatus != OverworldModel.LocationStatus.World)
+            if (itemBase == null)
+            {
+                throw new System.Exception("itemBase is null");
+            }
+
+            if (itemBase.locationStatus != OverworldModel.LocationStatus.World)
             {
                 return;
             }

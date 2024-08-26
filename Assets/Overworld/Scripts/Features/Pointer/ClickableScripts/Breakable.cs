@@ -1,5 +1,6 @@
 using Overworld.Features.Item.Models;
 using Overworld.Models;
+using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
@@ -15,9 +16,11 @@ namespace Overworld.Features.Pointer
 
         void Models.IClickable.OnClick(GameObject itemPrefab)
         {
+            ItemBase _itemBase = itemBase.Unwrap();
+
             if (
-                itemBase?.locationStatus != OverworldModel.LocationStatus.World
-                || itemBase.isHolding
+                _itemBase.locationStatus != OverworldModel.LocationStatus.World
+                || _itemBase.isHolding
             )
             {
                 return;
@@ -26,7 +29,5 @@ namespace Overworld.Features.Pointer
             Destroy(this.gameObject);
             return;
         }
-
-        void OnBreak() { }
     }
 }

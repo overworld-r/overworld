@@ -1,6 +1,7 @@
 using Cinemachine;
 using Overworld.Core;
 using Overworld.Models;
+using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Backpack
@@ -18,12 +19,16 @@ namespace Overworld.Backpack
         public void Start()
         {
             var canvasName = overworldModel.CanvasObjectName;
-            canvas = overworldModel.Backpack?.transform.Find(canvasName).gameObject;
-            orbitalTransposer =
-                virtualCamera?.GetCinemachineComponent<CinemachineFramingTransposer>();
+            canvas = overworldModel
+                .Backpack.Unwrap()
+                .transform.Find(canvasName)
+                .Unwrap()
+                .gameObject;
+            orbitalTransposer = virtualCamera
+                .Unwrap()
+                .GetCinemachineComponent<CinemachineFramingTransposer>();
 
-            if (orbitalTransposer != null)
-                orbitalTransposer.m_ScreenX = 0.5f;
+            orbitalTransposer.m_ScreenX = 0.5f;
         }
 
         public void Update()
@@ -35,10 +40,8 @@ namespace Overworld.Backpack
 
                 open = !open;
 
-                canvas?.gameObject.SetActive(open);
-
-                if (orbitalTransposer != null)
-                    orbitalTransposer.m_ScreenY = open ? 0.4f : 0.5f;
+                canvas.Unwrap().gameObject.SetActive(open);
+                orbitalTransposer.Unwrap().m_ScreenY = open ? 0.4f : 0.5f;
             }
         }
     }

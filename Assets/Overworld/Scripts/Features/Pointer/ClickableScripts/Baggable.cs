@@ -1,6 +1,7 @@
 using Overworld.Core;
 using Overworld.Features.Item.Models;
 using Overworld.Models;
+using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
@@ -22,21 +23,22 @@ namespace Overworld.Features.Pointer
 
         void IClickable.OnClick(GameObject prefab)
         {
-            if (
-                itemBase?.locationStatus != OverworldModel.LocationStatus.Bag
-                || overworldModel.UICamera == null
-            )
+            ItemBase _itemBase = itemBase.Unwrap();
+
+            if (_itemBase.locationStatus != OverworldModel.LocationStatus.Bag)
             {
                 return;
             }
 
-            if (itemBase.isHolding)
+            if (_itemBase.isHolding)
             {
                 var offset = new Vector3(-26.35f, -190.25f, 10.05f);
 
-                var cursorPosition = overworldModel.UICamera.ScreenToWorldPoint(
-                    new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10.0f)
-                );
+                var cursorPosition = overworldModel
+                    .UICamera.Unwrap()
+                    .ScreenToWorldPoint(
+                        new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10.0f)
+                    );
 
                 float gridSize = 0.05f * 19f;
 
@@ -69,13 +71,13 @@ namespace Overworld.Features.Pointer
                     cursorPosition.z
                 );
 
-                itemBase.isHolding = false;
+                _itemBase.isHolding = false;
 
                 return;
             }
             else
             {
-                itemBase.isHolding = true;
+                _itemBase.isHolding = true;
             }
 
             Destroy(GetComponent<Rigidbody2D>());

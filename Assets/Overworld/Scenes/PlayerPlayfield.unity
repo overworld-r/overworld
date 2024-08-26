@@ -1978,6 +1978,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1923841583}
     m_Modifications:
+    - target: {fileID: 1189529432861175880, guid: 1ea16e4df676e477e8a7f88568455287, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bb55b819f54b93f4d94592afd3c2b98b, type: 2}
     - target: {fileID: 1200049245648127713, guid: 1ea16e4df676e477e8a7f88568455287, type: 3}
       propertyPath: m_Name
       value: Test1x2
@@ -2052,6 +2056,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1923841583}
     m_Modifications:
+    - target: {fileID: 3961843779599232988, guid: f283fed959f684d9abe79eb47902f92f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bb55b819f54b93f4d94592afd3c2b98b, type: 2}
     - target: {fileID: 5399802193628790986, guid: f283fed959f684d9abe79eb47902f92f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2
@@ -2251,6 +2259,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1965700284282256053, guid: 25997152289a24f3ab5a72beb532f641, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2977064627252444273, guid: 25997152289a24f3ab5a72beb532f641, type: 3}
       propertyPath: m_Camera
       value: 
