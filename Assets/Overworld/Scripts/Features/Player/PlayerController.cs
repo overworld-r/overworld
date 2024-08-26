@@ -1,4 +1,5 @@
 using Overworld.Mechanics;
+using Overworld.Player;
 using Overworld.Types;
 using UnityEngine;
 using static Overworld.Core.Simulation;
@@ -11,6 +12,7 @@ namespace Overworld.Features.Player
         public float jumpTakeOffSpeed = 15;
         public float wallJumpTakeOffSpeed = 15;
         public bool isWallJumping = false;
+        public bool isPushing = false;
 
         public JumpState jumpState = JumpState.Grounded;
 
@@ -61,7 +63,7 @@ namespace Overworld.Features.Player
 
         protected override void FixedUpdate()
         {
-            if (!isWallJumping)
+            if (!isWallJumping && !isPushing)
             {
                 Move();
             }
@@ -145,6 +147,13 @@ namespace Overworld.Features.Player
             {
                 _body.velocity = moveVector + new Vector2(_body.velocity.x * 0.7f, 0);
             }
+        }
+
+        public void Push(Vector2 force)
+        {
+            gameObject.GetComponent<Rigidbody2D>().Unwrap().AddForce(force, ForceMode2D.Impulse);
+            isPushing = true;
+            Schedule<PlayerPushed>(0.3f).player = this;
         }
 
         void WallSlide()
