@@ -1,7 +1,8 @@
 using UnityEngine;
 
-namespace Overworld.CustomCollision
+namespace Overworld.Features.CustomCollision
 {
+    [RequireComponent(typeof(BoxCollider2D))]
     public class CustomCollision : MonoBehaviour
     {
         [SerializeField]
@@ -11,15 +12,20 @@ namespace Overworld.CustomCollision
         {
             ICustomCollision customCollision =
                 this.transform.parent.GetComponent<ICustomCollision>();
-            if (customCollision != null)
-            {
-                customCollision.OnCustomCollision(ID, collider);
-            }
+            customCollision.OnCustomCollisionEnter(ID, collider);
+        }
+
+        void OnTriggerStay2D(Collider2D collider)
+        {
+            ICustomCollision customCollision =
+                this.transform.parent.GetComponent<ICustomCollision>();
+            customCollision.OnCustomCollisionStay(ID, collider);
         }
     }
 
     public interface ICustomCollision
     {
-        void OnCustomCollision(string ID, Collider2D collider);
+        void OnCustomCollisionEnter(string ID, Collider2D collider) { }
+        void OnCustomCollisionStay(string ID, Collider2D collider) { }
     }
 }

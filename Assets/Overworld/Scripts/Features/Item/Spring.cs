@@ -1,6 +1,5 @@
-using Overworld.CustomCollision;
+using Overworld.Features.CustomCollision;
 using Overworld.Features.Player;
-using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Item
@@ -14,11 +13,9 @@ namespace Overworld.Features.Item
 
         int Models.IItemMetadata.price { get; set; } = 10;
 
-        public bool CanBuild { get; set; } = true;
-
         public float bounceForce = 1f;
 
-        void ICustomCollision.OnCustomCollision(string ID, Collider2D collider)
+        void ICustomCollision.OnCustomCollisionEnter(string ID, Collider2D collider)
         {
             if (ID == "0")
             {
@@ -30,11 +27,16 @@ namespace Overworld.Features.Item
         {
             if (collider.gameObject.tag != "Player")
             {
-                return;
+                if (collider.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
+                {
+                    rb.AddForce(bounceForce * transform.up, ForceMode2D.Impulse);
+                }
             }
-
-            PlayerController pc = collider.gameObject.GetComponent<PlayerController>().Unwrap();
-            pc.Push(bounceForce * transform.up);
+            else
+            {
+                PlayerController pc = collider.gameObject.GetComponent<PlayerController>();
+                pc.Push(bounceForce * transform.up);
+            }
         }
     }
 }
