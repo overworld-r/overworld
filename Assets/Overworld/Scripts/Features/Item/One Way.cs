@@ -1,8 +1,9 @@
+using Overworld.Types;
 using UnityEngine;
 
 public class DisableColliderOnButtonPress : MonoBehaviour
 {
-    public BoxCollider2D objectCollider; // 対象オブジェクトのCollider
+    public BoxCollider2D? objectCollider;
 
     void Start()
     {
@@ -16,11 +17,11 @@ public class DisableColliderOnButtonPress : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            objectCollider.enabled = false; // ボタンが押されている間、Colliderを無効にする
+            objectCollider.Unwrap().enabled = false;
         }
         else
         {
-            objectCollider.enabled = true; // ボタンが押されていない間、Colliderを有効にする
+            objectCollider.Unwrap().enabled = true;
         }
     }
 }
