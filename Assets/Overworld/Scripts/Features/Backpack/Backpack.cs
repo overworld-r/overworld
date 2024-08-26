@@ -8,16 +8,14 @@ namespace Overworld.Backpack
 {
     class Backpack : MonoBehaviour
     {
-        public bool open = false;
-
-        GameObject? canvas;
+        private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
         [SerializeField]
-        public CinemachineVirtualCamera virtualCamera = default!;
+        private CinemachineVirtualCamera virtualCamera = default!;
 
-        CinemachineFramingTransposer? orbitalTransposer;
-
-        OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+        public bool open { get; private set; } = false;
+        private GameObject? canvas;
+        private CinemachineFramingTransposer? orbitalTransposer;
 
         void Start()
         {

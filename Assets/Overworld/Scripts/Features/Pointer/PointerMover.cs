@@ -7,7 +7,7 @@ namespace Overworld.Features.Pointer
     [RequireComponent(typeof(PlayerPointer))]
     public class PointerMover : MonoBehaviour
     {
-        OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+        private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
         [SerializeField]
         private PlayerPointer playerPointer = default!;

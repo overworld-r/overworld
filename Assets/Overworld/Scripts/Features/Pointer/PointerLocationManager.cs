@@ -7,13 +7,13 @@ namespace Overworld.Features.Pointer
     [RequireComponent(typeof(PlayerPointer))]
     public class PointerLocationManager : MonoBehaviour
     {
-        OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+        private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
         [SerializeField]
         private Backpack.Backpack backpackComponent = default!;
 
         [SerializeField]
-        PlayerPointer playerPointer = default!;
+        private PlayerPointer playerPointer = default!;
 
         [SerializeField]
         private Transform bagParent = default!;

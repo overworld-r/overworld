@@ -12,7 +12,7 @@ namespace Overworld.Features.Pointer
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
         [SerializeField]
-        public PlayerPointer itemPointer = default!;
+        private PlayerPointer itemPointer = default!;
 
         void Reset()
         {

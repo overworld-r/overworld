@@ -8,9 +8,9 @@ namespace Overworld.Features.Pointer
 {
     class Breakable : MonoBehaviour, Models.IClickable
     {
-        OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
-        ItemBase? itemBase;
-        PlayerPointer playerPointer = default!;
+        private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+        private ItemBase? itemBase;
+        private PlayerPointer playerPointer = default!;
 
         void Awake()
         {

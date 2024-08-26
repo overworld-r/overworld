@@ -9,7 +9,7 @@ namespace Overworld.Features.Pointer
     [RequireComponent(typeof(ItemBase))]
     public class Baggable : MonoBehaviour, Models.IClickable
     {
-        OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+        private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
         private ItemBase itemBase = default!;
         private PlayerPointer playerPointer = default!;
 

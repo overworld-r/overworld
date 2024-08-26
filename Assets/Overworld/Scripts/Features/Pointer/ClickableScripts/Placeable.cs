@@ -8,14 +8,14 @@ namespace Overworld.Features.Pointer
     [RequireComponent(typeof(Item.Models.ItemBase))]
     public class Placeable : MonoBehaviour, IClickable
     {
-        OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+        private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
         private Material? TrunslucentShader;
         private Material? HighlightRedShader;
         private SpriteRenderer? spriteRenderer;
 
-        PlayerPointer playerPointer = default!;
-        Item.Models.ItemBase? itemBase;
+        private PlayerPointer playerPointer = default!;
+        private Item.Models.ItemBase? itemBase;
 
         public bool canBuild = true;
 
