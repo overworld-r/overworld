@@ -71,11 +71,6 @@ namespace Overworld.Tests
             );
 
             Assert.IsNotNull(
-                _playerPointer.GetComponent<PointerHoldingLocationManager>(),
-                "ItemManagerにItemLocationManagerがアタッチされていません"
-            );
-
-            Assert.IsNotNull(
                 _playerPointer.GetComponent<PointerLocationManager>(),
                 "ItemManagerにPointerLocationManagerがアタッチされていません"
             );
@@ -110,13 +105,7 @@ namespace Overworld.Tests
                 "ItemRotator should not be null"
             );
 
-            var itemLocationManager =
-                _playerPointerComponent.GetComponent<PointerHoldingLocationManager>();
-            itemLocationManager.SendMessage("Reset");
-
             yield return null;
-
-            Assert.IsNotNull(itemLocationManager, "ItemLocationManager should not be null");
 
             Assert.IsNotNull(
                 _playerPointerComponent.GetComponent<PointerLocationManager>(),

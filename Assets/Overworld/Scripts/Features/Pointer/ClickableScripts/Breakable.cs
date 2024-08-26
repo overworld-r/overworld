@@ -1,3 +1,4 @@
+using Overworld.Core;
 using Overworld.Features.Item.Models;
 using Overworld.Models;
 using Overworld.Types;
@@ -7,11 +8,14 @@ namespace Overworld.Features.Pointer
 {
     class Breakable : MonoBehaviour, Models.IClickable
     {
+        OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
         ItemBase? itemBase;
+        PlayerPointer playerPointer = default!;
 
         void Awake()
         {
             itemBase = GetComponent<ItemBase>();
+            playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
         }
 
         void Models.IClickable.OnClick(GameObject itemPrefab)
@@ -19,8 +23,8 @@ namespace Overworld.Features.Pointer
             ItemBase _itemBase = itemBase.Unwrap();
 
             if (
-                _itemBase.locationStatus != OverworldModel.LocationStatus.World
-                || _itemBase.isHolding
+                playerPointer.locationStatus.value != LocationStatus.Location.World
+                || !playerPointer.holdingItem.IsEmpty
             )
             {
                 return;

@@ -10,13 +10,14 @@ namespace Overworld.Features.Pointer
     {
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
-        public bool canBuild = true;
         private Material? TrunslucentShader;
         private Material? HighlightRedShader;
         private SpriteRenderer? spriteRenderer;
-        private PlayerPointer? playerPointer;
 
+        PlayerPointer playerPointer = default!;
         Item.Models.ItemBase? itemBase;
+
+        public bool canBuild = true;
 
         public void Awake()
         {
@@ -24,36 +25,32 @@ namespace Overworld.Features.Pointer
             TrunslucentShader = new Material(Shader.Find("unlit/Translucent"));
             HighlightRedShader = new Material(Shader.Find("Unlit/HighlightRed"));
             spriteRenderer = GetComponent<SpriteRenderer>();
-            playerPointer = overworldModel.Pointer?.GetComponent<PlayerPointer>();
+            playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
         }
 
         void IClickable.OnClick(GameObject itemPrefab)
         {
             Item.Models.ItemBase _itemBase = itemBase.Unwrap();
 
-            if (_itemBase.locationStatus != OverworldModel.LocationStatus.World || !canBuild)
+            if (playerPointer.locationStatus.value != LocationStatus.Location.World || !canBuild)
             {
                 return;
             }
 
-            _itemBase.isHolding = !_itemBase.isHolding;
             var newObject = Instantiate(itemPrefab, this.transform.parent);
             newObject.name = this.gameObject.name;
             newObject.transform.position = this.gameObject.transform.position;
             newObject.transform.rotation = this.gameObject.transform.rotation;
 
-            if (newObject.TryGetComponent<Item.Models.ItemBase>(out var item))
-            {
-                item.isHolding = _itemBase.isHolding;
-                item.locationStatus = _itemBase.locationStatus;
-            }
-
             if (newObject.TryGetComponent<Collider2D>(out var collider))
             {
-                collider.isTrigger = _itemBase.isHolding;
+                collider.isTrigger = playerPointer.holdingItem.IsEmpty;
             }
 
-            if (_itemBase.isHolding && !newObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
+            if (
+                playerPointer.holdingItem.IsEmpty
+                && !newObject.TryGetComponent<Rigidbody2D>(out var rigidbody)
+            )
             {
                 newObject.AddComponent<Rigidbody2D>();
             }
@@ -67,29 +64,26 @@ namespace Overworld.Features.Pointer
 
             Destroy(this.gameObject);
 
-            if (_itemBase.isHolding)
+            PlayerPointer _playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
+
+            if (playerPointer.holdingItem.IsEmpty)
             {
-                playerPointer.Unwrap().holdingItem = new Some<GameObject>(newObject);
+                _playerPointer.holdingItem = new Some<GameObject>(newObject);
             }
             else
             {
-                playerPointer.Unwrap().holdingItem = new None<GameObject>();
+                _playerPointer.holdingItem = new None<GameObject>();
             }
         }
 
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (itemBase == null)
-            {
-                throw new System.Exception("itemBase is null");
-            }
-
-            if (itemBase.locationStatus != OverworldModel.LocationStatus.World)
+            if (playerPointer.locationStatus.value != LocationStatus.Location.World)
             {
                 return;
             }
 
-            if (!itemBase.isHolding || !canBuild)
+            if (playerPointer.holdingItem.IsEmpty || !canBuild)
             {
                 return;
             }
@@ -104,7 +98,7 @@ namespace Overworld.Features.Pointer
                 throw new System.Exception("itemBase is null");
             }
 
-            if (itemBase?.locationStatus != OverworldModel.LocationStatus.World)
+            if (playerPointer.locationStatus.value != LocationStatus.Location.World)
             {
                 return;
             }
@@ -118,11 +112,11 @@ namespace Overworld.Features.Pointer
                 throw new System.Exception("itemBase is null");
             }
 
-            if (itemBase.locationStatus != OverworldModel.LocationStatus.World)
+            if (playerPointer.locationStatus.value != LocationStatus.Location.World)
             {
                 return;
             }
-            if (!itemBase.isHolding || canBuild)
+            if (playerPointer.holdingItem.IsEmpty || canBuild)
             {
                 return;
             }

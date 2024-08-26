@@ -32,10 +32,10 @@ namespace Overworld.Features.Pointer
                     {
                         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                        if (itemPointer.locationStatus == OverworldModel.LocationStatus.Bag)
+                        itemPointer.locationStatus.Match(bag: () =>
                         {
                             ray = overworldModel.UICamera.ScreenPointToRay(Input.mousePosition);
-                        }
+                        });
 
                         RaycastHit2D hitSprite = Physics2D.Raycast(ray.origin, ray.direction);
 

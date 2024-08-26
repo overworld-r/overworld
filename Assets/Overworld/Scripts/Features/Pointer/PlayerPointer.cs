@@ -1,5 +1,4 @@
 using Overworld.Core;
-using Overworld.Features.Item.Models;
 using Overworld.Models;
 using Overworld.Types;
 using UnityEngine;
@@ -8,7 +7,6 @@ namespace Overworld.Features.Pointer
 {
     [RequireComponent(typeof(PointerMover))]
     [RequireComponent(typeof(PointerLocationManager))]
-    [RequireComponent(typeof(PointerHoldingLocationManager))]
     [RequireComponent(typeof(PointerClickHandler))]
     [RequireComponent(typeof(PointerRotator))]
     public class PlayerPointer : MonoBehaviour
@@ -23,15 +21,11 @@ namespace Overworld.Features.Pointer
         private PointerRotator itemRotator = default!;
 
         [SerializeField]
-        private PointerHoldingLocationManager pointerHoldingLocationManager = default!;
-
-        [SerializeField]
         private PointerLocationManager PointerLocationManager = default!;
 
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
-        public OverworldModel.LocationStatus locationStatus = OverworldModel.LocationStatus.World;
-
+        public LocationStatus locationStatus = new LocationStatus(LocationStatus.Location.World);
         public IOption<GameObject> holdingItem = new None<GameObject>();
 
         void Reset()
@@ -39,7 +33,6 @@ namespace Overworld.Features.Pointer
             itemClickHandler = GetComponent<PointerClickHandler>();
             itemMover = GetComponent<PointerMover>();
             itemRotator = GetComponent<PointerRotator>();
-            pointerHoldingLocationManager = GetComponent<PointerHoldingLocationManager>();
             PointerLocationManager = GetComponent<PointerLocationManager>();
         }
 
@@ -51,11 +44,6 @@ namespace Overworld.Features.Pointer
         private void Update()
         {
             PointerLocationManager.UpdatePointerLocation();
-            if (!holdingItem.IsEmpty)
-            {
-                var itemBase = holdingItem.Value.GetComponent<ItemBase>();
-                pointerHoldingLocationManager.UpdateItemLocation(itemBase);
-            }
         }
 
         private void HandleItemClick(GameObject clickedItem)

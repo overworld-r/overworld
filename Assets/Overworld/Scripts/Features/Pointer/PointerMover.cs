@@ -31,17 +31,18 @@ namespace Overworld.Features.Pointer
 
                     item.transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
 
-                    if (playerPointer?.locationStatus == OverworldModel.LocationStatus.World)
-                    {
-                        item.transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
-                    }
-                    else
-                    {
-                        if (overworldModel.UICamera != null)
+                    playerPointer.locationStatus.Match(
+                        world: () =>
+                        {
+                            item.transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
+                        },
+                        bag: () =>
+                        {
                             item.transform.position = overworldModel.UICamera.ScreenToWorldPoint(
                                 mousePosition
                             );
-                    }
+                        }
+                    );
                 }
             );
         }

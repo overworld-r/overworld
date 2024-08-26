@@ -15,41 +15,89 @@ namespace Overworld.Features.Pointer
         [SerializeField]
         PlayerPointer playerPointer = default!;
 
+        [SerializeField]
+        private Transform bagParent = default!;
+
         private float locationLine = Screen.height - Screen.height / 2;
 
         void Reset()
         {
-            if (overworldModel.Backpack == null)
-                return;
-
             backpackComponent = overworldModel.Backpack.GetComponent<Backpack.Backpack>();
             playerPointer = GetComponent<PlayerPointer>();
+
+            var canvasName = overworldModel.CanvasObjectName;
+            bagParent = overworldModel.Backpack.transform.Find(canvasName).transform;
         }
 
         public void UpdatePointerLocation()
         {
-            PlayerPointer _playerPointer = playerPointer;
-
             if (backpackComponent.open == false)
             {
-                _playerPointer.locationStatus = OverworldModel.LocationStatus.World;
+                playerPointer.locationStatus.value = LocationStatus.Location.World;
                 return;
             }
 
-            if (_playerPointer.locationStatus == OverworldModel.LocationStatus.Bag)
-            {
-                if (Input.mousePosition.y >= locationLine)
+            playerPointer.locationStatus.Match(
+                bag: () =>
                 {
-                    _playerPointer.locationStatus = OverworldModel.LocationStatus.World;
-                }
-            }
-            else
-            {
-                if (Input.mousePosition.y < locationLine)
+                    if (Input.mousePosition.y >= locationLine)
+                    {
+                        playerPointer.locationStatus.value = LocationStatus.Location.World;
+                        playerPointer.holdingItem.Match(
+                            some: (item) =>
+                            {
+                                item.transform.SetParent(this.transform, false);
+                                if (item.TryGetComponent<Collider2D>(out var itemCollider))
+                                {
+                                    itemCollider.isTrigger = true;
+                                }
+
+                                if (item.TryGetComponent<Rigidbody2D>(out var itemRigidbody))
+                                {
+                                    Destroy(itemRigidbody);
+                                }
+
+                                if (item.TryGetComponent<SpriteRenderer>(out var itemRenderer))
+                                {
+                                    itemRenderer.sortingOrder = 100;
+                                }
+                            }
+                        );
+                    }
+                },
+                world: () =>
                 {
-                    _playerPointer.locationStatus = OverworldModel.LocationStatus.Bag;
+                    if (Input.mousePosition.y < locationLine)
+                    {
+                        playerPointer.locationStatus.value = LocationStatus.Location.Bag;
+                        playerPointer.holdingItem.Match(
+                            some: (item) =>
+                            {
+                                item.transform.SetParent(bagParent, false);
+                                if (item.TryGetComponent<Collider2D>(out var itemCollider))
+                                {
+                                    itemCollider.isTrigger = true;
+                                }
+
+                                if (item.TryGetComponent<Rigidbody2D>(out var itemRigidbody))
+                                {
+                                    Destroy(itemRigidbody);
+                                }
+
+                                if (item.TryGetComponent<SpriteRenderer>(out var itemRenderer))
+                                {
+                                    itemRenderer.sortingOrder = 100;
+                                }
+
+                                if (item.TryGetComponent<Placeable>(out var itemPlaceable))
+                                {
+                                    itemPlaceable.canBuild = true;
+                                }
+                            }
+                        );
+                    }
                 }
-            }
+            );
         }
     }
 }

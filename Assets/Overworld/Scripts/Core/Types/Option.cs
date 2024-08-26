@@ -1,7 +1,5 @@
 using System;
 
-#nullable disable
-
 namespace Overworld.Types
 {
     public interface IOption<T>
@@ -12,9 +10,9 @@ namespace Overworld.Types
 
         T GetOrDefault(T def);
 
-        void Match(Action none = null, Action<T> some = null);
+        void Match(Action none = null!, Action<T> some = null!);
 
-        S Match<S>(Func<S> none = null, Func<T, S> some = null);
+        S Match<S>(Func<S> none = null!, Func<T, S> some = null!);
 
         IOption<S> Bind<S>(Func<T, IOption<S>> f);
     }
@@ -41,13 +39,13 @@ namespace Overworld.Types
             return def;
         }
 
-        public void Match(Action none = null, Action<T> some = null)
+        public void Match(Action none = null!, Action<T> some = null!)
         {
             if (none != null)
                 none();
         }
 
-        public S Match<S>(Func<S> none = null, Func<T, S> some = null)
+        public S Match<S>(Func<S> none = null!, Func<T, S> some = null!)
         {
             if (none != null)
                 return none();
@@ -84,13 +82,13 @@ namespace Overworld.Types
             return Value;
         }
 
-        public void Match(Action none = null, Action<T> some = null)
+        public void Match(Action none = null!, Action<T> some = null!)
         {
             if (some != null)
                 some(Value);
         }
 
-        public S Match<S>(Func<S> none = null, Func<T, S> some = null)
+        public S Match<S>(Func<S> none = null!, Func<T, S> some = null!)
         {
             if (some != null)
                 return some(Value);

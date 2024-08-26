@@ -11,27 +11,28 @@ namespace Overworld.Backpack
         public bool open = false;
 
         GameObject? canvas;
-        public CinemachineVirtualCamera? virtualCamera;
+
+        [SerializeField]
+        public CinemachineVirtualCamera virtualCamera = default!;
+
         CinemachineFramingTransposer? orbitalTransposer;
 
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
-        public void Start()
+        void Start()
         {
             var canvasName = overworldModel.CanvasObjectName;
             canvas = overworldModel
-                .Backpack.Unwrap()
-                .transform.Find(canvasName)
-                .Unwrap()
+                .Backpack.transform.Find(canvasName)
+                .Except("Canvas not found")
                 .gameObject;
-            orbitalTransposer = virtualCamera
-                .Unwrap()
-                .GetCinemachineComponent<CinemachineFramingTransposer>();
+            orbitalTransposer =
+                virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 
             orbitalTransposer.m_ScreenX = 0.5f;
         }
 
-        public void Update()
+        void Update()
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {

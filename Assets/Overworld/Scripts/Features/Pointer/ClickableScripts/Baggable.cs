@@ -9,26 +9,30 @@ namespace Overworld.Features.Pointer
     [RequireComponent(typeof(ItemBase))]
     public class Baggable : MonoBehaviour, Models.IClickable
     {
-        public bool canPut { get; private set; } = true;
-
-        private ItemBase? itemBase;
-
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+        private ItemBase itemBase = default!;
+        private PlayerPointer playerPointer = default!;
+
+        public bool canPut { get; private set; } = true;
 
         void Awake()
         {
             itemBase = GetComponent<ItemBase>();
+            playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
         }
 
         void IClickable.OnClick(GameObject prefab)
         {
-            ItemBase _itemBase = itemBase.Unwrap();
-            if (_itemBase.locationStatus != OverworldModel.LocationStatus.Bag)
+            if (playerPointer.locationStatus.value != LocationStatus.Location.Bag)
             {
                 return;
             }
 
-            if (_itemBase.isHolding)
+            if (playerPointer.holdingItem.IsEmpty)
+            {
+                playerPointer.holdingItem = new Some<GameObject>(this.gameObject);
+            }
+            else
             {
                 var offset = new Vector3(-26.35f, -190.25f, 10.05f);
 
@@ -67,16 +71,11 @@ namespace Overworld.Features.Pointer
                     cursorPosition.z
                 );
 
-                _itemBase.isHolding = false;
-
-                return;
-            }
-            else
-            {
-                _itemBase.isHolding = true;
+                playerPointer.holdingItem = new None<GameObject>();
             }
 
             Destroy(GetComponent<Rigidbody2D>());
+
             return;
         }
 
