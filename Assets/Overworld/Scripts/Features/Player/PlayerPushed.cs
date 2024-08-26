@@ -1,8 +1,6 @@
 using Overworld.Core;
-using Overworld.Features.Player;
-using static Overworld.Core.Simulation;
 
-namespace Overworld.Player
+namespace Overworld.Features.Player
 {
     /// <summary>
     /// Fired when the player character lands after being airborne.
