@@ -1,7 +1,6 @@
 using Overworld.Core;
-using Overworld.Mechanics;
 
-namespace Overworld.Player
+namespace Overworld.Features.Player
 {
     /// <summary>
     /// Fired when the player character lands after being airborne.
@@ -9,7 +8,7 @@ namespace Overworld.Player
     /// <typeparam name="PlayerLanded"></typeparam>
     public class PlayerLanded : Simulation.Event<PlayerLanded>
     {
-        public PlayerController player;
+        public PlayerController? player;
 
         public override void Execute() { }
     }

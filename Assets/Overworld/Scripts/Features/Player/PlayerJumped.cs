@@ -1,7 +1,6 @@
 using Overworld.Core;
-using Overworld.Mechanics;
 
-namespace Overworld.Player
+namespace Overworld.Features.Player
 {
     /// <summary>
     /// Fired when the player performs a Jump.
@@ -9,12 +8,12 @@ namespace Overworld.Player
     /// <typeparam name="PlayerJumped"></typeparam>
     public class PlayerJumped : Simulation.Event<PlayerJumped>
     {
-        public PlayerController player;
+        public PlayerController? player;
 
         public override void Execute()
         {
             // if (player.audioSource && player.jumpAudio)
-            //     player.audioSource.PlayOneShot(player.jumpAudio);
+            //     player.audioSource?.PlayOneShot(player.jumpAudio);
         }
     }
 }
