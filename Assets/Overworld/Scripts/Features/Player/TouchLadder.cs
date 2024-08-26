@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using Overworld.Types;
 
 public class PlayerController : MonoBehaviour
 {
-    public float climbSpeed = 5f;  // はしごを上る速度
-    private bool isClimbing = false;  // プレイヤーがはしごにいるかどうか
-    private Rigidbody2D rb;  // プレイヤーのRigidbody2Dコンポーネント
-
+    public float climbSpeed = 5f;
+    private bool isClimbing = false;
+    private Rigidbody2D? rb;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -16,34 +16,32 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // はしごにいる場合、スペースキーを押すと上昇する
+
         if (isClimbing && Input.GetKey(KeyCode.Space))
         {
-            rb.velocity = new Vector2(rb.velocity.x, climbSpeed);
+            rb.Unwrap().velocity = new Vector2(rb.velocity.x, climbSpeed);
         }
         else
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
+            rb.Unwrap().velocity = new Vector2(rb.velocity.x, rb.velocity.y);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // はしごに触れた場合、isClimbingをtrueにする
+
         if (collision.GetComponent<Ladder>() != null)
         {
             isClimbing = true;
-            rb.gravityScale = 0;  // 重力を無効にする
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // はしごから離れた場合、isClimbingをfalseにする
+
         if (collision.GetComponent<Ladder>() != null)
         {
             isClimbing = false;
-            rb.gravityScale = 1;  // 重力を元に戻す
         }
     }
 }
