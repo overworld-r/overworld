@@ -11,7 +11,6 @@ namespace Overworld.Features.Player
         public float jumpTakeOffSpeed = 15;
         public float wallJumpTakeOffSpeed = 15;
         public bool isWallJumping = false;
-        public bool isPushing = false;
 
         public JumpState jumpState = JumpState.Grounded;
 
@@ -20,6 +19,7 @@ namespace Overworld.Features.Player
 
         public float inputHorizontal { get; private set; } = 0;
         private Vector2 currentVelocity = Vector2.zero;
+        private Vector2 ExternalForce = Vector2.zero;
 
         public enum JumpState
         {
@@ -62,7 +62,7 @@ namespace Overworld.Features.Player
 
         protected override void FixedUpdate()
         {
-            if (!isWallJumping && !isPushing)
+            if (!isWallJumping)
             {
                 Move();
             }
@@ -124,14 +124,22 @@ namespace Overworld.Features.Player
         {
             Vector2 moveVector = Vector2.zero;
             Rigidbody2D _body = body.Unwrap();
-            if (!isGrounded)
+            if (isGrounded)
             {
-                moveVector = new Vector2(inputHorizontal * maxSpeed * 0.3f, _body.velocity.y);
+                var internalForce = new Vector2(inputHorizontal * maxSpeed, _body.velocity.y);
+                moveVector =
+                    internalForce + new Vector2(ExternalForce.x * 6.0f, ExternalForce.y * 1.8f);
             }
             else
             {
-                moveVector = new Vector2(inputHorizontal * maxSpeed, _body.velocity.y);
+                var internalForce = new Vector2(
+                    inputHorizontal * maxSpeed * 0.3f,
+                    _body.velocity.y
+                );
+                moveVector = internalForce + new Vector2(ExternalForce.x * 2.0f, 0.0f);
             }
+
+            ExternalForce *= 0.8f;
 
             if (isGrounded)
             {
@@ -150,9 +158,7 @@ namespace Overworld.Features.Player
 
         public void Push(Vector2 force)
         {
-            gameObject.GetComponent<Rigidbody2D>().Unwrap().AddForce(force, ForceMode2D.Impulse);
-            isPushing = true;
-            Schedule<PlayerPushed>(0.3f).player = this;
+            ExternalForce = force;
         }
 
         void WallSlide()

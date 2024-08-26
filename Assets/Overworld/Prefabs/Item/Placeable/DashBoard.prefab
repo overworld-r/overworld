@@ -105,7 +105,6 @@ GameObject:
   - component: {fileID: 7927786231083419066}
   - component: {fileID: 7311277619781382392}
   - component: {fileID: 3128238659752925977}
-  - component: {fileID: 5468163338031792998}
   - component: {fileID: 8675661033161832423}
   m_Layer: 0
   m_Name: DashBoard
@@ -280,18 +279,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dashForce: 3
---- !u!114 &5468163338031792998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2143869523980145826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6679fdb1577dc45618aee3a88374529c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8675661033161832423
 MonoBehaviour:
   m_ObjectHideFlags: 0
