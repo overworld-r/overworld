@@ -19,8 +19,13 @@ Shader "Unlit/Crack"
 
     sampler2D _MainTex;
     half4 _CrackColor;
+    float _CrackProgress;
     float4 paint(float2 uv, float level)
     {
+        if(_CrackProgress == 1.0f)
+        {
+            discard;
+        }
         fixed4 col = tex2D(_MainTex, uv);
         if(level > 0.0)
         {
@@ -45,7 +50,6 @@ Shader "Unlit/Crack"
 
             #include "UnityCG.cginc"
             
-            float _CrackProgress;
             float _CrackDetailedness;
             float _CrackDepth;
             float _CrackWidth;
