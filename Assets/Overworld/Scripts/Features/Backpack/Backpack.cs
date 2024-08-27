@@ -21,7 +21,8 @@ namespace Overworld.Backpack
         {
             var canvasName = overworldModel.CanvasObjectName;
             canvas = overworldModel
-                .Backpack.transform.Find(canvasName)
+                .Backpack.Except("Bacpack is not assigned")
+                .transform.Find(canvasName)
                 .Except("Canvas not found")
                 .gameObject;
             orbitalTransposer =

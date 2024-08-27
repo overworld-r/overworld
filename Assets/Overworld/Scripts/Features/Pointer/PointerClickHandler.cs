@@ -8,13 +8,12 @@ namespace Overworld.Features.Pointer
     [RequireComponent(typeof(PlayerPointer))]
     public class PointerClickHandler : MonoBehaviour
     {
-        public event System.Action<GameObject>? OnItemClicked;
         OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+        public event System.Action<GameObject>? OnItemClicked;
 
-        [SerializeField]
         private PlayerPointer itemPointer = default!;
 
-        void Reset()
+        void Start()
         {
             itemPointer = GetComponent<PlayerPointer>();
         }
@@ -50,8 +49,6 @@ namespace Overworld.Features.Pointer
                     }
                 );
             }
-
-            if (Input.GetMouseButtonUp(0)) { }
         }
     }
 }

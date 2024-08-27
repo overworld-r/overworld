@@ -2,13 +2,14 @@ using UnityEngine;
 
 namespace Overworld.Features.Item
 {
-    public class DebugItem : MonoBehaviour, Models.IItemMetadata
+    using Models;
+
+    public class DebugItem : MonoBehaviour, IItemMetadata
     {
         public bool CanBuild { get; private set; } = true;
 
-        string Models.IItemMetadata.itemName { get; set; } = "DebugItem";
-        string Models.IItemMetadata.description { get; set; } = "this is a debug item.";
-        int Models.IItemMetadata.price { get; set; } = 100;
+        ItemMetadata IItemMetadata.metadata { get; set; } =
+            new ItemMetadata("DebugItem", "This is a debug item.", 100f);
 
         protected void Update() { }
 

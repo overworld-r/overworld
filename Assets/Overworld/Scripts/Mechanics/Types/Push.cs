@@ -5,7 +5,11 @@ namespace Overworld.Mechanics.Types
 {
     public static class PushExtension
     {
-        public static void Push(this Rigidbody2D rigidbody, Vector2 force)
+        public static void Push(
+            this Rigidbody2D rigidbody,
+            Vector2 force,
+            ForceMode2D mode = ForceMode2D.Impulse
+        )
         {
             if (rigidbody.gameObject.CompareTag("Player"))
             {
@@ -13,7 +17,7 @@ namespace Overworld.Mechanics.Types
             }
             else
             {
-                rigidbody.AddForce(force);
+                rigidbody.AddForce(force, mode);
             }
         }
     }

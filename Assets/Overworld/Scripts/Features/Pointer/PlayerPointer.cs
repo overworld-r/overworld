@@ -5,56 +5,47 @@ using UnityEngine;
 
 namespace Overworld.Features.Pointer
 {
+    using Models;
+
     [RequireComponent(typeof(PointerMover))]
     [RequireComponent(typeof(PointerLocationManager))]
     [RequireComponent(typeof(PointerClickHandler))]
     [RequireComponent(typeof(PointerRotator))]
     public class PlayerPointer : MonoBehaviour
     {
-        [SerializeField]
-        private PointerClickHandler itemClickHandler = default!;
-
-        [SerializeField]
-        private PointerMover itemMover = default!;
-
-        [SerializeField]
-        private PointerRotator itemRotator = default!;
-
-        [SerializeField]
-        private PointerLocationManager PointerLocationManager = default!;
-
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+
+        private PointerClickHandler pointerClickHandler = default!;
+        private PointerMover pointerMover = default!;
+        private PointerRotator pointerRotator = default!;
+        private PointerLocationManager pointerLocationManager = default!;
 
         public LocationStatus locationStatus = new LocationStatus(LocationStatus.Location.World);
         public IOption<GameObject> holdingItem = new None<GameObject>();
 
-        void Reset()
-        {
-            itemClickHandler = GetComponent<PointerClickHandler>();
-            itemMover = GetComponent<PointerMover>();
-            itemRotator = GetComponent<PointerRotator>();
-            PointerLocationManager = GetComponent<PointerLocationManager>();
-        }
-
         private void Start()
         {
-            itemClickHandler.OnItemClicked += HandleItemClick;
+            pointerClickHandler = GetComponent<PointerClickHandler>();
+            pointerClickHandler.OnItemClicked += HandleItemClick;
+            pointerClickHandler = GetComponent<PointerClickHandler>();
+            pointerMover = GetComponent<PointerMover>();
+            pointerRotator = GetComponent<PointerRotator>();
+            pointerLocationManager = GetComponent<PointerLocationManager>();
         }
 
         private void Update()
         {
-            PointerLocationManager.UpdatePointerLocation();
+            pointerLocationManager.UpdatePointerLocation();
         }
 
         private void HandleItemClick(GameObject clickedItem)
         {
-            var clickableComponents = clickedItem.GetComponents<Models.IClickable>();
+            var clickableComponents = clickedItem.GetComponents<IClickable>();
             foreach (var clickable in clickableComponents)
             {
-                var itemPrefab = overworldModel.ItemPrefabs.Find(prefab =>
-                    prefab.name == clickedItem.name
-                );
-                clickable.OnClick(itemPrefab);
+                var prefab = Resources.Load<GameObject>($"ItemPrefabs/{clickedItem.name}");
+
+                clickable.OnClick(prefab);
             }
         }
     }

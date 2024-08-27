@@ -9,18 +9,13 @@ namespace Overworld.Features.Pointer
     {
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
-        [SerializeField]
         private Backpack.Backpack backpackComponent = default!;
-
-        [SerializeField]
         private PlayerPointer playerPointer = default!;
-
-        [SerializeField]
         private Transform bagParent = default!;
 
         private float locationLine = Screen.height - Screen.height / 2;
 
-        void Reset()
+        void Start()
         {
             backpackComponent = overworldModel.Backpack.GetComponent<Backpack.Backpack>();
             playerPointer = GetComponent<PlayerPointer>();

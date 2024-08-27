@@ -1,27 +1,28 @@
 using Overworld.Core;
-using Overworld.Features.Pointer.Models;
 using Overworld.Models;
 using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
 {
+    using Models;
+
     [RequireComponent(typeof(BoxCollider2D))]
     public class Baggable : MonoBehaviour, IClickable
     {
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
-        private PlayerPointer playerPointer = default!;
+        private PlayerPointer? playerPointer;
 
         public bool canPut { get; private set; } = true;
 
-        void Awake()
+        void Start()
         {
             playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
         }
 
         void IClickable.OnClick(GameObject prefab)
         {
-            if (playerPointer.locationStatus.value != LocationStatus.Location.Bag)
+            if (playerPointer?.locationStatus.value != LocationStatus.Location.Bag)
             {
                 return;
             }

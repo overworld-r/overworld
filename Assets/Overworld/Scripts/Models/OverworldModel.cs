@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Overworld.Models
@@ -10,7 +9,6 @@ namespace Overworld.Models
         public GameObject Backpack = default!;
         public string CanvasObjectName = "Canvas";
         public GameObject Pointer = default!;
-        public List<GameObject> ItemPrefabs = new List<GameObject>();
 
         public enum LocationStatus
         {

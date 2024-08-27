@@ -1,24 +1,26 @@
 using Overworld.Core;
-using Overworld.Features.Pointer.Models;
 using Overworld.Models;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
 {
+    using Models;
+
     [RequireComponent(typeof(BoxCollider2D))]
     class Breakable : MonoBehaviour, IClickable
     {
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
-        [SerializeField]
-        private Renderer breakableRenderer = default!;
+        private Renderer? breakableRenderer;
 
         private PlayerPointer playerPointer = default!;
 
-        private bool isMouseDown = false;
-        private float mouseDownTime = 0f;
+        float breakProgress = 0.0f;
+        float breakDuration = 0.0f;
+        private bool shouldStopBreak = true;
+        private float startBreakingTime = 0.0f;
 
-        void Reset()
+        void Start()
         {
             breakableRenderer = GetComponent<Renderer>();
         }
@@ -32,20 +34,20 @@ namespace Overworld.Features.Pointer
         {
             if (Input.GetMouseButtonUp(0))
             {
-                isMouseDown = false;
+                StopBreake();
             }
 
-            if (!isMouseDown)
+            if (shouldStopBreak)
             {
-                mouseDownTime = Time.time;
-                breakableRenderer.material.SetFloat("_CrackProgress", 0);
+                startBreakingTime = Time.time;
+                breakableRenderer?.material.SetFloat("_CrackProgress", 0);
                 return;
             }
 
-            float progress = (Time.time - mouseDownTime) / 1.5f;
-            breakableRenderer.material.SetFloat("_CrackProgress", progress);
+            breakProgress = (Time.time - startBreakingTime) / breakDuration;
+            breakableRenderer?.material.SetFloat("_CrackProgress", breakProgress);
 
-            if (progress >= 1f)
+            if (breakProgress >= 1f)
             {
                 Destroy(this.gameObject);
                 if (TryGetComponent<Models.IBreakable>(out var breakable))
@@ -53,6 +55,17 @@ namespace Overworld.Features.Pointer
                     breakable.OnBreak();
                 }
             }
+        }
+
+        public void StartBreak(float duration)
+        {
+            shouldStopBreak = false;
+            breakDuration = duration;
+        }
+
+        public void StopBreake()
+        {
+            shouldStopBreak = true;
         }
 
         void IClickable.OnClick(GameObject itemPrefab)
@@ -65,7 +78,7 @@ namespace Overworld.Features.Pointer
                 return;
             }
 
-            isMouseDown = true;
+            StartBreak(1.2f);
         }
     }
 }

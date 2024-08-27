@@ -6,13 +6,11 @@ namespace Overworld.Features.Pointer
     [RequireComponent(typeof(PlayerPointer))]
     public class PointerRotator : MonoBehaviour
     {
-        [SerializeField]
         private float rotationSpeed = 90f;
 
-        [SerializeField]
         private PlayerPointer playerPointer = default!;
 
-        void Reset()
+        void Start()
         {
             playerPointer = GetComponent<PlayerPointer>();
         }

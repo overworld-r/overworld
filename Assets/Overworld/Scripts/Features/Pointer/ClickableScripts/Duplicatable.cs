@@ -1,10 +1,11 @@
 using Overworld.Core;
-using Overworld.Features.Pointer.Models;
 using Overworld.Models;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
 {
+    using Models;
+
     [RequireComponent(typeof(BoxCollider2D))]
     public class Duplicatable : MonoBehaviour, IClickable
     {
@@ -14,7 +15,7 @@ namespace Overworld.Features.Pointer
         private Material? HighlightRedShader;
         private SpriteRenderer? spriteRenderer;
 
-        private PlayerPointer playerPointer = default!;
+        private PlayerPointer? playerPointer;
 
         public bool canBuild = true;
 
@@ -29,7 +30,7 @@ namespace Overworld.Features.Pointer
         void IClickable.OnClick(GameObject itemPrefab)
         {
             if (
-                playerPointer.locationStatus.value != LocationStatus.Location.World
+                playerPointer?.locationStatus.value != LocationStatus.Location.World
                 || !canBuild
                 || playerPointer.holdingItem.IsEmpty
             )
@@ -65,7 +66,7 @@ namespace Overworld.Features.Pointer
 
         public void OnTriggerEnter2D(Collider2D other)
         {
-            playerPointer.holdingItem.Match(some: item =>
+            playerPointer?.holdingItem.Match(some: item =>
             {
                 if (
                     playerPointer.locationStatus.value != LocationStatus.Location.World
@@ -88,7 +89,7 @@ namespace Overworld.Features.Pointer
 
         public void OnTriggerExit2D(Collider2D other)
         {
-            playerPointer.holdingItem.Match(some: item =>
+            playerPointer?.holdingItem.Match(some: item =>
             {
                 if (
                     playerPointer.locationStatus.value != LocationStatus.Location.World

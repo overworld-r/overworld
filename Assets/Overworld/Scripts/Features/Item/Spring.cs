@@ -1,17 +1,14 @@
 using Overworld.Features.CustomCollision;
-using Overworld.Features.Player;
 using UnityEngine;
 
 namespace Overworld.Features.Item
 {
-    public class Spring : MonoBehaviour, Models.IItemMetadata, ICustomCollision
+    using Models;
+    using Overworld.Mechanics.Types;
+
+    public class Spring : MonoBehaviour, IItemMetadata, ICustomCollision
     {
-        string Models.IItemMetadata.itemName { get; set; } = "Spring";
-
-        string Models.IItemMetadata.description { get; set; } =
-            "A spring that bounces the player up when they touch on top surface of it.";
-
-        int Models.IItemMetadata.price { get; set; } = 10;
+        ItemMetadata IItemMetadata.metadata { get; set; } = new ItemMetadata("Spring", "", 0.0f);
 
         public float bounceForce = 1f;
 
@@ -25,17 +22,9 @@ namespace Overworld.Features.Item
 
         void Bounce(Collider2D collider)
         {
-            if (collider.gameObject.CompareTag("Player"))
+            if (collider.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
             {
-                PlayerController pc = collider.gameObject.GetComponent<PlayerController>();
-                pc.Push(bounceForce * transform.up);
-            }
-            else
-            {
-                if (collider.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
-                {
-                    rb.AddForce(bounceForce * transform.up, ForceMode2D.Impulse);
-                }
+                rb.Push(bounceForce * transform.up, ForceMode2D.Impulse);
             }
         }
     }
