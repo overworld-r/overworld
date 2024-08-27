@@ -12,7 +12,7 @@ namespace Overworld.Features.Item
 
         public float bounceForce = 1f;
 
-        void ICustomCollision.OnCustomCollisionEnter(string ID, Collider2D collider)
+        void ICustomCollision.OnCustomCollisionStay(string ID, Collider2D collider)
         {
             if (ID == "0")
             {
