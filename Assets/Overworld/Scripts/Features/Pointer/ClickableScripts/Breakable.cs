@@ -12,11 +12,10 @@ namespace Overworld.Features.Pointer
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
         private Renderer? breakableRenderer;
-
         private PlayerPointer playerPointer = default!;
 
-        float breakProgress = 0.0f;
-        float breakDuration = 0.0f;
+        private float breakProgress = 0.0f;
+        private float breakDuration = 0.0f;
         private bool shouldStopBreak = true;
         private float startBreakingTime = 0.0f;
 
