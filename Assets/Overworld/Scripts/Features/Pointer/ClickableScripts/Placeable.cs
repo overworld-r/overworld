@@ -28,7 +28,9 @@ namespace Overworld.Features.Pointer
 
         void IClickable.OnClick(GameObject itemPrefab)
         {
-            if (playerPointer.locationStatus.value != LocationStatus.Location.World || !canBuild)
+            if (playerPointer.locationStatus.value != LocationStatus.Location.World || !canBuild
+            // || playerPointer.holdingItem.IsEmpty
+            )
             {
                 return;
             }

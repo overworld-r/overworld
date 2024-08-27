@@ -37,11 +37,15 @@ namespace Overworld.Features.Pointer
                             ray = overworldModel.UICamera.ScreenPointToRay(Input.mousePosition);
                         });
 
-                        RaycastHit2D hitSprite = Physics2D.Raycast(ray.origin, ray.direction);
+                        RaycastHit2D[] hitSprites = Physics2D.RaycastAll(ray.origin, ray.direction);
 
-                        if (hitSprite != false && hitSprite.transform.gameObject.CompareTag("Item"))
+                        foreach (var sprite in hitSprites)
                         {
-                            OnItemClicked.Unwrap().Invoke(hitSprite.transform.gameObject);
+                            if (sprite != false && sprite.transform.gameObject.CompareTag("Item"))
+                            {
+                                OnItemClicked.Unwrap().Invoke(sprite.transform.gameObject);
+                                break;
+                            }
                         }
                     }
                 );

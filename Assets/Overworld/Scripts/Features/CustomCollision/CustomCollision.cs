@@ -10,16 +10,18 @@ namespace Overworld.Features.CustomCollision
 
         void OnTriggerEnter2D(Collider2D collider)
         {
-            ICustomCollision customCollision =
-                this.transform.parent.GetComponent<ICustomCollision>();
-            customCollision.OnCustomCollisionEnter(ID, collider);
+            if (this.transform.parent.TryGetComponent<ICustomCollision>(out var customCollision))
+            {
+                customCollision.OnCustomCollisionEnter(ID, collider);
+            }
         }
 
         void OnTriggerStay2D(Collider2D collider)
         {
-            ICustomCollision customCollision =
-                this.transform.parent.GetComponent<ICustomCollision>();
-            customCollision.OnCustomCollisionStay(ID, collider);
+            if (this.transform.parent.TryGetComponent<ICustomCollision>(out var customCollision))
+            {
+                customCollision.OnCustomCollisionStay(ID, collider);
+            }
         }
     }
 

@@ -155,9 +155,9 @@ GameObject:
   - component: {fileID: 8770177345959522576}
   - component: {fileID: 7653114124013316169}
   - component: {fileID: 4985388002354420698}
-  - component: {fileID: -2161530832278214159}
   - component: {fileID: -2475691872693310797}
   - component: {fileID: 2222717638280375350}
+  - component: {fileID: 7979396424289741396}
   m_Layer: 0
   m_Name: Spring
   m_TagString: Item
@@ -176,7 +176,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.51, y: -0.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8877088743121888385}
   m_Father: {fileID: 0}
@@ -221,8 +221,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_SortingOrder: 100
+  m_Sprite: {fileID: 21300000, guid: 92118d107264d47e3bea843fb00f146b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -269,7 +269,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.8, y: 0.8}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -278,19 +278,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-2161530832278214159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8520513962429085101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e6f16f50e1b8ff49bb0142144263b2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bounceForce: 6
 --- !u!114 &-2475691872693310797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,3 +303,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBuild: 1
+--- !u!114 &7979396424289741396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8520513962429085101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6f16f50e1b8ff49bb0142144263b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bounceForce: 3
