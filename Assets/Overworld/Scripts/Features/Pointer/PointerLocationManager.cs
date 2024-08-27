@@ -52,10 +52,7 @@ namespace Overworld.Features.Pointer
                                     itemCollider.isTrigger = true;
                                 }
 
-                                if (item.TryGetComponent<Rigidbody2D>(out var itemRigidbody))
-                                {
-                                    Destroy(itemRigidbody);
-                                }
+                                item.AddComponent<Rigidbody2D>();
 
                                 if (item.TryGetComponent<SpriteRenderer>(out var itemRenderer))
                                 {

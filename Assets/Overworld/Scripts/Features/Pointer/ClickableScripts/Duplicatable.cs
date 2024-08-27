@@ -1,12 +1,11 @@
 using Overworld.Core;
 using Overworld.Models;
-using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class Placeable : MonoBehaviour, IClickable
+    public class Duplicatable : MonoBehaviour, IClickable
     {
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
@@ -61,19 +60,6 @@ namespace Overworld.Features.Pointer
                 //     ? TrunslucentShader
                 //     : new Material(Shader.Find("Sprites/Default"));
             }
-
-            Destroy(this.gameObject);
-
-            playerPointer.holdingItem.Match(
-                some: (_) =>
-                {
-                    playerPointer.holdingItem = new None<GameObject>();
-                },
-                none: () =>
-                {
-                    playerPointer.holdingItem = new Some<GameObject>(newObject);
-                }
-            );
         }
 
         public void OnTriggerEnter2D(Collider2D other)

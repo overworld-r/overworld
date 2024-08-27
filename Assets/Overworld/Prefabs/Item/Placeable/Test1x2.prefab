@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8200131140863512276}
   - component: {fileID: 4710774430848827464}
   - component: {fileID: -1565617713188801592}
-  - component: {fileID: 6670887532686331246}
+  - component: {fileID: 2277028915674458499}
   m_Layer: 0
   m_Name: Test1x2
   m_TagString: Item
@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: bb55b819f54b93f4d94592afd3c2b98b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd35727ddba545d7bc8d114dbc6b898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6670887532686331246
+--- !u!114 &2277028915674458499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1200049245648127713}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 109173a9f48c34e439b1f4038422323c, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f5558b03b20249dd83f22ba8a7b4a57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canBuild: 1
