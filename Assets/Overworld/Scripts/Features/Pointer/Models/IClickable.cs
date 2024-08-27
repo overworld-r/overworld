@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace Overworld.Models
+namespace Overworld.Features.Pointer.Models
 {
     public interface IClickable
     {
-        void OnClick(GameObject itemPrefab);
+        void OnClick(GameObject itemPrefab) { }
     }
 }

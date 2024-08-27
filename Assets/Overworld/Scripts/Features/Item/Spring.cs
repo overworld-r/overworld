@@ -25,17 +25,17 @@ namespace Overworld.Features.Item
 
         void Bounce(Collider2D collider)
         {
-            if (collider.gameObject.tag != "Player")
+            if (collider.gameObject.CompareTag("Player"))
+            {
+                PlayerController pc = collider.gameObject.GetComponent<PlayerController>();
+                pc.Push(bounceForce * transform.up);
+            }
+            else
             {
                 if (collider.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
                 {
                     rb.AddForce(bounceForce * transform.up, ForceMode2D.Impulse);
                 }
-            }
-            else
-            {
-                PlayerController pc = collider.gameObject.GetComponent<PlayerController>();
-                pc.Push(bounceForce * transform.up);
             }
         }
     }

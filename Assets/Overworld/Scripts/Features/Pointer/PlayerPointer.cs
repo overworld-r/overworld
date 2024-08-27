@@ -48,7 +48,7 @@ namespace Overworld.Features.Pointer
 
         private void HandleItemClick(GameObject clickedItem)
         {
-            var clickableComponents = clickedItem.GetComponents<IClickable>();
+            var clickableComponents = clickedItem.GetComponents<Models.IClickable>();
             foreach (var clickable in clickableComponents)
             {
                 var itemPrefab = overworldModel.ItemPrefabs.Find(prefab =>

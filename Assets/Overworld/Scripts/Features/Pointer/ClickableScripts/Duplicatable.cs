@@ -1,4 +1,5 @@
 using Overworld.Core;
+using Overworld.Features.Pointer.Models;
 using Overworld.Models;
 using UnityEngine;
 

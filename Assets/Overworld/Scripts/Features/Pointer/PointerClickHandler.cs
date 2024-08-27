@@ -50,6 +50,8 @@ namespace Overworld.Features.Pointer
                     }
                 );
             }
+
+            if (Input.GetMouseButtonUp(0)) { }
         }
     }
 }

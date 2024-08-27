@@ -1,4 +1,5 @@
 using Overworld.Core;
+using Overworld.Features.Pointer.Models;
 using Overworld.Models;
 using Overworld.Types;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace Overworld.Features.Pointer
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class Baggable : MonoBehaviour, Models.IClickable
+    public class Baggable : MonoBehaviour, IClickable
     {
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
         private PlayerPointer playerPointer = default!;

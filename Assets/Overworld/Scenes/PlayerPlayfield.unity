@@ -1023,18 +1023,6 @@ PrefabInstance:
       value: DashBoard
       objectReference: {fileID: 0}
     - target: {fileID: 6602532715294187607, guid: fa280e5051e2549419d3f354c1f97b77, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.6720909
-      objectReference: {fileID: 0}
-    - target: {fileID: 6602532715294187607, guid: fa280e5051e2549419d3f354c1f97b77, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.07962338
-      objectReference: {fileID: 0}
-    - target: {fileID: 6602532715294187607, guid: fa280e5051e2549419d3f354c1f97b77, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.7238489
-      objectReference: {fileID: 0}
-    - target: {fileID: 6602532715294187607, guid: fa280e5051e2549419d3f354c1f97b77, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.886
       objectReference: {fileID: 0}
@@ -1584,6 +1572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6d1a3f439584bc9bbe6b5b9a8bf48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  breakableRenderer: {fileID: 1646963717}
 --- !u!61 &1646963720
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2147,7 +2136,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2653846073800825426, guid: 1ea16e4df676e477e8a7f88568455287, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2278,8 +2268,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebugItemFix
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3570001281617584849, guid: f283fed959f684d9abe79eb47902f92f, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
