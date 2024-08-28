@@ -124,7 +124,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.9950902, w: 0.09897253}
   m_LocalPosition: {x: -10.83, y: 1.58, z: 0}
-  m_LocalScale: {x: 1.2103411, y: 0.057635292, z: 0.5239572}
+  m_LocalScale: {x: 2, y: 0.06, z: 0.5239572}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6098084467684641745}
@@ -253,7 +253,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!114 &7311277619781382392
 MonoBehaviour:

@@ -190,6 +190,23 @@ namespace Overworld.Features.Player
             Schedule<PlayerStopWallJump>(0.2f).player = this;
         }
 
+        public void PickupResource(GameObject resource)
+        {
+            if (resource.gameObject.name == "stone")
+            {
+                Debug.Log("Picked up stone");
+            }
+            else if (resource.gameObject.name == "wood")
+            {
+                Debug.Log("Picked up wood");
+            }
+            else if (resource.gameObject.name == "iron")
+            {
+                Debug.Log("Picked up iron");
+            }
+            Destroy(resource);
+        }
+
         protected override void ComputeVelocity()
         {
             if (stopJump)
