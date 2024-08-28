@@ -11,7 +11,6 @@ namespace Overworld.Features.Pointer
 
         private Backpack.Backpack backpackComponent = default!;
         private PlayerPointer playerPointer = default!;
-        private Transform bagParent = default!;
 
         private float locationLine = Screen.height - Screen.height / 2;
 
@@ -19,9 +18,6 @@ namespace Overworld.Features.Pointer
         {
             backpackComponent = overworldModel.Backpack.GetComponent<Backpack.Backpack>();
             playerPointer = GetComponent<PlayerPointer>();
-
-            var canvasName = overworldModel.CanvasObjectName;
-            bagParent = overworldModel.Backpack.transform.Find(canvasName).transform;
         }
 
         public void UpdatePointerLocation()
@@ -65,7 +61,7 @@ namespace Overworld.Features.Pointer
                         playerPointer.holdingItem.Match(
                             some: (item) =>
                             {
-                                item.transform.SetParent(bagParent, false);
+                                item.transform.SetParent(overworldModel.Canvas.transform, false);
                                 if (item.TryGetComponent<Collider2D>(out var itemCollider))
                                 {
                                     itemCollider.isTrigger = true;

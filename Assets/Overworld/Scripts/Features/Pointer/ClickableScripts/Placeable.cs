@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Overworld.Features.Pointer
 {
+    using System;
     using Models;
 
     [RequireComponent(typeof(BoxCollider2D))]
@@ -21,6 +22,7 @@ namespace Overworld.Features.Pointer
 
         private PlayerPointer? playerPointer;
 
+        [NonSerialized]
         public bool canBuild = true;
 
         void Start()

@@ -44,6 +44,7 @@ public class BreakGround : MonoBehaviour
     {
         Debug.Log("壊れた！");
         floorCollider.isTrigger = true;
+
         spriteRenderer.color = new Color(1f, 1f, 1f, 0f);
 
         playOnFloor = false;

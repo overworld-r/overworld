@@ -14,17 +14,10 @@ namespace Overworld.Backpack
         private CinemachineVirtualCamera virtualCamera = default!;
 
         public bool open { get; private set; } = false;
-        private GameObject? canvas;
         private CinemachineFramingTransposer? orbitalTransposer;
 
         void Start()
         {
-            var canvasName = overworldModel.CanvasObjectName;
-            canvas = overworldModel
-                .Backpack.Except("Bacpack is not assigned")
-                .transform.Find(canvasName)
-                .Except("Canvas not found")
-                .gameObject;
             orbitalTransposer =
                 virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 
@@ -37,7 +30,7 @@ namespace Overworld.Backpack
             {
                 open = !open;
 
-                canvas.Match(v => v.gameObject.SetActive(open));
+                overworldModel.Canvas.SetActive(open);
                 orbitalTransposer.Match(v => v.m_ScreenY = open ? 0.4f : 0.5f);
             }
         }

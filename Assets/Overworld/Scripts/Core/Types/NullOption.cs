@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Overworld.Types
 {
@@ -31,6 +32,7 @@ namespace Overworld.Types
                     if (some != null)
                     {
                         some(obj);
+                        return;
                     }
                 }
             }
@@ -39,6 +41,7 @@ namespace Overworld.Types
                 if (some != null)
                 {
                     some(obj);
+                    return;
                 }
             }
 
@@ -75,7 +78,7 @@ namespace Overworld.Types
             {
                 if (unityObj == null)
                 {
-                    throw new System.Exception($"Unity object {obj} of type {typeof(T)} is null");
+                    throw new System.Exception($"Object {obj} of type {typeof(T)} is null");
                 }
             }
             else if (obj == null)

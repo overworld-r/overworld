@@ -158,9 +158,10 @@ GameObject:
   - component: {fileID: -2475691872693310797}
   - component: {fileID: 7979396424289741396}
   - component: {fileID: 9017158627803402021}
-  - component: {fileID: 3699003033105045203}
+  - component: {fileID: 4191432067955596847}
+  - component: {fileID: 8726399668685086229}
   m_Layer: 0
-  m_Name: Spring
+  m_Name: ThrowableSpring
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -316,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6d1a3f439584bc9bbe6b5b9a8bf48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3699003033105045203
+--- !u!114 &4191432067955596847
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -325,7 +326,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 8520513962429085101}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e6f16f50e1b8ff49bb0142144263b2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 85757571443774b6393d07a224f56d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounceForce: 3
+  Duplicatable: 1
+--- !u!50 &8726399668685086229
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8520513962429085101}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
