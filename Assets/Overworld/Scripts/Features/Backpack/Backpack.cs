@@ -1,5 +1,6 @@
 using Cinemachine;
 using Overworld.Core;
+using Overworld.Features.Pointer;
 using Overworld.Models;
 using Overworld.Types;
 using UnityEngine;
@@ -28,10 +29,31 @@ namespace Overworld.Backpack
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                open = !open;
+                var playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
 
-                overworldModel.Canvas.SetActive(open);
-                orbitalTransposer.Match(v => v.m_ScreenY = open ? 0.4f : 0.5f);
+                playerPointer.holdingItem.Match(
+                    some: _ =>
+                    {
+                        if (playerPointer.locationStatus.value == LocationStatus.Location.Bag)
+                        {
+                            if (open)
+                            {
+                                return;
+                            }
+                        }
+                        open = !open;
+
+                        overworldModel.Canvas.SetActive(open);
+                        orbitalTransposer.Match(v => v.m_ScreenY = open ? 0.4f : 0.5f);
+                    },
+                    none: () =>
+                    {
+                        open = !open;
+
+                        overworldModel.Canvas.SetActive(open);
+                        orbitalTransposer.Match(v => v.m_ScreenY = open ? 0.4f : 0.5f);
+                    }
+                );
             }
         }
     }

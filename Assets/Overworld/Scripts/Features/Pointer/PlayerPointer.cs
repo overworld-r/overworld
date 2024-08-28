@@ -48,11 +48,11 @@ namespace Overworld.Features.Pointer
                     .Match(
                         some: (p) =>
                         {
-                            clickable.OnClick(p);
+                            clickable.OnClick(new Some<GameObject>(p));
                         },
                         none: () =>
                         {
-                            Debug.LogError($"プレファブが見つかりません: {clickedItem.name}");
+                            clickable.OnClick(new None<GameObject>());
                         }
                     );
             }

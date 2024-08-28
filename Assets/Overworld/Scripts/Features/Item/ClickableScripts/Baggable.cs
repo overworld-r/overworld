@@ -20,7 +20,7 @@ namespace Overworld.Features.Pointer
             playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
         }
 
-        void IClickable.OnClick(GameObject prefab)
+        void IClickable.OnClick(IOption<GameObject> prefab)
         {
             if (playerPointer?.locationStatus.value != LocationStatus.Location.Bag)
             {
@@ -29,6 +29,12 @@ namespace Overworld.Features.Pointer
 
             if (playerPointer.holdingItem.IsEmpty)
             {
+                foreach (var rb in this.gameObject.GetComponentsInChildren<Collider2D>())
+                {
+                    rb.enabled = false;
+                }
+                this.GetComponent<Collider2D>().enabled = true;
+
                 playerPointer.holdingItem = new Some<GameObject>(this.gameObject);
             }
             else
@@ -69,6 +75,11 @@ namespace Overworld.Features.Pointer
                 //     snappedY,
                 //     cursorPosition.z
                 // );
+
+                foreach (var rb in this.gameObject.GetComponentsInChildren<Collider2D>())
+                {
+                    rb.enabled = true;
+                }
 
                 playerPointer.holdingItem = new None<GameObject>();
             }

@@ -43,7 +43,8 @@ namespace Overworld.Features.Pointer
                                     itemCollider.isTrigger = true;
                                 }
 
-                                item.AddComponent<Rigidbody2D>();
+                                item.AddComponent<Rigidbody2D>().bodyType =
+                                    RigidbodyType2D.Kinematic;
 
                                 if (item.TryGetComponent<SpriteRenderer>(out var itemRenderer))
                                 {

@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Overworld.Features.Pointer
 {
     using Models;
+    using Overworld.Types;
 
     [RequireComponent(typeof(BoxCollider2D))]
     class Breakable : MonoBehaviour, IClickable
@@ -67,7 +68,7 @@ namespace Overworld.Features.Pointer
             shouldStopBreak = true;
         }
 
-        void IClickable.OnClick(GameObject itemPrefab)
+        void IClickable.OnClick(IOption<GameObject> itemPrefab)
         {
             if (
                 playerPointer.locationStatus.value != LocationStatus.Location.World

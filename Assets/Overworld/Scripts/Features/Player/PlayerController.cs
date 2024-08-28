@@ -207,12 +207,10 @@ namespace Overworld.Features.Player
                         overworldModel.PlayerStatus.resourcesAmount.Add(
                             new ResourcesAmount(resourceComponent.type, 1)
                         );
-                        Debug.Log($"Picked up Resource. / {resourceComponent.type} / 1");
                     },
                     some: v =>
                     {
                         v.amount += 1;
-                        Debug.Log($"Picked up Resource. / {v.type}, {v.amount}");
                         Destroy(resource);
                     }
                 );
