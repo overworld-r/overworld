@@ -1,4 +1,5 @@
 using Overworld.Core;
+using Overworld.Types;
 
 namespace Overworld.Features.Player
 {
@@ -12,8 +13,7 @@ namespace Overworld.Features.Player
 
         public override void Execute()
         {
-            if (player != null)
-                player.isWallJumping = false;
+            player.Match(p => p.isWallJumping = false);
         }
     }
 }

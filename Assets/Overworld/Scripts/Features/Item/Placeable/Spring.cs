@@ -1,4 +1,5 @@
 using Overworld.Features.CustomCollision;
+using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Item
@@ -22,10 +23,9 @@ namespace Overworld.Features.Item
 
         void Bounce(Collider2D collider)
         {
-            if (collider.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
-            {
-                rb.Push(bounceForce * transform.up, ForceMode2D.Impulse);
-            }
+            collider.gameObject.OptGetComponent<Rigidbody2D>(rb =>
+                rb.Push(bounceForce * transform.up, ForceMode2D.Impulse)
+            );
         }
     }
 }

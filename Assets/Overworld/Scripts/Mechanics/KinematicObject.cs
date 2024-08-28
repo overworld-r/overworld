@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Overworld.Mechanics
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class KinematicObject : MonoBehaviour
     {
         public bool isGrounded { get; private set; }
@@ -16,15 +17,13 @@ namespace Overworld.Mechanics
 
         public WallSlideState wallSlideState = WallSlideState.None;
 
-        protected Rigidbody2D? body;
+        protected Rigidbody2D body = default!;
         protected ContactFilter2D contactFilter;
 
         public void Teleport(Vector3 position)
         {
-            Rigidbody2D _body = body.Unwrap();
-
-            _body.position = position;
-            _body.velocity *= 0;
+            body.position = position;
+            body.velocity *= 0;
         }
 
         protected virtual void OnEnable()
@@ -61,9 +60,8 @@ namespace Overworld.Mechanics
 
         protected virtual WallSlideState JudgeWallSliding()
         {
-            Rigidbody2D _body = body.Unwrap();
-            int countRight = _body.Cast(Vector2.right, contactFilter, new RaycastHit2D[1], 0.2f);
-            int countLeft = _body.Cast(Vector2.left, contactFilter, new RaycastHit2D[1], 0.2f);
+            int countRight = body.Cast(Vector2.right, contactFilter, new RaycastHit2D[1], 0.2f);
+            int countLeft = body.Cast(Vector2.left, contactFilter, new RaycastHit2D[1], 0.2f);
 
             if (countRight > 0)
             {

@@ -157,8 +157,8 @@ GameObject:
   - component: {fileID: 4985388002354420698}
   - component: {fileID: -2475691872693310797}
   - component: {fileID: 7979396424289741396}
-  - component: {fileID: 5091140299960730522}
   - component: {fileID: 9017158627803402021}
+  - component: {fileID: 2407240766124090543}
   m_Layer: 0
   m_Name: Spring
   m_TagString: Item
@@ -304,19 +304,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounceForce: 5
---- !u!114 &5091140299960730522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8520513962429085101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f5558b03b20249dd83f22ba8a7b4a57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canBuild: 1
 --- !u!114 &9017158627803402021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,3 +316,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6d1a3f439584bc9bbe6b5b9a8bf48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2407240766124090543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8520513962429085101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 109173a9f48c34e439b1f4038422323c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Duplicatable: 1
+  canBuild: 1

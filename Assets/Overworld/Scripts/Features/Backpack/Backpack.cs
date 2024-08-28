@@ -35,13 +35,10 @@ namespace Overworld.Backpack
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                if (!canvas || !virtualCamera)
-                    return;
-
                 open = !open;
 
-                canvas.Unwrap().gameObject.SetActive(open);
-                orbitalTransposer.Unwrap().m_ScreenY = open ? 0.4f : 0.5f;
+                canvas.Match(v => v.gameObject.SetActive(open));
+                orbitalTransposer.Match(v => v.m_ScreenY = open ? 0.4f : 0.5f);
             }
         }
     }

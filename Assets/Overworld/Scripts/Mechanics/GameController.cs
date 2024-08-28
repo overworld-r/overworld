@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Overworld.Models
 {
+    using Types;
+
     class GameController : MonoBehaviour
     {
         public static GameController? Instance { get; private set; }
@@ -16,10 +18,10 @@ namespace Overworld.Models
 
             foreach (var prefab in prefabs)
             {
-                if (!prefab.TryGetComponent<IItemMetadata>(out _))
+                prefab.OptGetComponent<IItemMetadata>(none: () =>
                 {
                     throw new System.Exception("IItemMetadataが実装されていません");
-                }
+                });
             }
         }
 

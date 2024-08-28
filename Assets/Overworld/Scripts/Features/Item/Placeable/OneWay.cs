@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class OneWay : MonoBehaviour
 {
-    public BoxCollider2D? objectCollider;
+    public BoxCollider2D objectCollider = default!;
 
     void Start()
     {
@@ -12,11 +12,6 @@ public class OneWay : MonoBehaviour
 
     void Update()
     {
-        if (objectCollider == null)
-        {
-            return;
-        }
-
         if (Input.GetKey(KeyCode.DownArrow))
         {
             objectCollider.enabled = false;

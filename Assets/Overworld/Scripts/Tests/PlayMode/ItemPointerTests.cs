@@ -53,7 +53,7 @@ namespace Overworld.Tests
         [UnityTest]
         public IEnumerator Pointerに必要なコンポーネントがアタッチされている()
         {
-            GameObject _playerPointer = GameObject.Find("Pointer").Unwrap();
+            GameObject _playerPointer = GameObject.Find("Pointer");
             Assert.IsNotNull(itemPointer, "Pointerがシーンに存在しません");
 
             Assert.IsNotNull(
@@ -81,9 +81,7 @@ namespace Overworld.Tests
         public IEnumerator ItemManagerのResetが機能している()
         {
             gameObject = new GameObject();
-            PlayerPointer _playerPointerComponent = gameObject
-                .AddComponent<PlayerPointer>()
-                .Unwrap();
+            PlayerPointer _playerPointerComponent = gameObject.AddComponent<PlayerPointer>();
             Assert.IsNotNull(_playerPointerComponent, "ItemManagerがnullです。");
 
             yield return null;

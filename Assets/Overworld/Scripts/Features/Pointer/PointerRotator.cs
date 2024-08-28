@@ -1,4 +1,5 @@
 using Overworld.Features.Item.Models;
+using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
@@ -27,14 +28,25 @@ namespace Overworld.Features.Pointer
                     float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
                     if (scrollWheel != 0)
                     {
-                        if (item.TryGetComponent<ICustomRotate>(out var rotate))
-                        {
-                            rotate.OnRotate(scrollWheel);
-                        }
-                        else
-                        {
-                            item.transform.Rotate(0, 0, scrollWheel * rotationSpeed);
-                        }
+                        item.OptGetComponent<ICustomRotate>(
+                            some: rotate =>
+                            {
+                                rotate.OnRotate(scrollWheel);
+                            },
+                            none: () =>
+                            {
+                                item.transform.Rotate(0, 0, scrollWheel * rotationSpeed);
+                            }
+                        );
+
+                        // if (item.TryGetComponent<ICustomRotate>(out var rotate))
+                        // {
+                        //     rotate.OnRotate(scrollWheel);
+                        // }
+                        // else
+                        // {
+                        //     item.transform.Rotate(0, 0, scrollWheel * rotationSpeed);
+                        // }
                     }
                 }
             );

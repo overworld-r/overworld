@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcf44e7c113fa431aaadc465a5b56f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPortalName: PortalA
+  targetPortal: {fileID: 722083070}
 --- !u!1 &389145474 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3329119279812180246, guid: 04df382f8677c4f43b2296dba300997f, type: 3}
@@ -914,6 +914,7 @@ GameObject:
   - component: {fileID: 722083074}
   - component: {fileID: 722083073}
   - component: {fileID: 722083075}
+  - component: {fileID: 722083077}
   m_Layer: 0
   m_Name: PortalA
   m_TagString: Untagged
@@ -1045,7 +1046,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcf44e7c113fa431aaadc465a5b56f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPortalName: PortalB
+  targetPortal: {fileID: 350485772}
+--- !u!114 &722083077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722083070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 109173a9f48c34e439b1f4038422323c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Duplicatable: 0
+  canBuild: 1
 --- !u!20 &842135475 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2697519445913222484, guid: d7a8beccfc46b4936a8dfc2d18e362f8, type: 3}

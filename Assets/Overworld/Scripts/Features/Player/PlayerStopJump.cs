@@ -1,4 +1,5 @@
 using Overworld.Core;
+using Overworld.Types;
 
 namespace Overworld.Features.Player
 {

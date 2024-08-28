@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 657946861090373444}
   - component: {fileID: 8636497676175623681}
   - component: {fileID: 1142309266302534195}
-  - component: {fileID: 90533767050892095}
   - component: {fileID: 1158194350655091532}
+  - component: {fileID: 6410977733189780673}
   m_Layer: 0
   m_Name: DRDBB1x1
   m_TagString: Item
@@ -158,20 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6d1a3f439584bc9bbe6b5b9a8bf48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breakableRenderer: {fileID: 3961843779599232988}
---- !u!114 &90533767050892095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7714863522075635529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f5558b03b20249dd83f22ba8a7b4a57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canBuild: 1
 --- !u!114 &1158194350655091532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,3 +170,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e69dcd8675bf41ad809a788435a0bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6410977733189780673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7714863522075635529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 109173a9f48c34e439b1f4038422323c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Duplicatable: 1
+  canBuild: 1
