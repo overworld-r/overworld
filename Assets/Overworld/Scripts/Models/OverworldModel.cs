@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Overworld.Models
@@ -10,6 +11,10 @@ namespace Overworld.Models
         public GameObject Canvas = default!;
         public GameObject Pointer = default!;
         public GameObject Player = default!;
+        public PlayerStatus PlayerStatus = new PlayerStatus();
+
+        public List<GameObject> ItemPrefabs = new List<GameObject>();
+        public List<GameObject> ResourcePrefabs = new List<GameObject>();
 
         public enum LocationStatus
         {

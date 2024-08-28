@@ -212,7 +212,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Duplicatable: 1
-  canBuild: 1
 --- !u!114 &4726538354462072485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,3 +224,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeeeeb1ef41fb417ca66ce015dd271bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  droppAmountList:
+  - type: 1
+    value: 50
+  - type: 0
+    value: 50
+  - type: 2
+    value: 50

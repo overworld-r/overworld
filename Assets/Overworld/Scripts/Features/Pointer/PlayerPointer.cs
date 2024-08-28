@@ -43,8 +43,8 @@ namespace Overworld.Features.Pointer
             var clickableComponents = clickedItem.GetComponents<IClickable>();
             foreach (var clickable in clickableComponents)
             {
-                Resources
-                    .Load<GameObject>($"ItemPrefabs/{clickedItem.name}")
+                overworldModel
+                    .ItemPrefabs.Find(v => v.name == clickedItem.name)
                     .Match(
                         some: (p) =>
                         {

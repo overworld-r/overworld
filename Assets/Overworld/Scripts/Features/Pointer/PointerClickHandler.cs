@@ -29,18 +29,23 @@ namespace Overworld.Features.Pointer
                     },
                     none: () =>
                     {
-                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        Vector3 worldPoint = itemPointer.locationStatus.Match(
+                            world: () => Camera.main.ScreenToWorldPoint(Input.mousePosition),
+                            bag: () =>
+                                overworldModel.UICamera.ScreenToWorldPoint(Input.mousePosition)
+                        );
 
-                        itemPointer.locationStatus.Match(bag: () =>
-                        {
-                            ray = overworldModel.UICamera.ScreenPointToRay(Input.mousePosition);
-                        });
+                        Vector2 worldPoint2D = new Vector2(worldPoint.x, worldPoint.y);
 
-                        RaycastHit2D[] hitSprites = Physics2D.RaycastAll(ray.origin, ray.direction);
+                        RaycastHit2D[] hitSprites = Physics2D.RaycastAll(
+                            worldPoint2D,
+                            Vector2.zero,
+                            100f
+                        );
 
                         foreach (var sprite in hitSprites)
                         {
-                            if (sprite != false && sprite.transform.gameObject.CompareTag("Item"))
+                            if (sprite.transform.gameObject.CompareTag("Item"))
                             {
                                 OnItemClicked.Match(v => v.Invoke(sprite.transform.gameObject));
                                 break;

@@ -1,3 +1,5 @@
+using Overworld.Features.CustomCollision;
+using Overworld.Types;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
@@ -18,10 +20,13 @@ public class PortalGate : MonoBehaviour
         if (!portalParent.CanWarp())
             return;
 
-        if (other.CompareTag("Player") || other.CompareTag("Item"))
+        other.gameObject.OptGetComponent<ICustomCollision>(none: () =>
         {
-            WarpPlayer(other.transform, targetPortal.transform);
-        }
+            if (other.CompareTag("Player") || other.CompareTag("Item"))
+            {
+                WarpPlayer(other.transform, targetPortal.transform);
+            }
+        });
     }
 
     private void WarpPlayer(Transform player, Transform targetWarp)

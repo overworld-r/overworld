@@ -1,60 +1,58 @@
-using Overworld.Features.Item.Models;
+using System.Collections.Generic;
+using Overworld.Core;
+using Overworld.Features.Resource.Models;
 using Overworld.Mechanics.Types;
+using Overworld.Models;
 using UnityEngine;
 
 namespace Overworld.Features.Pointer
 {
-    public class Droppable : MonoBehaviour, Models.IBreakable
+    using Models;
+
+    [System.Serializable]
+    public class DropAmount
     {
+        [SerializeField]
+        public ResourceType type = ResourceType.Stone;
+
+        [SerializeField]
+        public int value = 0;
+    }
+
+    public class Droppable : MonoBehaviour, IBreakable
+    {
+        private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+
+        [SerializeField]
+        List<DropAmount> droppAmountList = new List<DropAmount>();
+
         void Update() { }
 
         void Models.IBreakable.OnBreak()
         {
-            GenerateResource(this.GetComponent<IResourceMetadata>().metadata);
+            GenerateResource();
         }
 
-        void GenerateResource(ResourceMetadata meta)
+        void GenerateResource()
         {
-            for (int i = 0; i < meta.stone; i++)
+            foreach (var amount in droppAmountList)
             {
-                GameObject stone = Instantiate(
-                    Resources.Load<GameObject>("GameResourcePrefabs/stone")
-                );
-                Vector3 random = new Vector3(
-                    Random.Range(-0.5f, 0.5f),
-                    Random.Range(-0.5f, 0.5f),
-                    0.0f
-                );
-                stone.transform.position = this.transform.position + random;
-                stone.GetComponent<Rigidbody2D>().Push(random);
-            }
+                for (int i = 0; i < amount.value; i++)
+                {
+                    Vector3 random = new Vector3(
+                        Random.Range(-0.5f, 0.5f),
+                        Random.Range(-0.5f, 0.5f),
+                        0.0f
+                    );
 
-            for (int i = 0; i < meta.wood; i++)
-            {
-                GameObject wood = Instantiate(
-                    Resources.Load<GameObject>("GameResourcePrefabs/wood")
-                );
-                Vector3 random = new Vector3(
-                    Random.Range(-0.5f, 0.5f),
-                    Random.Range(-0.5f, 0.5f),
-                    0.0f
-                );
-                wood.transform.position = this.transform.position + random;
-                wood.GetComponent<Rigidbody2D>().Push(random);
-            }
+                    var prefab = overworldModel.ResourcePrefabs.Find(v =>
+                        v.GetComponent<IResourceMetadata>().type == amount.type
+                    );
+                    var newResource = Instantiate(prefab);
 
-            for (int i = 0; i < meta.iron; i++)
-            {
-                GameObject iron = Instantiate(
-                    Resources.Load<GameObject>("GameResourcePrefabs/iron")
-                );
-                Vector3 random = new Vector3(
-                    Random.Range(-0.5f, 0.5f),
-                    Random.Range(-0.5f, 0.5f),
-                    0.0f
-                );
-                iron.transform.position = this.transform.position + random;
-                iron.GetComponent<Rigidbody2D>().Push(random);
+                    newResource.transform.position = this.transform.position + random;
+                    newResource.GetComponent<Rigidbody2D>().Push(random);
+                }
             }
         }
     }

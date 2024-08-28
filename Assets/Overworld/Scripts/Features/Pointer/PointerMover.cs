@@ -28,8 +28,6 @@ namespace Overworld.Features.Pointer
                     Vector3 mousePosition = Input.mousePosition;
                     mousePosition.z = 10f;
 
-                    item.transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
-
                     playerPointer.locationStatus.Match(
                         world: () =>
                         {

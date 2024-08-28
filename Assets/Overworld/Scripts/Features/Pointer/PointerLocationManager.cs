@@ -49,6 +49,13 @@ namespace Overworld.Features.Pointer
                                 {
                                     itemRenderer.sortingOrder = 100;
                                 }
+
+                                item.transform.localScale = item.transform.localScale / 20;
+                                item.transform.position = new Vector3(
+                                    item.transform.position.x,
+                                    item.transform.position.y,
+                                    0f
+                                );
                             }
                         );
                     }
@@ -66,6 +73,14 @@ namespace Overworld.Features.Pointer
                                 {
                                     itemCollider.isTrigger = true;
                                 }
+
+                                item.transform.localScale = item.transform.localScale * 20;
+
+                                item.transform.position = new Vector3(
+                                    item.transform.position.x,
+                                    item.transform.position.y,
+                                    0f
+                                );
 
                                 if (item.TryGetComponent<Rigidbody2D>(out var itemRigidbody))
                                 {

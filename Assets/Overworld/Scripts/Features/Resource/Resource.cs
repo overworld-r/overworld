@@ -1,29 +1,29 @@
+using Overworld.Core;
 using Overworld.Features.Player;
 using Overworld.Mechanics;
+using Overworld.Models;
 using UnityEngine;
 
 namespace Overworld.Features.Resource
 {
+    [RequireComponent(typeof(Rigidbody2D), typeof(Attractable))]
     public class Resource : MonoBehaviour
     {
-        private GameObject player = default!;
-
-        void Start()
-        {
-            player = GameObject.Find("Player");
-        }
+        private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
         void Update()
         {
             var attractable = this.GetComponent<Attractable>();
-            attractable.Attract(0.2f, 5f, player.transform.position);
+            attractable.Attract(0.2f, 5f, overworldModel.Player.transform.position);
         }
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject == player)
+            if (collision.gameObject == overworldModel.Player)
             {
-                player.GetComponent<PlayerController>().PickupResource(this.gameObject);
+                overworldModel
+                    .Player.GetComponent<PlayerController>()
+                    .PickupResource(this.gameObject);
             }
         }
     }

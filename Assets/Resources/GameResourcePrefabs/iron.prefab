@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1262491561218347624}
   - component: {fileID: 2734945451095283990}
   - component: {fileID: 544713118576782713}
+  - component: {fileID: -1026704175977101670}
   m_Layer: 0
   m_Name: iron
   m_TagString: Untagged
@@ -182,5 +183,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fadf738762592b44a922ff674af6f98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1026704175977101670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401551611637506723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaca7cb0bd5894be1b12c38f5fbf9c98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

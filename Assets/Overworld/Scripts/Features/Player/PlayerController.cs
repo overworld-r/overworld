@@ -1,4 +1,8 @@
+using Overworld.Core;
+using Overworld.Features.Resource.Models;
 using Overworld.Mechanics;
+using Overworld.Models;
+using Overworld.Types;
 using UnityEngine;
 using static Overworld.Core.Simulation;
 
@@ -6,6 +10,8 @@ namespace Overworld.Features.Player
 {
     public class PlayerController : KinematicObject
     {
+        private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
+
         public float maxSpeed = 8;
         public float jumpTakeOffSpeed = 15;
         public float wallJumpTakeOffSpeed = 15;
@@ -192,19 +198,24 @@ namespace Overworld.Features.Player
 
         public void PickupResource(GameObject resource)
         {
-            if (resource.gameObject.name == "stone")
-            {
-                Debug.Log("Picked up stone");
-            }
-            else if (resource.gameObject.name == "wood")
-            {
-                Debug.Log("Picked up wood");
-            }
-            else if (resource.gameObject.name == "iron")
-            {
-                Debug.Log("Picked up iron");
-            }
-            Destroy(resource);
+            var resourceComponent = resource.gameObject.GetComponent<IResourceMetadata>();
+            overworldModel
+                .PlayerStatus.resourcesAmount.Find(v => v.type == resourceComponent.type)
+                .Match(
+                    none: () =>
+                    {
+                        overworldModel.PlayerStatus.resourcesAmount.Add(
+                            new ResourcesAmount(resourceComponent.type, 1)
+                        );
+                        Debug.Log($"Picked up Resource. / {resourceComponent.type} / 1");
+                    },
+                    some: v =>
+                    {
+                        v.amount += 1;
+                        Debug.Log($"Picked up Resource. / {v.type}, {v.amount}");
+                        Destroy(resource);
+                    }
+                );
         }
 
         protected override void ComputeVelocity()

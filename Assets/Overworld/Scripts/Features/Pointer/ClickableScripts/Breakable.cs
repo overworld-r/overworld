@@ -48,11 +48,11 @@ namespace Overworld.Features.Pointer
 
             if (breakProgress >= 1f)
             {
-                Destroy(this.gameObject);
                 if (TryGetComponent<Models.IBreakable>(out var breakable))
                 {
                     breakable.OnBreak();
                 }
+                Destroy(this.gameObject);
             }
         }
 
