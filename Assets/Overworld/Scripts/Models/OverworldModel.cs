@@ -7,8 +7,9 @@ namespace Overworld.Models
     {
         public Camera UICamera = default!;
         public GameObject Backpack = default!;
-        public string CanvasObjectName = "Canvas";
+        public GameObject Canvas = default!;
         public GameObject Pointer = default!;
+        public GameObject Player = default!;
 
         public enum LocationStatus
         {

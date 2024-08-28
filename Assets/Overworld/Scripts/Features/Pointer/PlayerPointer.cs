@@ -43,9 +43,18 @@ namespace Overworld.Features.Pointer
             var clickableComponents = clickedItem.GetComponents<IClickable>();
             foreach (var clickable in clickableComponents)
             {
-                var prefab = Resources.Load<GameObject>($"ItemPrefabs/{clickedItem.name}");
-
-                clickable.OnClick(prefab);
+                Resources
+                    .Load<GameObject>($"ItemPrefabs/{clickedItem.name}")
+                    .Match(
+                        some: (p) =>
+                        {
+                            clickable.OnClick(p);
+                        },
+                        none: () =>
+                        {
+                            Debug.LogError($"プレファブが見つかりません: {clickedItem.name}");
+                        }
+                    );
             }
         }
     }

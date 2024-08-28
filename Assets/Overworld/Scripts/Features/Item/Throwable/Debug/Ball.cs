@@ -1,8 +1,16 @@
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+namespace Overworld.Features.Item
 {
-    void Start() { }
+    using Models;
 
-    void Update() { }
+    public class Ball : MonoBehaviour, IItemMetadata
+    {
+        ItemMetadata IItemMetadata.metadata { get; set; } =
+            new ItemMetadata("Ball", "Throwable ball", 100f);
+
+        void Start() { }
+
+        void Update() { }
+    }
 }

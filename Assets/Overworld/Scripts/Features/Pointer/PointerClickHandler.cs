@@ -25,7 +25,7 @@ namespace Overworld.Features.Pointer
                 itemPointer.holdingItem.Match(
                     some: item =>
                     {
-                        OnItemClicked.Unwrap().Invoke(item);
+                        OnItemClicked.Match(f => f.Invoke(item));
                     },
                     none: () =>
                     {
@@ -42,7 +42,7 @@ namespace Overworld.Features.Pointer
                         {
                             if (sprite != false && sprite.transform.gameObject.CompareTag("Item"))
                             {
-                                OnItemClicked.Unwrap().Invoke(sprite.transform.gameObject);
+                                OnItemClicked.Match(v => v.Invoke(sprite.transform.gameObject));
                                 break;
                             }
                         }
