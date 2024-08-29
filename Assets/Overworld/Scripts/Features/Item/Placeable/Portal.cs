@@ -17,7 +17,6 @@ public class PortalGate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("OnTriggerEnter2D called with " + other.name);
 
 
         other.gameObject.OptGetComponent<CustomCollision>(none: () =>
@@ -26,7 +25,6 @@ public class PortalGate : MonoBehaviour
             {
                 if (!portalParent.CanWarp())
                 {
-                    Debug.Log("cooltime" + other.name);
                     return;
                 }
                 WarpPlayer(other.transform, targetPortal.transform);
@@ -36,7 +34,6 @@ public class PortalGate : MonoBehaviour
 
     private void WarpPlayer(Transform player, Transform targetWarp)
     {
-        Debug.Log("俺とんだよ" + player.gameObject.name);
         portalParent.StartTimer();
         player.position = targetWarp.position;
     }
