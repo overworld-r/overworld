@@ -17,6 +17,8 @@ public class PortalGate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+
+
         other.gameObject.OptGetComponent<CustomCollision>(none: () =>
         {
             if (other.CompareTag("Player") || other.CompareTag("Item"))
@@ -35,4 +37,3 @@ public class PortalGate : MonoBehaviour
         portalParent.StartTimer();
         player.position = targetWarp.position;
     }
-}
