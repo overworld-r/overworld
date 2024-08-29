@@ -53,7 +53,7 @@ namespace Overworld.Mechanics
 
         protected virtual bool JudgeGrounded()
         {
-            int count = body.Unwrap().Cast(Vector2.down, contactFilter, new RaycastHit2D[1], 0.01f);
+            int count = body.Unwrap().Cast(Vector2.down, contactFilter, new RaycastHit2D[1], 0.05f);
 
             return count > 0;
         }

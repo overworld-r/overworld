@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2952548443929874424}
   - component: {fileID: 3248174621639840277}
   - component: {fileID: -7462661821444179726}
+  - component: {fileID: 8994571848354131114}
   m_Layer: 0
   m_Name: DNDBB1x2
   m_TagString: Item
@@ -183,4 +184,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Duplicatable: 1
-  canBuild: 1
+  UseDuplicateTexture: 0
+  DuplicateTexture: {fileID: 0}
+  DuplicateCost: []
+--- !u!114 &8994571848354131114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200049245648127713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeeeeb1ef41fb417ca66ce015dd271bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droppAmountList:
+  - type: 1
+    value: 3
+  - type: 2
+    value: 2

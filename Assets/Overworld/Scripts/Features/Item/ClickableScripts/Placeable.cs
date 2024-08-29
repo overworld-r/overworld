@@ -1,3 +1,4 @@
+using MyBox;
 using Overworld.Core;
 using Overworld.Models;
 using Overworld.Types;
@@ -5,7 +6,9 @@ using UnityEngine;
 
 namespace Overworld.Features.Pointer
 {
+    using System.Collections.Generic;
     using Models;
+    using Overworld.Features.Resource.Models;
 
     [RequireComponent(typeof(BoxCollider2D))]
     public class Placeable : MonoBehaviour, IClickable
@@ -13,21 +16,39 @@ namespace Overworld.Features.Pointer
         private OverworldModel overworldModel = Simulation.GetModel<OverworldModel>();
 
         [SerializeField]
-        private bool Duplicatable = default!;
+        private bool Duplicatable = false;
 
-        private Material TrunslucentShader = default!;
-        private Material HighlightRedShader = default!;
+        [ConditionalField(nameof(Duplicatable))]
+        public bool UseDuplicateTexture = false;
+
+        [ConditionalField(nameof(UseDuplicateTexture))]
+        public Sprite DuplicateTexture = default!;
+
+        [SerializeField]
+        public List<ResourceCost> DuplicateCost = new List<ResourceCost>();
+
+        private Material shaderPlaceable = default!;
+        private Material shaderNotPlaceable = default!;
+        private Material shaderDefault = default!;
         private SpriteRenderer spriteRenderer = default!;
 
         private PlayerPointer playerPointer = default!;
 
         // [NonSerialized]
-        public bool canBuild = true;
+        public bool canBuild { get; private set; } = true;
 
         void Start()
         {
-            TrunslucentShader = new Material(Shader.Find("unlit/Translucent"));
-            HighlightRedShader = new Material(Shader.Find("Unlit/HighlightRed"));
+            shaderPlaceable = new Material(Shader.Find("Unlit/Translucent")).Except(
+                "Translucentシェーダーが見つかりません"
+            );
+            shaderNotPlaceable = new Material(Shader.Find("Unlit/HighlightRed")).Except(
+                "HighlightRedシェーダーが見つかりません"
+            );
+            shaderDefault = new Material(Shader.Find("Sprites/Default")).Except(
+                "Defaultシェーダーが見つかりません"
+            );
+
             spriteRenderer = GetComponent<SpriteRenderer>();
             playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
         }
@@ -43,7 +64,17 @@ namespace Overworld.Features.Pointer
                 return;
             }
 
+            if (
+                Duplicatable
+                && !Player.Consume.UseResource(DuplicateCost)
+                && DuplicateCost.Count != 0
+            )
+            {
+                return;
+            }
+
             var newObject = Instantiate(itemPrefab.Value);
+
             newObject.name = this.gameObject.name;
             var mousePosition = Input.mousePosition;
             mousePosition.z = 10f;
@@ -61,19 +92,20 @@ namespace Overworld.Features.Pointer
                     newObject.AddComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
             });
 
-            newObject.OptGetComponent<SpriteRenderer>(some: renderer =>
+            if (UseDuplicateTexture)
             {
-                // renderer.material = itemBase.isHolding
-                //     ? TrunslucentShader
-                //     : new Material(Shader.Find("Sprites/Default"));
-            });
+                newObject.OptGetComponent<SpriteRenderer>(some: renderer =>
+                {
+                    renderer.sprite = DuplicateTexture;
+                });
+            }
 
             if (!Duplicatable)
             {
                 Destroy(this.gameObject);
 
                 playerPointer.holdingItem.Match(
-                    some: (_) =>
+                    some: _ =>
                     {
                         playerPointer.holdingItem = new None<GameObject>();
                     },
@@ -85,7 +117,29 @@ namespace Overworld.Features.Pointer
             }
         }
 
-        public void OnTriggerEnter2D(Collider2D other)
+        public void EnableCanBuilt()
+        {
+            canBuild = true;
+            spriteRenderer.material = shaderPlaceable;
+        }
+
+        public void DisableCanBuilt()
+        {
+            canBuild = false;
+            spriteRenderer.material = shaderNotPlaceable;
+        }
+
+        public void EffectOn()
+        {
+            spriteRenderer.material = shaderPlaceable;
+        }
+
+        public void EffectOff()
+        {
+            spriteRenderer.material = shaderDefault;
+        }
+
+        void OnTriggerEnter2D(Collider2D other)
         {
             playerPointer.holdingItem.Match(some: item =>
             {
@@ -98,17 +152,16 @@ namespace Overworld.Features.Pointer
                     return;
                 }
 
-                spriteRenderer.material = HighlightRedShader;
-                canBuild = false;
+                DisableCanBuilt();
             });
         }
 
-        public void OnTriggerStay2D(Collider2D other)
+        void OnTriggerStay2D(Collider2D other)
         {
             OnTriggerEnter2D(other);
         }
 
-        public void OnTriggerExit2D(Collider2D other)
+        void OnTriggerExit2D(Collider2D other)
         {
             playerPointer.holdingItem.Match(some: item =>
             {
@@ -121,8 +174,7 @@ namespace Overworld.Features.Pointer
                     return;
                 }
 
-                spriteRenderer.material = TrunslucentShader;
-                canBuild = true;
+                EnableCanBuilt();
             });
         }
     }

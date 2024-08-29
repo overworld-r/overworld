@@ -5,7 +5,7 @@ using Overworld.Models;
 using Overworld.Types;
 using UnityEngine;
 
-namespace Overworld.Backpack
+namespace Overworld.Features.Backpack
 {
     class Backpack : MonoBehaviour
     {
@@ -19,10 +19,13 @@ namespace Overworld.Backpack
 
         void Start()
         {
-            orbitalTransposer =
-                virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+            orbitalTransposer = virtualCamera
+                .Except("BackpackにVirtualCameraがアタッチされていません")
+                .GetCinemachineComponent<CinemachineFramingTransposer>();
 
             orbitalTransposer.m_ScreenX = 0.5f;
+
+            CloseBackpack();
         }
 
         void Update()
@@ -41,20 +44,37 @@ namespace Overworld.Backpack
                                 return;
                             }
                         }
-                        open = !open;
 
-                        overworldModel.Canvas.SetActive(open);
-                        orbitalTransposer.Match(v => v.m_ScreenY = open ? 0.4f : 0.5f);
+                        ToggleOpenBackpack();
                     },
                     none: () =>
                     {
-                        open = !open;
-
-                        overworldModel.Canvas.SetActive(open);
-                        orbitalTransposer.Match(v => v.m_ScreenY = open ? 0.4f : 0.5f);
+                        ToggleOpenBackpack();
                     }
                 );
             }
+        }
+
+        public void ToggleOpenBackpack()
+        {
+            open = !open;
+
+            overworldModel.Backpack.Contents.Self.SetActive(open);
+            orbitalTransposer.Match(v => v.m_ScreenY = open ? 0.4f : 0.5f);
+        }
+
+        public void OpenBackpack()
+        {
+            open = true;
+            overworldModel.Backpack.Contents.Self.SetActive(true);
+            orbitalTransposer.Match(v => v.m_ScreenY = 0.4f);
+        }
+
+        public void CloseBackpack()
+        {
+            open = false;
+            overworldModel.Backpack.Contents.Self.SetActive(false);
+            orbitalTransposer.Match(v => v.m_ScreenY = 0.5f);
         }
     }
 }

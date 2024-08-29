@@ -18,16 +18,20 @@ namespace Overworld.Features.Pointer
         [SerializeField]
         private float ThrowPower = 2.5f;
 
-        private Material? TrunslucentShader;
-        private Material? HighlightRedShader;
-        private SpriteRenderer? spriteRenderer;
+        private Material TrunslucentShader = default!;
+        private Material HighlightRedShader = default!;
+        private SpriteRenderer spriteRenderer = default!;
 
-        private PlayerPointer? playerPointer;
+        private PlayerPointer playerPointer = default!;
 
         void Start()
         {
-            TrunslucentShader = new Material(Shader.Find("unlit/Translucent"));
-            HighlightRedShader = new Material(Shader.Find("Unlit/HighlightRed"));
+            TrunslucentShader = new Material(Shader.Find("Unlit/Translucent")).Except(
+                "Translucentシェーダーが見つかりません"
+            );
+            HighlightRedShader = new Material(Shader.Find("Unlit/HighlightRed")).Except(
+                "Highlightシェーダーが見つかりません"
+            );
             spriteRenderer = GetComponent<SpriteRenderer>();
             playerPointer = overworldModel.Pointer.GetComponent<PlayerPointer>();
         }
@@ -56,13 +60,6 @@ namespace Overworld.Features.Pointer
             {
                 if (playerPointer.holdingItem.IsEmpty)
                     newObject.AddComponent<Rigidbody2D>();
-            });
-
-            newObject.OptGetComponent<SpriteRenderer>(some: renderer =>
-            {
-                // renderer.material = itemBase.isHolding
-                //     ? TrunslucentShader
-                //     : new Material(Shader.Find("Sprites/Default"));
             });
 
             var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

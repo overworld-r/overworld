@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace Overworld.Types
 {
@@ -49,7 +48,7 @@ namespace Overworld.Types
                 none();
         }
 
-        public static T Match<T>(this T? obj, Func<T, T> some, Func<T> none)
+        public static S Match<T, S>(this T? obj, Func<T, S> some, Func<S> none)
         {
             if (obj is UnityEngine.Object unityObj)
             {

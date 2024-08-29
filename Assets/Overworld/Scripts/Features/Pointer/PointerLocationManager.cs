@@ -16,7 +16,7 @@ namespace Overworld.Features.Pointer
 
         void Start()
         {
-            backpackComponent = overworldModel.Backpack.GetComponent<Backpack.Backpack>();
+            backpackComponent = overworldModel.Backpack.Self.GetComponent<Backpack.Backpack>();
             playerPointer = GetComponent<PlayerPointer>();
         }
 
@@ -51,7 +51,6 @@ namespace Overworld.Features.Pointer
                                     itemRenderer.sortingOrder = 100;
                                 }
 
-                                item.transform.localScale = item.transform.localScale / 20;
                                 item.transform.position = new Vector3(
                                     item.transform.position.x,
                                     item.transform.position.y,
@@ -69,13 +68,14 @@ namespace Overworld.Features.Pointer
                         playerPointer.holdingItem.Match(
                             some: (item) =>
                             {
-                                item.transform.SetParent(overworldModel.Canvas.transform, false);
+                                item.transform.SetParent(
+                                    overworldModel.Backpack.Contents.Inventory.transform,
+                                    false
+                                );
                                 if (item.TryGetComponent<Collider2D>(out var itemCollider))
                                 {
                                     itemCollider.isTrigger = true;
                                 }
-
-                                item.transform.localScale = item.transform.localScale * 20;
 
                                 item.transform.position = new Vector3(
                                     item.transform.position.x,
@@ -95,7 +95,8 @@ namespace Overworld.Features.Pointer
 
                                 if (item.TryGetComponent<Placeable>(out var itemPlaceable))
                                 {
-                                    itemPlaceable.canBuild = true;
+                                    itemPlaceable.EnableCanBuilt();
+                                    itemPlaceable.EffectOff();
                                 }
                             }
                         );

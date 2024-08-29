@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1142309266302534195}
   - component: {fileID: 1158194350655091532}
   - component: {fileID: 6410977733189780673}
+  - component: {fileID: -6672895812661452572}
   m_Layer: 0
   m_Name: DRDBB1x1
   m_TagString: Item
@@ -183,4 +184,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Duplicatable: 1
-  canBuild: 1
+  UseDuplicateTexture: 0
+  DuplicateTexture: {fileID: 0}
+  DuplicateCost: []
+--- !u!114 &-6672895812661452572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7714863522075635529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeeeeb1ef41fb417ca66ce015dd271bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droppAmountList:
+  - type: 2
+    value: 4
+  - type: 0
+    value: 2

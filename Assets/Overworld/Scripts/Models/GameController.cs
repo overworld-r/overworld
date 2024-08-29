@@ -15,11 +15,72 @@ namespace Overworld.Models
 
         void Reset()
         {
-            model.UICamera = GameObject.Find("UICamera").GetComponent<Camera>();
-            model.Backpack = GameObject.Find("Backpack");
-            model.Canvas = model.Backpack.gameObject.transform.Find("Canvas").gameObject;
-            model.Pointer = GameObject.Find("Pointer");
-            model.Player = GameObject.Find("Player");
+            GameObject
+                .Find("UICamera")
+                .OptGetComponent<Camera>(
+                    some: v => model.UICamera = v,
+                    none: () =>
+                    {
+                        Debug.Log("UICameraが見つかりませんでした");
+                    }
+                );
+            GameObject
+                .Find("Backpack")
+                .Match(
+                    some: v => model.Backpack.Self = v,
+                    none: () =>
+                    {
+                        Debug.Log("Backpackが見つかりませんでした");
+                    }
+                );
+            model
+                .Backpack.Self.gameObject.transform.Find("Contents")
+                .Match(
+                    some: v => model.Backpack.Contents.Self = v.gameObject,
+                    none: () =>
+                    {
+                        Debug.Log("Backpack/Contentsが見つかりませんでした");
+                    }
+                );
+
+            model
+                .Backpack.Contents.Self.gameObject.transform.Find("Inventory")
+                .Match(
+                    some: v => model.Backpack.Contents.Inventory = v.gameObject,
+                    none: () =>
+                    {
+                        Debug.Log("Backpack/Contents/Inventoryが見つかりませんでした");
+                    }
+                );
+
+            model
+                .Backpack.Contents.Self.gameObject.transform.Find("StatusPanel")
+                .Match(
+                    some: v => model.Backpack.Contents.StatusPanel = v.gameObject,
+                    none: () =>
+                    {
+                        Debug.Log("Backpack/Contents/StatusPanelが見つかりませんでした");
+                    }
+                );
+            GameObject
+                .Find("Pointer")
+                .Match(
+                    some: v => model.Pointer = v,
+                    none: () =>
+                    {
+                        Debug.Log("Pointerが見つかりませんでした");
+                    }
+                );
+
+            GameObject
+                .Find("Player")
+                .Match(
+                    some: v => model.Player = v,
+                    none: () =>
+                    {
+                        Debug.Log("Playerが見つかりませんでした");
+                    }
+                );
         }
 
         void Start()
@@ -31,7 +92,9 @@ namespace Overworld.Models
 
         private void DestroyRigidbodyOfCanvasItem()
         {
-            foreach (var rb in model.Canvas.GetComponentsInChildren<Rigidbody2D>())
+            foreach (
+                var rb in model.Backpack.Contents.Inventory.GetComponentsInChildren<Rigidbody2D>()
+            )
             {
                 Destroy(rb);
             }

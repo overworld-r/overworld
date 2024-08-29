@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 770805979670851338}
   - component: {fileID: 3856578950527169229}
   - component: {fileID: 1755922754559462059}
+  - component: {fileID: 107575513217979681}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Item
@@ -58,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: bb55b819f54b93f4d94592afd3c2b98b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -212,3 +213,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &107575513217979681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2831743687922018017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeeeeb1ef41fb417ca66ce015dd271bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droppAmountList:
+  - type: 2
+    value: 1

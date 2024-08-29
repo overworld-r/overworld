@@ -14,17 +14,17 @@ public class OverworldModelTests
 
         Assert.NotNull(overworldModel.Backpack, "Backpack is null");
         Assert.IsTrue(
-            backpack.gameObject.scene.IsValid(),
+            backpack.Self.gameObject.scene.IsValid(),
             "Backpack should not be set as prefab, please set instance in the scene"
         );
 
         Assert.NotNull(overworldModel.UICamera, "UICamera is null");
         Assert.IsTrue(
-            backpack.gameObject.scene.IsValid(),
+            backpack.Self.gameObject.scene.IsValid(),
             "UICamera should not be set as prefab, please set instance in the scene"
         );
 
-        var pointer = backpack.GetComponent<PlayerPointer>();
+        var pointer = backpack.Self.GetComponent<PlayerPointer>();
         Assert.NotNull(pointer, "pointer is null");
 
         Assert.AreEqual(pointer.locationStatus, OverworldModel.LocationStatus.World);

@@ -184,6 +184,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Duplicatable: 1
+  UseDuplicateTexture: 0
+  DuplicateTexture: {fileID: 0}
+  DuplicateCost:
+  - type: 0
+    amount: 20
 --- !u!114 &2231933810248362444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,5 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   droppAmountList:
+  - type: 1
+    value: 2
   - type: 0
-    value: 20
+    value: 4
