@@ -1,5 +1,4 @@
 using Overworld.Features.CustomCollision;
-using Overworld.Types;
 using UnityEngine;
 
 namespace Overworld.Features.Item
@@ -18,15 +17,11 @@ namespace Overworld.Features.Item
                 Down(collider);
             }
         }
-        private Rigidbody2D rb;
+        private Rigidbody2D rb=default!;
 
         void Start()
         {
-            // Rigidbodyコンポーネントを取得
             rb = GetComponent<Rigidbody2D>();
-
-            // 最初はisKinematicをtrueにして物理挙動を無効化
-            if (rb != null)
             {
                 rb.bodyType = RigidbodyType2D.Static;
             }
@@ -34,7 +29,6 @@ namespace Overworld.Features.Item
 
         void Down(Collider2D collider)
         {
-            if (rb != null)
             {
                 rb.bodyType = RigidbodyType2D.Dynamic;
             }

@@ -1,65 +1,76 @@
 using System.Collections;
 using UnityEngine;
+using Overworld.Features.CustomCollision;
 
-[RequireComponent(typeof(Collider2D), typeof(SpriteRenderer))]
-public class BreakGround : MonoBehaviour
+namespace Overworld.Features.Item
 {
-    public const float breakDuration = 3f;
-    public const float respawnDuration = 3f;
-    private float timeElapsed = 0f;
-    private bool playOnFloor = false;
-    private Collider2D floorCollider = default!;
-    private SpriteRenderer spriteRenderer = default!;
+    using Models;
 
-    private void Start()
+    [RequireComponent(typeof(Collider2D), typeof(SpriteRenderer))]
+    public class BreakGround : MonoBehaviour, IItemMetadata, ICustomCollision
     {
-        floorCollider = GetComponent<Collider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        public const float breakDuration = 3f;
+        public const float respawnDuration = 3f;
+        private float timeElapsed = 0f;
+        private bool playOnFloor = false;
+        private Collider2D floorCollider = default!;
+        private SpriteRenderer spriteRenderer = default!;
+        ItemMetadata IItemMetadata.metadata { get; set; } = new ItemMetadata("BreakGround", "", 0.0f);
 
-        spriteRenderer.color = Color.red;
-    }
-
-    private void Update()
-    {
-        if (playOnFloor)
+        void ICustomCollision.OnCustomCollisionStay(string ID, Collider2D collider)
         {
-            timeElapsed += Time.deltaTime;
-
-            if (timeElapsed >= breakDuration)
+            if (ID == "0")
             {
-                BreakFloor();
+                Break(collider);
             }
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
+        private void Start()
         {
-            playOnFloor = true;
+            floorCollider = GetComponent<Collider2D>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
+
+            spriteRenderer.color = Color.red;
         }
-    }
 
-    private void BreakFloor()
-    {
-        Debug.Log("壊れた！");
-        floorCollider.isTrigger = true;
-        spriteRenderer.color = new Color(1f, 1f, 1f, 0f);
+        private void Update()
+        {
+            if (playOnFloor)
+            {
+                timeElapsed += Time.deltaTime;
 
-        playOnFloor = false;
+                if (timeElapsed >= breakDuration)
+                {
+                    BreakFloor();
+                }
+            }
+        }
 
-        timeElapsed = 0f;
 
-        StartCoroutine(RespawnFloor());
-    }
+        void Break(Collider2D collider)
+        {
+                playOnFloor = true;
+        }
+        
 
-    private IEnumerator RespawnFloor()
-    {
-        yield return new WaitForSeconds(respawnDuration);
+        private void BreakFloor()
+        {
+            floorCollider.isTrigger = true;
+            spriteRenderer.color = new Color(1f, 1f, 1f, 0f);
 
-        floorCollider.isTrigger = false;
-        spriteRenderer.color = Color.red;
+            playOnFloor = false;
 
-        Debug.Log("直った！");
+            timeElapsed = 0f;
+
+            StartCoroutine(RespawnFloor());
+        }
+
+        private IEnumerator RespawnFloor()
+        {
+            yield return new WaitForSeconds(respawnDuration);
+
+            floorCollider.isTrigger = false;
+            spriteRenderer.color = Color.red;
+        }
     }
 }

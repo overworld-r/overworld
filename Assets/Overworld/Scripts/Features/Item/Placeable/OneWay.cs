@@ -4,21 +4,39 @@ using UnityEngine;
 public class OneWay : MonoBehaviour
 {
     public BoxCollider2D objectCollider = default!;
+    public Collider2D playerCollider;
 
-    void Start()
+    private bool isPlayerTouching = false;
+
+    private void Start()
     {
         objectCollider = GetComponent<BoxCollider2D>();
+        playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKey(KeyCode.DownArrow)|| Input.GetKey(KeyCode.S))
+        // プレイヤーが触れていて、かつキーが押されたときに衝突を無効化する
+        if (isPlayerTouching && (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)))
         {
-            objectCollider.enabled = false;
+            Debug.Log("おちたああああああああ");
+            Physics2D.IgnoreCollision(objectCollider, playerCollider, true);
         }
-        else
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider == playerCollider)
         {
-            objectCollider.enabled = true;
+            // プレイヤーが触れたとき
+            isPlayerTouching = true;
+            Debug.Log("さわったあああああ");
         }
+    }
+    public void Exit()
+    {
+        Debug.Log("発動してまーす");
+        isPlayerTouching = false;
+        Physics2D.IgnoreCollision(objectCollider, playerCollider, false);
     }
 }
